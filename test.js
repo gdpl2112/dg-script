@@ -58,5 +58,6 @@ if (msg.startsWith("创建变量")) {
         context.send("请输入boolean！")
     } else {
         context.set(create[1], create[2])
+        context.send(create[1]+" 创建完成")
     }
 }
