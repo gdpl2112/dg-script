@@ -33,3 +33,28 @@ if (point_state != null && point_state) {
         context.set(point_name_str, msg.substring(2).trim())
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if (msg == "删除变量") {
+    var clear = msg.substring(4)
+    if (clear.length == 0) {
+        context.send("请输入变量名！")
+    } else if (context.get(clear) = null) {
+        context.send("未找到该变量！")
+    } else {
+        context.send("删除完成！")
+    }
+}
