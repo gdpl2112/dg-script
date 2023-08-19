@@ -48,13 +48,15 @@ if (point_state != null && point_state) {
 
 
 
-if (msg == "删除变量") {
-    var clear = msg.substring(4)
-    if (clear.length == 0) {
-        context.send("请输入变量名！")
-    } else if (context.get(clear) = null) {
-        context.send("未找到该变量！")
+if (msg.startsWith("创建变量")) {
+    var create = msg.split(" ")
+    if (create[1].length == 0) {
+        context.send("请输入需创建的变量名！")
+    } else if (create[2].length == 0) {
+        context.send("请输入变量值！")
+    } else if (create[2] !== true || create[2] !== false) {
+        context.send("请输入boolean！")
     } else {
-        context.send("删除完成！")
+        context.set(create[1], create[2])
     }
 }
