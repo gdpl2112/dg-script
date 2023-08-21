@@ -31,3 +31,12 @@ if (context.getSender().getId() == 3474006766) {
             break;
     }
 }
+// set get clear del 
+
+// not support android_pad
+if (context.getType() == "group") {
+    if (msg === "戳我") {
+        var nudge = context.getSender().nudge();
+        nudge.sendTo(context.getSubject());
+    }
+}
