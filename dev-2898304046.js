@@ -101,6 +101,7 @@ if (context.getType() === "group") {
     //=====================================获取变量结束
     var upm = utils.get("upm")
     if (upm !== null && msg == upm) {
+        utils.set("upm", null)
         context.send(msg);
     } else {
         utils.set("upm", msg)
@@ -109,8 +110,8 @@ if (context.getType() === "group") {
     var get_state = utils.get("state")
     if (get_state !== null || get_state == true) {
         var message = context.msg
-        var constructionA = utils.get("construction")
-        constructionA.add(utils.getBot().getId(), "AI", message)
+        var construction = utils.get("construction")
+        construction.add(utils.getBot().getId(), "AI", message)
         if (msg == "完成") {
             context.send(construction.build())
             utils.set("state", false)
@@ -118,7 +119,6 @@ if (context.getType() === "group") {
     } else if (msg == "创建聊天记录") {
         utils.set("state", true)
         context.send("请输入消息")
-        var construct = context.forwardBuilder()
-        var construction = utils.set("construct", null)
+        utils.set("construct", context.forwardBuilder())
     }
 }
