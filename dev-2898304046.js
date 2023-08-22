@@ -9,7 +9,7 @@ if (context.getType() === "group") {
             var builder = context.forwardBuilder();
             for (var i = 0; i < arr.length; i++) {
                 var e = arr[i];
-                builder.add(utils.getBot().getId(), "AI", context.uploadImage(e))
+                builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
             }
             context.send(builder.build())
         } else {
@@ -46,7 +46,7 @@ if (context.getType() === "group") {
     if (msg.startsWith("传话")) {
         context.send("正在发送...请稍后")
         var args = msg.split(" ")
-        var tar = utils.getBot().getFriend(Number(args[1]));
+        var tar = context.getBot().getFriend(Number(args[1]));
         tar.sendMessage(args[2])
         context.send("发送完成")
     }
@@ -54,7 +54,7 @@ if (context.getType() === "group") {
     if (msg.startsWith("群传话")) {
         context.send("正在发送...请稍后")
         var args = msg.split(" ")
-        var tar = utils.getBot().getGroup(Number(args[1]));
+        var tar = context.getBot().getGroup(Number(args[1]));
         tar.sendMessage(args[2])
         context.send("发送完成")
     }
@@ -109,9 +109,8 @@ if (context.getType() === "group") {
     //====================================跟读结束
     var get_state = utils.get("state")
     if (get_state !== null || get_state == true) {
-        var message = context.msg
         var construction = utils.get("construction")
-        construction.add(utils.getBot().getId(), "AI", message)
+        construction.add(context.getBot().getId(), "AI", context.newPlainText(msg))
         if (msg == "完成") {
             context.send(construction.build())
             utils.set("state", false)
@@ -119,6 +118,6 @@ if (context.getType() === "group") {
     } else if (msg == "创建聊天记录") {
         utils.set("state", true)
         context.send("请输入消息")
-        utils.set("construct", context.forwardBuilder())
+        utils.set("construction", context.forwardBuilder())
     }
 }
