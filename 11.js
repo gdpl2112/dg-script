@@ -18,6 +18,7 @@ if (msg !== null) {
 var upm = context.get("upm")
 if (upm !== null && msg == upm) {
     context.send(msg);
+    context.set("upm", "")
 } else {
     context.set("upm", msg)
 }
