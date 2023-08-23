@@ -110,10 +110,12 @@ if (context.getType() === "group") {
     var get_state = utils.get("state")
     if (get_state !== null || get_state == true) {
         var construction = utils.get("construction")
-        construction.add(context.getBot().getId(), "AI", context.newPlainText(msg))
         if (msg == "完成") {
             context.send(construction.build())
-            utils.set("state", false)
+            utils.set("state", null)
+            utils.set("construction", null);
+        }else{
+            construction.add(context.getBot().getId(), "AI", context.deSerialize(msg))
         }
     } else if (msg == "创建聊天记录") {
         utils.set("state", true)
