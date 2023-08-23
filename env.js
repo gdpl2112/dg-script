@@ -1,5 +1,4 @@
 // 环境脚本
-
 class Context {
     getBot();
 
@@ -19,7 +18,12 @@ class Context {
 
     newPlainText(text);
 
+    deSerialize(msg);
+
     getType();
+}
+
+class Utils {
 
     requestGet(url);
 
@@ -29,10 +33,13 @@ class Context {
 
     set(key, value);
 
+    del(key);
+
     clear();
 
-    del(key);
+    list();
 }
 
 var msg = "";
 var context = new Context();
+var utils = new Utils();
