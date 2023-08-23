@@ -15,7 +15,12 @@ if (msg.startsWith("创建变量")) {
 
 if (context.getType() === "group") {
     if (msg === "list") {
-        
+
         context.send(a.toString())
     }
+}
+
+
+if (context.getType() == "MemberMuteEvent") {
+    event.getGroup().sendMessage(context.newPlaintext(event.getMember().getName() + "被禁言了"))
 }
