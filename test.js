@@ -14,14 +14,8 @@ if (msg.startsWith("创建变量")) {
 }
 
 if (context.getType() === "group") {
-    if (msg === "do") {
-        utils.set("do", true)
-        context.send("就绪")
-    } else {
-        var dd = utils.get("do");
-        if (dd != null && dd) {
-            context.send(msg)
-            utils.set("do", false)
-        }
+    if (msg === "list") {
+        
+        context.send(a.toString())
     }
 }
