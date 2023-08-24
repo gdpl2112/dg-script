@@ -40,7 +40,7 @@ if (context.getType() == "group") {
 
 if (msg.startsWith("读")) {
     context.send("ok")
-    var repeat = msg.substring(2)
+    var repeat = msg.substring(1)
     context.getSubject().sendMessage(repeat)
 }
 //======================复述结束
