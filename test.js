@@ -16,6 +16,6 @@ if (context.getType() == "BotMuteEvent") {
     var bemute = context.getBot().getGroup(Number(868060057))
     bemute.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + event.getGroup().getName() + "”（"
      + event.getGroup().getId() + "）中被禁言" + "\n禁言时长为：" + event.getDurationSeconds() + "秒" + 
-     "\n操作者为" + event.getOperator().getName() + "（" + event.getMember().getId() + "）"))
+     "\n操作者为" + event.getOperator().getNameCard() + "（" + event.getOperator().getId() + "）"))
 }
 //=========================================获取Bot被禁言，在群868060057中提示
