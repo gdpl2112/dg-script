@@ -40,3 +40,12 @@ if (context.getType() == "group") {
         nudge.sendTo(context.getSubject());
     }
 }
+
+
+var upm = utils.get("upm")
+if (upm !== null && msg == upm) {
+    context.send(msg);
+} else {
+    utils.set("upm", msg)
+}
+//=====================================跟读结束
