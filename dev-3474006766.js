@@ -36,14 +36,15 @@ if (context.getType() == "group") {
                 break
         }
     }
-}
-if (context.getSender().getId() == 2898304046) {
-    if (msg.startsWith("读")) {
-        context.send("ok")
-        var repeat = msg.substring(1)
-        context.getSubject().sendMessage(repeat)
+    if (context.getSender().getId() == 2898304046) {
+        if (msg.startsWith("读")) {
+            context.send("ok")
+            var repeat = msg.substring(1)
+            context.getSubject().sendMessage(repeat)
+        }
+    }else{
+        context.send("你无权限")
     }
-}else{
-    context.send("你无权限")
 }
+
 //======================复述结束
