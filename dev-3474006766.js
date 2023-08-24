@@ -37,12 +37,3 @@ if (context.getType() == "group") {
         }
     }
 }
-
-if (msg.startsWith("/群传话")) {
-    context.send("正在发送...请稍后")
-    var args = msg.split(" ")
-    var tar = context.getBot().getGroup(Number(args[1]));
-    tar.sendMessage(args[2])
-    context.send("发送完成")
-}
-//=============================群传话结束
