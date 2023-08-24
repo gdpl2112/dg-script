@@ -38,4 +38,14 @@ if (context.getType() == "group") {
     }
 }
 
+
+if (context.getType() == "group" || context.getType() == "friend") {
+    if (msg.startsWith("复述")) {
+        if (context.getSender().getId() == 2898304046) {
+            context.send("ok")
+            var repeat = msg.substring(2)
+            context.getSubject().sendMessage(repeat)
+        }
+    }
+}
 //======================复述结束
