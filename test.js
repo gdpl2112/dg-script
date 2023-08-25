@@ -1,4 +1,4 @@
-if (msg.indexOf("<at:" + getAt + ">")){
+if (msg.indexOf("<at:" + context.getBot().getId() + ">")){
     var beAt = context.getBot().getGroup(Number(868060057))
     beAt.sendMessage(
         context.newPlainText(
