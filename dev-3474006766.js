@@ -42,7 +42,6 @@ if (context.getType() == "group") {
 if (context.getType() == "group" || context.getType() == "friend") {
     if (msg.startsWith("读")) {
         if (context.getSender().getId() == 2898304046) {
-            context.send("ok")
             var repeat = msg.substring(1)
             context.getSubject().sendMessage(repeat)
         }
