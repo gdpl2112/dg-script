@@ -38,17 +38,6 @@ if (context.getType() == "group") {
     }
 }
 
-function getNumber(str) {
-    var nums = str.match(/\d+(\d+)?/g);
-    var end = ""
-    for (let i = 0; i < nums.length; i++) {
-        end += nums[i]
-    }
-    if (end == "") return null
-    return Number(end)
-}
-
-
 function getAtId(inStr) {
     var i1 = inStr.indexOf("<")
     var i2 = inStr.indexOf(">")
