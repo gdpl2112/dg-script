@@ -24,3 +24,22 @@ if (context.getType() == "group") {
         }
     }
 }
+//======================================禁言报错为 mute不对
+
+
+
+
+
+if (msg.indexOf("<at:" + context.getBot().getId() + ">") >= 0) {
+    var group = context.getBot().getGroup(Number(868060057))
+    var tg = context.getSubject()
+    if (context.getSender().getNameCard !== null) {
+        group.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + tg.getName() + "”（" + tg.getId() + "）中被" + context.getSender().getNameCard() + "（" + context.getSender().getId() + "）提到"))
+        group.sendMessage("该消息为:\n" + msg)
+    } else if (context.getSender().getNameCard == null) {
+        group.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + tg.getName() + "”（" + tg.getId() + "）中被" + context.getSender().getNick() + "（" + context.getSender().getId() + "）提到"))
+        group.sendMessage("该消息为:\n" + msg)
+    }
+}
+//=======================================如果Bot被提到，则转发至群
+//===============================问题是 如果namecard不为null 他也不会get namecard
