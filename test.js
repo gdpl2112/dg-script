@@ -1,9 +1,9 @@
 if (msg.indexOf("<at:" + context.getBot().getId() + ">")){
-    var beAt = context.getBot().getGroup(Number(868060057))
-    beAt.sendMessage(
+    var group = context.getBot().getGroup(Number(868060057))
+    group.sendMessage(
         context.newPlainText(
             "Bot（"+context.getBot().getId()+"）在群“"+context.getBot().getGroup().getName()+"“（"+context.getBot().getGroup().getId()+"）中被提到"
             )
         )
-    beAt.send("该消息为\n"+msg)
+    group.sendMessage("该消息为\n"+msg)
 }
