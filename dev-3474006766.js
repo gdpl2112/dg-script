@@ -34,6 +34,14 @@ if (context.getType() == "group") {
                 var a = utils.list()
                 context.send(context.newPlainText(a.toString()))
                 break
+            case "/kset":
+                if (okv.length !== 3) {
+                    context.send("args size less 3")
+                } else {
+                    var ksetOut = utils.requestGet("http://kloping.top/put?pwd=dg-3474006766&key="+okv[1]+"&value="+okv[2])
+                    context.send("set success : " + old)
+                }
+               break
         }
     }
 }
