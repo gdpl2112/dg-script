@@ -61,31 +61,34 @@ if (context.getType() == "group") {
         }
     }
 }
-/*
-function getAtId(inStr) {
+
+function getFormatValue(fk, inStr) {
     var i1 = inStr.indexOf("<")
     var i2 = inStr.indexOf(">")
     if (i1 <= 0 || i2 <= 0) return null
     var at0 = inStr.substring(i1 + 1, i2)
     var args = at0.split(":")
-    if (args[0] !== "at") {
+    if (args[0] !== fk) {
         return null
-    } else return Number(args[1])
+    } else return args[1]
+}
+
+
+function getAtId(inStr) {
+    var end = getFormatValue("at", inStr)
+    if (end !== null) return Number(end)
+    else return null
 }
 
 if (context.getType() == "group" || context.getType() == "friend") {
-    if (msg.startsWith("读")) {
-        if (context.getSender().getId() == 2898304046) {
-            var repeat = msg.substring(1)
-            context.getSubject().sendMessage(repeat)
-        }
-    } else if (msg.startsWith("禁言")) {
-        var qid = getAtId(msg)
-        if (qid == null) {
-            context.send("未发现AT")
+    if (msg.startsWith("上传") || msg.startsWith("upload")) {
+        var iurl = getFormatValue("pic", msg)
+        if (iurl == null) {
+            context.send("未发现图片")
         } else {
-            context.getSubject().get(qid).mute(1)
+            var out = utils.requestGet("http://kloping.top/transImg?url=" + iurl)
+            context.send("upload finish: " + out)
         }
     }
-})*/
+}
 //======================复述结束
