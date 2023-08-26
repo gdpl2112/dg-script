@@ -55,7 +55,7 @@ if (context.getType() == "group") {
                     context.send("args size less 2")
                 } else {
                     var kdelOut = utils.requestGet("http://kloping.top/del?pwd=dg-3474006766&key=" + okv[1])
-                    context.send("del success! \nkey:" + okv[1] + "\nvalue:" + kdelOut)
+                    context.send("del state : " + kdelOut + "! key:" + okv[1] +)
                 }
                 break
         }
