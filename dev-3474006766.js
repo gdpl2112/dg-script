@@ -82,10 +82,12 @@ function getAtId(inStr) {
 
 if (context.getType() == "group" || context.getType() == "friend") {
     if (msg.startsWith("上传") || msg.startsWith("upload")) {
-        var iurl = getFormatValue("pic", msg)
-        if (iurl == null) {
+        var iid = getFormatValue("pic", msg)
+        if (iid == null) {
             context.send("未发现图片")
         } else {
+            var iurl = utils.queryUrlFromId(iid)
+            iurl = encodeURI(iurl)
             var out = utils.requestGet("http://kloping.top/transImg?url=" + iurl)
             context.send("upload finish: " + out)
         }
