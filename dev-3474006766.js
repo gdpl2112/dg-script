@@ -38,10 +38,26 @@ if (context.getType() == "group") {
                 if (okv.length !== 3) {
                     context.send("args size less 3")
                 } else {
-                    var ksetOut = utils.requestGet("http://kloping.top/put?pwd=dg-3474006766&key="+okv[1]+"&value="+okv[2])
-                    context.send("set success : " + old)
+                    var ksetOut = utils.requestGet("http://kloping.top/put?pwd=dg-3474006766&key=" + okv[1] + "&value=" + okv[2])
+                    context.send("set success : " + ksetOut)
                 }
-               break
+                break
+            case "/kget":
+                if (okv.length !== 2) {
+                    context.send("args size less 2")
+                } else {
+                    var kgetOut = utils.requestGet("http://kloping.top/get?pwd=dg-3474006766&key=" + okv[1])
+                    context.send("set success : " + kgetOut)
+                }
+                break
+            case "/kdel":
+                if (okv.length !== 2) {
+                    context.send("args size less 2")
+                } else {
+                    var kdelOut = utils.requestGet("http://kloping.top/del?pwd=dg-3474006766&key=" + okv[1])
+                    context.send("del success! \nkey:" + okv[1] + "\nvalue:" + kdelOut)
+                }
+                break
         }
     }
 }
