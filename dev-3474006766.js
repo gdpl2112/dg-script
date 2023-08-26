@@ -37,7 +37,7 @@ if (context.getType() == "group") {
         }
     }
 }
-
+/*
 function getAtId(inStr) {
     var i1 = inStr.indexOf("<")
     var i2 = inStr.indexOf(">")
@@ -63,5 +63,5 @@ if (context.getType() == "group" || context.getType() == "friend") {
             context.getSubject().get(qid).mute(1)
         }
     }
-}
+})*/
 //======================复述结束
