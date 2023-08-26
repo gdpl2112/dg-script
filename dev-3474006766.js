@@ -88,8 +88,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
         } else {
             var iurl = utils.queryUrlFromId(iid)
             iurl = encodeURI(iurl)
-            //var out = utils.requestGet("http://kloping.top/transImg2?url=" + iurl)
-            var out = utils.requestGet("https://api.uomg.com/api/image.baidu?imgurl=" + iurl)
+            var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
             context.send("upload finish: " + out)
         }
     }
