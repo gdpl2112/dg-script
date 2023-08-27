@@ -5,18 +5,9 @@ if (msg.indexOf("<at:" + context.getBot().getId() + ">") >= 0) {
     if (sn === null || sn === "") {
         sn = context.getSender().getNick()
     }
-    if (msg.indexOf(".jpg")) {
-        var reg = /\.(png|jpg|gif|jpeg|webp)$/
-        var image = msg.match(reg)
-        var getImage = utils.queryUrlFromId(image)
-        group.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + tg.getName() + "”（" + tg.getId() + "）中被"
-            + sn + "（" + context.getSender().getId() + "）提到"))
-        group.sendMessage("该消息为:\n" + getImage)
-    } else {
-        group.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + tg.getName() + "”（" + tg.getId() + "）中被"
-            + sn + "（" + context.getSender().getId() + "）提到"))
-        group.sendMessage("该消息为:\n" + msg)
-    }
+    group.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + tg.getName() + "”（" + tg.getId() + "）中被"
+        + sn + "（" + context.getSender().getId() + "）提到"))
+    group.sendMessage(context.deSerialize(("该消息为:\n" + msg)))
 }
 //=======================================如果Bot被提到，则转发至群
 //=======================================if msg检测到图片 则将jpg转化为图片发出 但是报错
