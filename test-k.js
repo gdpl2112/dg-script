@@ -1,6 +1,6 @@
 if (context.getType() == "group") {
     if (msg == "reget") {
-        jsAll = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/dev-3474006766.js")
+        var jsAll = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/dev-3474006766.js")
         utils.clear()
         utils.set("jsAll", jsAll)
         context.send("reget ok: " + jsAll)

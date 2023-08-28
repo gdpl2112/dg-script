@@ -1,17 +1,18 @@
 
-function getAllNumber(str, df) {
-    var ns = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+var ns = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+  
+function getAllNumber(str) {
     var out = ""
     for (var i = 0; i < str.length; i++) {
         var e = str[i]
-        if (ns.includes(e)) {
+        if (ns.indexOf(e)>0) {
             out = out + e
         }
     }
     if (out.length > 0) {
         return Number(out)
     } else {
-        return df
+        return -1
     }
 }
 
