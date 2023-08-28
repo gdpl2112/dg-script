@@ -47,7 +47,7 @@ if (context.getType() == "group") {
                     context.send("args size less 2")
                 } else {
                     var kgetOut = utils.requestGet("http://kloping.top/get?pwd=dg-3474006766&key=" + okv[1])
-                    context.send("set success : " + kgetOut)
+                    context.send("get success : " + kgetOut)
                 }
                 break
             case "/kdel":
