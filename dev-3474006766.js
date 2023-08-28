@@ -62,17 +62,23 @@ if (context.getType() == "group") {
     }
 }
 
+//完善
 function getFormatValue(fk, inStr) {
     var i1 = inStr.indexOf("<")
     var i2 = inStr.indexOf(">")
-    if (i1 <= 0 || i2 <= 0) return null
-    var at0 = inStr.substring(i1 + 1, i2)
-    var args = at0.split(":")
+    if (i1 < 0 || i2 <= 0) return null
+    var format0 = inStr.substring(i1 + 1, i2)
+    var args = format0.split(":")
     if (args[0] !== fk) {
-        return null
-    } else return args[1]
+        if (i2 <= inStr.length) {
+            return getFormatValue(fk, inStr.substring(i2 + 1))
+        } else {
+            return null
+        }
+    } else {
+        return args[1]
+    }
 }
-
 
 function getAtId(inStr) {
     var end = getFormatValue("at", inStr)
