@@ -1,23 +1,30 @@
-var kick_state = utils.get("kicker_state")
-if (kick_state !== null || kick_state == true) {
-    var qunid2 = utils.get("qunid1")
-    var qunid = context.getSubject().getId()
-    if (qunid == qunid2) {
-        var tid2 = utils.get("tid1")
-        var tips = msg
-        context.getSubject(qunid2).get(tid2).kick(tips)
-        utils.set("kicker_state", false)
-    }
-} else if (msg.startsWith("kick")) {
-    var tid = getAtId(msg)
-    var qunid = context.getSubject().getId()
-    if (tid == null) {
-        context.send("未发现at")
-    } else {
-        utils.set("kicker_state", true)
-        utils.set("tid1", tid)
-        utils.set("qunid1", qunid)
-        context.send("请输入踢出原因")
+if (context.getType() == "group") {
+    if (msg.startsWith(".禁言")) {
+        var timeA = msg.substring(3).trim()
+        var time = timeA.split(" ")
+        var qid = Number(time[0])
+        if (time[0].length !== 0) {
+            if (time[1].length !== 0) {
+                if (msg.endsWith("秒") || msg.endsWith("s") || msg.endsWith(" ")) {
+                    var second = parseFloat(time[1])
+                    context.getSubject().get(qid).mute(Number(second))
+                }
+                if (msg.endsWith("分") || msg.endsWith("m")) {
+                    var minute = parseFloat(time[1])
+                    var timeM = Number(minute * 60)
+                    context.getSubject().get(qid).mute(Number(timeM))
+                }
+                if (msg.endsWith("小时") || msg.endsWith("h")) {
+                    var hour = parseFloat(time[1])
+                    var timeH = Number(hour * 3600)
+                    context.getSubject().get(qid).mute(timeH)
+                }
+            } else {
+                context.send("未检测到时长")
+            }
+        } else {
+            context.send("未发现at")
+        }
     }
 }
-//============================================kick结束
+//===============================================================禁言结束
