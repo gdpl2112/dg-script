@@ -1,3 +1,20 @@
+
+function getAllNumber(str, df) {
+    var ns = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    var out = ""
+    for (var i = 0; i < str.length; i++) {
+        var e = str[i]
+        if (ns.includes(e)) {
+            out = out + e
+        }
+    }
+    if (out.length > 0) {
+        return Number(out)
+    } else {
+        return df
+    }
+}
+
 if (context.getType() == "group") {
     if (msg.startsWith(".禁言")) {
         var timeA = msg.substring(3).trim()
@@ -5,18 +22,14 @@ if (context.getType() == "group") {
         var qid = Number(time[0])
         if (time[0].length !== 0) {
             if (time[1].length !== 0) {
+                var b = getAllNumber(time[1], 1)
                 if (msg.endsWith("秒") || msg.endsWith("s") || msg.endsWith(" ")) {
-                    var second = parseFloat(time[1])
-                    context.getSubject().get(qid).mute(Number(second))
-                }
-                if (msg.endsWith("分") || msg.endsWith("m")) {
-                    var minute = parseFloat(time[1])
-                    var timeM = Number(minute * 60)
-                    context.getSubject().get(qid).mute(Number(timeM))
-                }
-                if (msg.endsWith("小时") || msg.endsWith("h")) {
-                    var hour = parseFloat(time[1])
-                    var timeH = Number(hour * 3600)
+                    context.getSubject().get(qid).mute(b)
+                } else if (msg.endsWith("分") || msg.endsWith("m")) {
+                    var timeM = Number(b * 60)
+                    context.getSubject().get(qid).mute(timeM)
+                } else if (msg.endsWith("小时") || msg.endsWith("h")) {
+                    var timeH = Number(b * 3600)
                     context.getSubject().get(qid).mute(timeH)
                 }
             } else {
