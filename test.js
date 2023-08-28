@@ -15,13 +15,36 @@ function getAllNumber(str, df) {
     }
 }
 
+//完善
+function getFormatValue(fk, inStr) {
+    var i1 = inStr.indexOf("<")
+    var i2 = inStr.indexOf(">")
+    if (i1 < 0 || i2 <= 0) return null
+    var format0 = inStr.substring(i1 + 1, i2)
+    var args = format0.split(":")
+    if (args[0] !== fk) {
+        if (i2 <= inStr.length) {
+            return getFormatValue(fk, inStr.substring(i2 + 1))
+        } else {
+            return null
+        }
+    } else {
+        return args[1]
+    }
+}
+
+function getAtId(inStr) {
+    var end = getFormatValue("at", inStr)
+    if (end !== null) return Number(end)
+    else return null
+}
+
 if (context.getType() == "group") {
     if (msg.startsWith(".禁言")) {
-        var timeA = msg.substring(3).trim()
-        var time = timeA.split(" ")
-        var qid = Number(time[0])
+        var all = msg.substring(3).trim()
+        var qid = getAtId(msg)
         if (qid == null) {
-            var b = getAllNumber(time[1], 1)
+            var b = getAllNumber(msg.replace(qid, ""), 1)
             if (msg.endsWith("秒") || msg.endsWith("s") || msg.endsWith(" ")) {
                 context.getSubject().get(qid).mute(b)
             } else if (msg.endsWith("分") || msg.endsWith("m")) {
