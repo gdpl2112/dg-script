@@ -41,7 +41,6 @@ function getAtId(inStr) {
 
 if (context.getType() == "group") {
     if (msg.startsWith(".禁言")) {
-        var all = msg.substring(3).trim()
         var qid = getAtId(msg)
         if (qid == null) {
             var b = getAllNumber(msg.replace(qid, ""), 1)
