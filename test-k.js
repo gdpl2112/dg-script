@@ -1,7 +1,7 @@
 
 //https://raw.njuu.cf/gdpl2112/dg-script/master/dev-3474006766.js
 //https://raw.kgithub.com/gdpl2112/dg-script/master/dev-3474006766.js
-
+//https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js
 var url = "https://raw.njuu.cf/gdpl2112/dg-script/master/dev-3474006766.js"
 
 if (context.getType() == "group") {
