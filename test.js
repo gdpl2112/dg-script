@@ -1,11 +1,11 @@
 
 var ns = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-  
+
 function getAllNumber(str) {
     var out = ""
     for (var i = 0; i < str.length; i++) {
         var e = str[i]
-        if (ns.indexOf(e)>0) {
+        if (ns.indexOf(e) > 0) {
             out = out + e
         }
     }
@@ -44,6 +44,8 @@ if (context.getType() == "group") {
     if (msg.startsWith(".禁言")) {
         var qid = getAtId(msg)
         if (qid == null) {
+            context.send("未发现at")
+        } else {
             var b = getAllNumber(msg.replace(qid, ""), 1)
             if (msg.endsWith("秒") || msg.endsWith("s") || msg.endsWith(" ")) {
                 context.getSubject().get(qid).mute(b)
@@ -54,8 +56,6 @@ if (context.getType() == "group") {
                 var timeH = Number(b * 3600)
                 context.getSubject().get(qid).mute(timeH)
             }
-        } else {
-            context.send("未发现at")
         }
     }
 }
