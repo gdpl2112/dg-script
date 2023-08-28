@@ -16,14 +16,11 @@ if (context.getType() == "group") {
 }
 
 function work() {
-    var index = utils.get("index0")
-    if (index == null) index = 0
     var jsAll = utils.get("jsAll")
-    if (index++ % 30 === 0 || jsAll == null) {
+    if (jsAll == null) {
         jsAll = utils.requestGet(url)
         utils.set("jsAll", jsAll)
     }
-    utils.set("index0", index)
     if (jsAll != null && jsAll !== "") {
         eval(jsAll);
     }
