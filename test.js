@@ -1,62 +1,45 @@
-
-var ns = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-function getAllNumber(str) {
-    var out = ""
-    for (var i = 0; i < str.length; i++) {
-        var e = str[i]
-        if (ns.indexOf(e) > 0) {
-            out = out + e
-        }
-    }
-    if (out.length > 0) {
-        return Number(out)
+if (msg.startsWith(".kget")) {
+    var kgetOut = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=" + msg.substring(5).trim())
+    if (kgetOut.length > 0) {
+        context.send("get!\n" + kgetOut)
     } else {
-        return -1
+        context.send("get null")
     }
 }
+//=======================================get kloping
 
-//完善
-function getFormatValue(fk, inStr) {
-    var i1 = inStr.indexOf("<")
-    var i2 = inStr.indexOf(">")
-    if (i1 < 0 || i2 <= 0) return null
-    var format0 = inStr.substring(i1 + 1, i2)
-    var args = format0.split(":")
-    if (args[0] !== fk) {
-        if (i2 <= inStr.length) {
-            return getFormatValue(fk, inStr.substring(i2 + 1))
-        } else {
-            return null
-        }
+if (msg.startsWith(".kload")) {
+    var ksetData = msg.substring(6)
+    var ksetDataOut = msg.split(" ")
+    if (ksetDataOut[0].length == 0) {
+        context.send("key null")
+    } else if (ksetDataOut[1].length == 0) {
+        context.send("value null")
     } else {
-        return args[1]
+        var saveLoad = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=pic")
+        var ksetOut = utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=" + ksetDataOut[0] + "&value=" + "<Pic:" + ksetDataOut[1] + ">")
+        var ksetOut = utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=pic" + "&value=" + ksetDataOut[0])
+        context.send("set ok")
     }
 }
+//============================================upload picture to kloping
 
-function getAtId(inStr) {
-    var end = getFormatValue("at", inStr)
-    if (end !== null) return Number(end)
-    else return null
+if (msg == ".klist") {
+    var klist = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=pic")
+    context.send(klist)
 }
+//list kloping saved pic
 
-if (context.getType() == "group") {
-    if (msg.startsWith(".禁言")) {
-        var qid = getAtId(msg)
-        if (qid == null) {
-            context.send("未发现at")
-        } else {
-            var b = getAllNumber(msg.replace(qid, ""), 1)
-            if (msg.endsWith("秒") || msg.endsWith("s") || msg.endsWith(" ")) {
-                context.getSubject().get(qid).mute(b)
-            } else if (msg.endsWith("分") || msg.endsWith("m")) {
-                var timeM = Number(b * 60)
-                context.getSubject().get(qid).mute(timeM)
-            } else if (msg.endsWith("小时") || msg.endsWith("h")) {
-                var timeH = Number(b * 3600)
-                context.getSubject().get(qid).mute(timeH)
-            }
-        }
+if (msg.startsWith("kdelall")) {
+    var delName = msg.substring(7).trim()
+    if (delName.length == 0) {
+        context.send("请输入key")
+    } else {
+        var delAllData = utils.requestGet("http://kloping.top/del?pwd=" + msg.substring(7).trim() + "&key=")
+        context.send("delall ok")
     }
 }
-//===============================================================禁言结束
+//del kloping key all
+
+
+//======功能是upload以后 发送kload 上传<pic+url> 并记录图片的key在key=pic里 发送klist获取key=pic
