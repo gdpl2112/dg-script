@@ -1,4 +1,5 @@
 // 环境脚本
+
 class Context {
     getBot();
 
@@ -11,6 +12,8 @@ class Context {
     getSender();
 
     getSubject();
+
+    getMessageChainById(id);
 
     createMusicShare(kind, title, summer, jumUrl, picUrl, url);
 
@@ -28,6 +31,10 @@ class Utils {
     requestGet(url);
 
     requestPost(url, data);
+
+    queryUrlFromId(id);
+    
+    serialize(msg);
 
     get(key);
 
