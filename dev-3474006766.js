@@ -102,32 +102,34 @@ function getAllNumber(str) {
 }
 
 if (context.getType() === "group" || context.getType() === "friend") {
-    var k1 = msg.startsWith("上传") || msg.startsWith("upload")
-    var k2 = msg.endsWith("上传") || msg.endsWith("upload")
-    if (k1 || k2) {
-        var iid = getFormatValue("pic", msg)
-        if (iid == null) {
-            var msgId = getFormatValue("qr", msg)
-            if (msgId === null) {
-                context.send("未发现图片")
-            } else {
-                var msgc = context.getMessageChainById(msgId)
-                var msgcs = utils.serialize(msgc)
-                iid = getFormatValue("pic", msgcs)
-                if (iid == null) {
-                    context.send("未发现图片!")
+    if (context.getSender().getId() === context.getBot().getId()) {
+        var k1 = msg.startsWith("上传") || msg.startsWith("upload")
+        var k2 = msg.endsWith("上传") || msg.endsWith("upload")
+        if (k1 || k2) {
+            var iid = getFormatValue("pic", msg)
+            if (iid == null) {
+                var msgId = getFormatValue("qr", msg)
+                if (msgId === null) {
+                    context.send("未发现图片")
                 } else {
-                    var iurl = utils.queryUrlFromId(iid)
-                    iurl = encodeURI(iurl)
-                    var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
-                    context.send("upload finish: " + out)
+                    var msgc = context.getMessageChainById(msgId)
+                    var msgcs = utils.serialize(msgc)
+                    iid = getFormatValue("pic", msgcs)
+                    if (iid == null) {
+                        context.send("未发现图片!")
+                    } else {
+                        var iurl = utils.queryUrlFromId(iid)
+                        iurl = encodeURI(iurl)
+                        var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
+                        context.send("upload finish: " + out)
+                    }
                 }
+            } else {
+                var iurl = utils.queryUrlFromId(iid)
+                iurl = encodeURI(iurl)
+                var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
+                context.send("upload finish: " + out)
             }
-        } else {
-            var iurl = utils.queryUrlFromId(iid)
-            iurl = encodeURI(iurl)
-            var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
-            context.send("upload finish: " + out)
         }
     }
     //上传结束
