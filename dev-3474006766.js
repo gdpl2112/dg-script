@@ -102,7 +102,7 @@ function getAllNumber(str) {
 }
 
 if (context.getType() === "group" || context.getType() === "friend") {
-    if (context.getSender().getId() === context.getBot().getId()) {
+    if (context.getSender().getId() == context.getBot().getId()) {
         var k1 = msg.startsWith("上传") || msg.startsWith("upload")
         var k2 = msg.endsWith("上传") || msg.endsWith("upload")
         if (k1 || k2) {
