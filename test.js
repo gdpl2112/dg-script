@@ -41,12 +41,12 @@ function getAllNumber(str) {
 
 //==============================获取消息中的全部数字
 
-function getAdminList() {
-    var adminList = utils.get("adminList")
-    if (adminList == null) {
-        adminList = new Array()
+function getAdminMap() {
+    var adminMap = utils.get("adminMap")
+    if (adminMap == null) {
+        adminMap = utils.newObject("java.util.HashMap")
     }
-    return adminList
+    return adminMap
 }
 
 if (context.getType() == "group" || context.getType() == "friend") {
@@ -54,30 +54,32 @@ if (context.getType() == "group" || context.getType() == "friend") {
         if (msg.startsWith("setAdmin")) {
             var adminId = getAtId(msg)
             utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=admin-" + adminId + "&value=true")
-            var adminList = getAdminList()
-            adminList.push(adminId)
-            utils.set("adminList", adminList)
+            var adminMap = getAdminMap()
+            adminMap.put(adminId, true)
+            utils.set("adminMap", adminMap)
             context.send("OK")
         } else if (msg.startsWith("unAdmin")) {
             var adminId = getAtId(msg)
             utils.requestGet("http://kloping.top/del?pwd=dg-2898304046&key=admin-" + adminId)
-            var adminList = getAdminList()
-            adminList = adminList.filter(function (item) {
-                return item == senderId
-            });
-            utils.set("adminList", adminList)
+            var adminMap = getAdminMap()
+            adminMap.remove(adminId)
+            utils.set("adminMap", adminMap)
             context.send("OK")
         }
     }
 
     var senderId = context.getSender().getId()
-    var adminList = getAdminList()
-    var admink = adminList.indexOf(senderId) > 0
-    if (!admink) {
+    var adminMap = getAdminMap()
+    var admink = adminMap.get(senderId)
+    if (admink == null) {
         var k0 = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=admin-" + senderId)
         if (k0 === "true") {
-            adminList.push(senderId)
-            utils.set("adminList", adminList)
+            adminMap.put(senderId, true)
+            utils.set("adminMap", adminMap)
+            admink = true
+        } else {
+            adminMap.put(senderId, false)
+            utils.set("adminMap", adminMap)
             admink = true
         }
     }
