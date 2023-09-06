@@ -112,7 +112,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 if (msgId === null) {
                     context.send("未发现图片")
                 } else {
-                    var msgc = context.getRaw().get(1).getSource().getOriginalMessage()
+                    var msgc = context.getMessageChainById(msgId)
                     var msgcs = utils.serialize(msgc)
                     iid = getFormatValue("pic", msgcs)
                     if (iid == null) {
