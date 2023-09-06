@@ -116,7 +116,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                     var msgcs = utils.serialize(msgc)
                     iid = getFormatValue("pic", msgcs)
                     if (iid == null) {
-                        context.send("未发现图片!")
+                        context.send("未发现图片!\n" + msgcs)
                     } else {
                         var iurl = utils.queryUrlFromId(iid)
                         iurl = encodeURI(iurl)
