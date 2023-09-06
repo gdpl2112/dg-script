@@ -112,8 +112,8 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 if (msgId === null) {
                     context.send("未发现图片")
                 } else {
-                    var msgc = context.getRaw()
-                    var msgcs = msgc.get(1).getSource().getOriginalMessage()
+                    var msgc = context.getRaw().get(1).getSource().getOriginalMessage()
+                    var msgcs = utils.serialize(msgc)
                     iid = getFormatValue("pic", msgcs)
                     if (iid == null) {
                         context.send("未发现图片!")
@@ -156,4 +156,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
     }
     //解析结束
 }
-//23/9/6
+//23/9/4
