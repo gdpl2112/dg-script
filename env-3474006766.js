@@ -5,11 +5,12 @@
 var url = "https://raw.njuu.cf/gdpl2112/dg-script/master/dev-3474006766.js"
 
 if (context.getType() == "group") {
-    if (msg == "reget") {
+    if (msg == "update") {
         var jsAll = utils.requestGet(url)
         utils.clear()
         utils.set("jsAll", jsAll)
-        context.send("reget ok: " + jsAll)
+        var ss = jsAll.split("\n")
+        context.send(ss[ss.length - 1])
     } else {
         work()
     }
