@@ -155,7 +155,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     if (point_state == null && point_state) {
         var gid = utils.get("point_gid")
         var qid = utils.get("point_qid")
-        if (context.getSubject().getId() == gid && context.getSender().getId() == qid) {
+        if (context.getSender().getId() == qid) {
             var st0 = getAllNumber(msg)
             if (st0 == null) {
                 utils.set("point_state", false)
