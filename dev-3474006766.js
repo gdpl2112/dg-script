@@ -186,4 +186,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
     }
     //点歌结束
 }
-//23/9/7-3
+//23/9/7-4
