@@ -181,7 +181,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 var st = st0 - 1
                 var datas = utils.get("point_datas")
                 var data = datas[st]
-                context.send(`<Music:QQMusic,$data.media_name,$data.author_name,http://47.100.93.243:34740/,$data.imgUrl,$data.songUrl>`)
+                context.send("<Music:QQMusic," + data.media_name + "," + data.author_name + "," + "http://47.100.93.243:34740/," + data.imgUrl + "," + data.songUrl + ">")
                 utils.set("point_state", false)
             }
         }
