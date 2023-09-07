@@ -134,26 +134,58 @@ if (context.getType() === "group" || context.getType() === "friend") {
     }
     //上传结束
     if (msg.startsWith("解析ks")) {
-        if (context.getType() === "group") {
-            var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-            var urls = msg.match(reg)
-            if (urls !== null) {
-                context.send("正在解析...\n请稍等")
-                var u0 = encodeURI(urls[0]);
-                var arr = JSON.parse(utils.requestGet("http://kloping.top/api/search/parseImgs?url=" + u0 + "&type=ks"))
-                var builder = context.forwardBuilder();
-                for (var i = 0; i < arr.length; i++) {
-                    var e = arr[i];
-                    builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
-                }
-                context.send(builder.build())
-            } else {
-                context.send("未发现链接")
+        var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+        var urls = msg.match(reg)
+        if (urls !== null) {
+            context.send("正在解析...\n请稍等")
+            var u0 = encodeURI(urls[0]);
+            var arr = JSON.parse(utils.requestGet("http://kloping.top/api/search/parseImgs?url=" + u0 + "&type=ks"))
+            var builder = context.forwardBuilder();
+            for (var i = 0; i < arr.length; i++) {
+                var e = arr[i];
+                builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
             }
+            context.send(builder.build())
         } else {
-            context.send("命令仅适用群聊")
+            context.send("未发现链接")
         }
     }
     //解析结束
+    var point_state = utils.get("point_state")
+    if (point_state == null || !point_state) {
+        if (msg.startsWith("酷狗点歌")) {
+            var name = msg.substring(4)
+            var e0 = utils.requestGet("http://kloping.top/api/search/song?keyword=" + name + "&type=kugou&n=5")
+            var jo = JSON.parse(e0)
+            var datas = jo.data
+            var tips = "输入序号以选择"
+            for (var i = 0; i < datas.length; i++) {
+                var d0 = datas[i]
+                tips = tips + "\n" + (i + 1) + "," + d0.author_name + " - " + d0.media_name
+            }
+            context.send(tips)
+            utils.set("point_state", true)
+            utils.set("point_datas", datas)
+            utils.set("point_gid", context.getSubject().getId())
+            utils.set("point_qid", context.getSender().getId())
+        }
+    } else {
+        var gid = utils.get("point_gid")
+        var qid = utils.get("point_qid")
+        if (context.getSubject().getId() === gid && context.getSender().getId() === qid) {
+            var st0 = getAllNumber(msg)
+            if (st0 == null) {
+                utils.set("point_state", false)
+                context.send("已取消!")
+            } else {
+                var st = st0 - 1
+                var datas = utils.get("point_datas")
+                var data = datas[st]
+                context.send(`<Music:QQMusic,$data.media_name,$data.author_name,http://47.100.93.243:34740/,$data.imgUrl,$data.songUrl>`)
+                utils.set("point_state", false)
+            }
+        }
+    }
+    //点歌结束
 }
-//23/9/6-3
+//23/9/7
