@@ -133,6 +133,34 @@ if (context.getType() === "group" || context.getType() === "friend") {
         }
     }
     //上传结束
+    if (context.getSender().getId() == context.getBot().getId()) {
+        var k1 = msg.startsWith("query") || msg.startsWith("query")
+        var k2 = msg.endsWith("query") || msg.endsWith("query")
+        if (k1 || k2) {
+            var iid = getFormatValue("pic", msg)
+            if (iid == null) {
+                var msgId = getFormatValue("qr", msg)
+                if (msgId === null) {
+                    context.send("未发现图片")
+                } else {
+                    var msgc = context.getMessageChainById(msgId)
+                    var msgcs = utils.serialize(msgc)
+                    iid = getFormatValue("pic", msgcs)
+                    if (iid == null) {
+                        context.send("未发现图片!\n" + msgcs)
+                    } else {
+                        var iurl = utils.queryUrlFromId(iid)
+                        context.send(iurl)
+                    }
+                }
+            } else {
+                var iurl = utils.queryUrlFromId(iid)
+                iurl = encodeURI(iurl)
+                context.send(iurl)
+            }
+        }
+    }
+    //查询
     if (msg.startsWith("解析ks")) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
@@ -186,4 +214,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
     }
     //点歌结束
 }
-//23/9/7-5
+//23/9/8
