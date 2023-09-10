@@ -179,6 +179,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         }
     }
     //解析结束
+    /*
     var point_state = utils.get("point_state")
     if (point_state != null && point_state) {
         var gid = utils.get("point_gid")
@@ -212,6 +213,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
         utils.set("point_gid", context.getSubject().getId())
         utils.set("point_qid", context.getSender().getId())
     }
-    //点歌结束
+    //点歌结束 */
 }
-//23/9/8
+//23/9/10
