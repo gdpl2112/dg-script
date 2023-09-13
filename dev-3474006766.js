@@ -214,5 +214,14 @@ if (context.getType() === "group" || context.getType() === "friend") {
         utils.set("point_qid", context.getSender().getId())
     }
     //点歌结束 */
+    if (msg.startsWith("语音合成")) {
+        var okv = msg.split(" ");
+        var name = okv[1];
+        var guzi = okv[2]
+        //http://kloping.top/api/mp32amr?url=$call.audiourl()
+        var json1 = utils.requestGet("https://api.pearktrue.cn/api/genshinimpactaudio/?text=" + guzi + "&speaker=" + name)
+        var d0 = JSON.parse(json1)
+        context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
+    }
 }
-//23/9/10
+//23/9/13
