@@ -109,10 +109,17 @@ function getAllNumber(str) {
     }
 }
 
+function getTextFromOcr(url) {
+    var json = utils.requestGet("http://kloping.top/api/ocr?url=" + url)
+    var jo = JSON.parse(json)
+    return jo.data.ParsedText
+}
+
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() == context.getBot().getId()) {
         var k1 = msg.startsWith("上传") || msg.startsWith("upload")
         var k2 = msg.endsWith("上传") || msg.endsWith("upload")
+        var iurl
         if (k1 || k2) {
             var iid = getFormatValue("pic", msg)
             if (iid == null) {
@@ -126,24 +133,25 @@ if (context.getType() === "group" || context.getType() === "friend") {
                     if (iid == null) {
                         context.send("未发现图片!\n" + msgcs)
                     } else {
-                        var iurl = utils.queryUrlFromId(iid)
+                        iurl = utils.queryUrlFromId(iid)
                         iurl = encodeURI(iurl)
-                        var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
-                        context.send("upload finish: " + out)
                     }
                 }
             } else {
-                var iurl = utils.queryUrlFromId(iid)
+                iurl = utils.queryUrlFromId(iid)
                 iurl = encodeURI(iurl)
-                var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
-                context.send("upload finish: " + out)
             }
+        }
+        if (iurl != null) {
+            var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
+            context.send("upload finish: " + out)
         }
     }
     //上传结束
     if (context.getSender().getId() == context.getBot().getId()) {
         var k1 = msg.startsWith("query") || msg.startsWith("query")
         var k2 = msg.endsWith("query") || msg.endsWith("query")
+        var iurl;
         if (k1 || k2) {
             var iid = getFormatValue("pic", msg)
             if (iid == null) {
@@ -157,16 +165,45 @@ if (context.getType() === "group" || context.getType() === "friend") {
                     if (iid == null) {
                         context.send("未发现图片!\n" + msgcs)
                     } else {
-                        var iurl = utils.queryUrlFromId(iid)
-                        context.send(iurl)
+                        iurl = utils.queryUrlFromId(iid)
                     }
                 }
             } else {
-                var iurl = utils.queryUrlFromId(iid)
+                iurl = utils.queryUrlFromId(iid)
                 iurl = encodeURI(iurl)
-                context.send(iurl)
             }
         }
+        if (iurl != null)
+            context.send(iurl)
+    }
+    //查询
+    if (context.getSender().getId() == context.getBot().getId()) {
+        var k0 = "识别"
+        var k1 = msg.startsWith(k0) || msg.startsWith(k0)
+        var k2 = msg.endsWith(k0) || msg.endsWith(k0)
+        var iurl;
+        if (k1 || k2) {
+            var iid = getFormatValue("pic", msg)
+            if (iid == null) {
+                var msgId = getFormatValue("qr", msg)
+                if (msgId === null) {
+                    context.send("未发现图片")
+                } else {
+                    var msgc = context.getMessageChainById(msgId)
+                    var msgcs = utils.serialize(msgc)
+                    iid = getFormatValue("pic", msgcs)
+                    if (iid == null) {
+                        context.send("未发现图片!\n" + msgcs)
+                    } else {
+                        iurl = utils.queryUrlFromId(iid)
+                    }
+                }
+            } else {
+                iurl = utils.queryUrlFromId(iid)
+            }
+        }
+        if (iurl != null)
+            context.send(getTextFromOcr(iurl))
     }
     //查询
     if (msg.startsWith("解析ks")) {
@@ -232,4 +269,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/15-6
+//23/9/15-7
