@@ -62,8 +62,8 @@ if (context.getType() == "group") {
                 if (msg.length > 5) {
                     var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line=" + msg.substring(5))
                     var outo = JSON.parse(out)
-                    context.send("err: " + out.err)
-                    context.send("out: " + out.in)
+                    context.send("err: " + outo.err)
+                    context.send("out: " + outo.in)
                 }
                 break
         }
@@ -232,4 +232,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/15-3
+//23/9/15-4
