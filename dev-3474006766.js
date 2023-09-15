@@ -228,8 +228,8 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var guzi = okv[2];
         var json1 = utils.requestGet("https://api.pearktrue.cn/api/genshinimpactaudio/?text=" + guzi + "&speaker=" + name)
         var d0 = JSON.parse(json1)
-        // context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
-        context.send("<audio:" + d0.audiourl + ">")
+        context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
+        //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/15-5
+//23/9/15-6
