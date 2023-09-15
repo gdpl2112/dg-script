@@ -59,8 +59,8 @@ if (context.getType() == "group") {
                 }
                 break
             case "/exec":
-                if (okv.length >= 2) {
-                    var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line="+okv[1])
+                if (msg.length > 5) {
+                    var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line=" + msg.substring(5))
                     console.send(out)
                 }
                 break
@@ -230,4 +230,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/15 tips:/software/jdk11/bin/jcmd%20591171%20GC.run
+//23/9/15-1
