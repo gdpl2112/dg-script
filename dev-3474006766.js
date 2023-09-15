@@ -58,6 +58,12 @@ if (context.getType() == "group") {
                     context.send("del state : " + kdelOut + "! key:" + okv[1])
                 }
                 break
+            case "/exec":
+                if (okv.length >= 2) {
+                    var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line="+okv[1])
+                    console.send(out)
+                }
+                break
         }
     }
 }
@@ -224,4 +230,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/13-1
+//23/9/15 tips:/software/jdk11/bin/jcmd%20591171%20GC.run
