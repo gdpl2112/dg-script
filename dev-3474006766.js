@@ -115,95 +115,62 @@ function getTextFromOcr(url) {
     return jo.data.ParsedText
 }
 
+function isStartOrEndWith(msg, key) {
+    return (msg.startsWith(key) || msg.endsWith(key))
+}
+
+function getImageUrlAll(msg) {
+    var iid = getFormatValue("pic", msg)
+    if (iid == null) {
+        var msgId = getFormatValue("qr", msg)
+        if (msgId === null) {
+            return null
+        } else {
+            var msgc = context.getMessageChainById(msgId)
+            var msgcs = utils.serialize(msgc)
+            iid = getFormatValue("pic", msgcs)
+            if (iid == null) {
+                return null
+            } else {
+                return utils.queryUrlFromId(iid)
+            }
+        }
+    } else {
+        return utils.queryUrlFromId(iid)
+    }
+}
+
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() == context.getBot().getId()) {
-        var k1 = msg.startsWith("上传") || msg.startsWith("upload")
-        var k2 = msg.endsWith("上传") || msg.endsWith("upload")
-        var iurl
-        if (k1 || k2) {
-            var iid = getFormatValue("pic", msg)
-            if (iid == null) {
-                var msgId = getFormatValue("qr", msg)
-                if (msgId === null) {
-                    context.send("未发现图片")
-                } else {
-                    var msgc = context.getMessageChainById(msgId)
-                    var msgcs = utils.serialize(msgc)
-                    iid = getFormatValue("pic", msgcs)
-                    if (iid == null) {
-                        context.send("未发现图片!\n" + msgcs)
-                    } else {
-                        iurl = utils.queryUrlFromId(iid)
-                        iurl = encodeURI(iurl)
-                    }
-                }
-            } else {
-                iurl = utils.queryUrlFromId(iid)
+        if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
+            var iurl = getImageUrlAll(msg)
+            if (iurl != null) {
                 iurl = encodeURI(iurl)
-            }
-        }
-        if (iurl != null) {
-            var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
-            context.send("upload finish: " + out)
-        }
-    }
-    //上传结束
-    if (context.getSender().getId() == context.getBot().getId()) {
-        var k1 = msg.startsWith("query") || msg.startsWith("query")
-        var k2 = msg.endsWith("query") || msg.endsWith("query")
-        var iurl;
-        if (k1 || k2) {
-            var iid = getFormatValue("pic", msg)
-            if (iid == null) {
-                var msgId = getFormatValue("qr", msg)
-                if (msgId === null) {
-                    context.send("未发现图片")
-                } else {
-                    var msgc = context.getMessageChainById(msgId)
-                    var msgcs = utils.serialize(msgc)
-                    iid = getFormatValue("pic", msgcs)
-                    if (iid == null) {
-                        context.send("未发现图片!\n" + msgcs)
-                    } else {
-                        iurl = utils.queryUrlFromId(iid)
-                    }
-                }
+                var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
+                context.send("upload finish: " + out)
             } else {
-                iurl = utils.queryUrlFromId(iid)
-                iurl = encodeURI(iurl)
+                context.send("未发现图片")
             }
         }
-        if (iurl != null)
-            context.send(iurl)
-    }
-    //查询
-    if (context.getSender().getId() == context.getBot().getId()) {
-        var k0 = "识别"
-        var k1 = msg.startsWith(k0) || msg.startsWith(k0)
-        var k2 = msg.endsWith(k0) || msg.endsWith(k0)
-        var iurl;
-        if (k1 || k2) {
-            var iid = getFormatValue("pic", msg)
-            if (iid == null) {
-                var msgId = getFormatValue("qr", msg)
-                if (msgId === null) {
-                    context.send("未发现图片")
-                } else {
-                    var msgc = context.getMessageChainById(msgId)
-                    var msgcs = utils.serialize(msgc)
-                    iid = getFormatValue("pic", msgcs)
-                    if (iid == null) {
-                        context.send("未发现图片!\n" + msgcs)
-                    } else {
-                        iurl = utils.queryUrlFromId(iid)
-                    }
-                }
+        //上传结束
+        if (isStartOrEndWith(msg, "query")) {
+            var iurl = getImageUrlAll(msg)
+            if (iurl != null) {
+                context.send(iurl)
             } else {
-                iurl = utils.queryUrlFromId(iid)
+                context.send("未发现图片")
             }
         }
-        if (iurl != null)
-            context.send(getTextFromOcr(iurl))
+        //查询
+        if (isStartOrEndWith(msg, "识别")) {
+            var iurl = getImageUrlAll(msg)
+            if (iurl != null) {
+                context.send(getTextFromOcr(iurl))
+            } else {
+                context.send("未发现图片")
+            }
+        }
+        //识别
     }
     //查询
     if (msg.startsWith("解析ks")) {
@@ -269,4 +236,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/15-7
+//23/9/16
