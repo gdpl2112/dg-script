@@ -62,8 +62,10 @@ if (context.getType() == "group") {
                 if (msg.length > 5) {
                     var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line=" + msg.substring(5))
                     var outo = JSON.parse(out)
-                    context.send("err:\n" + outo.err)
-                    context.send("out:\n" + outo.in)
+                    if (outo.err.length > 0)
+                        context.send("err:\n" + outo.err)
+                    if (outo.in.length > 0)
+                        context.send("out:\n" + outo.in)
                 }
                 break
         }
@@ -165,7 +167,12 @@ if (context.getType() === "group" || context.getType() === "friend") {
         if (isStartOrEndWith(msg, "识别")) {
             var iurl = getImageUrlAll(msg)
             if (iurl != null) {
-                context.send(getTextFromOcr(iurl))
+                iurl = encodeURI(iurl)
+                var out = getTextFromOcr(iurl)
+                if (out != null)
+                    context.send(out)
+                else
+                    context.send("识别失败")
             } else {
                 context.send("未发现图片")
             }
@@ -236,4 +243,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/16
+//23/9/16-1
