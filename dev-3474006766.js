@@ -180,7 +180,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //识别
     }
     //查询
-    if (msg.startsWith("解析ks")) {
+    if (msg.startsWith("解析ks") || msg.trim().endsWith("点击链接，打开【快手】直接观看！")) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
@@ -243,4 +243,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/16-1
+//23/9/17
