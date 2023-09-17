@@ -180,7 +180,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //识别
     }
     //查询
-    if (msg.startsWith("解析ks") || msg.trim().contians("【快手")) {
+    if (msg.startsWith("解析ks") || msg.indexOf("【快手") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
