@@ -203,7 +203,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
         if (urls !== null) {
             var u0 = encodeURI(urls[0]);
             var jo = JSON.parse(utils.requestGet("https://xiaoapi.cn/API/zs_dspjx.php?url=" + u0))
-            context.send("解析结果: "+jo.url)
+            var end = jo.url;
+            if(end==null) end = jo.video
+            context.send("解析结果: "+ end)
         } else {
             context.send("未发现链接")
         }
@@ -219,4 +221,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/17-5
+//23/9/17-6
