@@ -197,7 +197,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             context.send("未发现链接")
         }
     }
-    if (msg.indexOf("【快手") > 0) {
+    if (msg.indexOf("【快手") > 0 || msg.indexOf("复制打开抖音") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
@@ -219,4 +219,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/17-4
+//23/9/17-5
