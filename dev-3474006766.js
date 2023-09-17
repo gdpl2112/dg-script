@@ -180,7 +180,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //识别
     }
     //查询
-    if (msg.startsWith("解析ks") || msg.indexOf("【快手") > 0) {
+    if (msg.startsWith("解析ks")) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
@@ -197,6 +197,17 @@ if (context.getType() === "group" || context.getType() === "friend") {
             context.send("未发现链接")
         }
     }
+    if (msg.indexOf("【快手") > 0) {
+        var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+        var urls = msg.match(reg)
+        if (urls !== null) {
+            var u0 = encodeURI(urls[0]);
+            var jo = JSON.parse(utils.requestGet("https://xiaoapi.cn/API/zs_dspjx.php?url=" + u0))
+            context.send("解析结果: "+jo.url)
+        } else {
+            context.send("未发现链接")
+        }
+    }
     //解析结束
     if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
@@ -208,4 +219,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/17-3
+//23/9/17-4
