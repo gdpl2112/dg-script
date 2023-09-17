@@ -243,4 +243,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/17-1
+//23/9/17-2
