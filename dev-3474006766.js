@@ -198,41 +198,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
         }
     }
     //解析结束
-    /*
-    var point_state = utils.get("point_state")
-    if (point_state != null && point_state) {
-        var gid = utils.get("point_gid")
-        var qid = utils.get("point_qid")
-        if (context.getSender().getId() == qid) {
-            var st0 = getAllNumber(msg)
-            if (st0 == null) {
-                utils.set("point_state", false)
-                context.send("已取消!")
-            } else {
-                var st = st0 - 1
-                var datas = utils.get("point_datas")
-                var data = datas[st]
-                context.send("<Music:QQMusic," + data.media_name + "," + data.author_name + "," + "http://47.100.93.243:34740/," + data.imgUrl + "," + data.songUrl + ">")
-                utils.set("point_state", false)
-            }
-        }
-    } else if (msg.startsWith("酷狗点歌")) {
-        var name = msg.substring(4)
-        var e0 = utils.requestGet("http://kloping.top/api/search/song?keyword=" + name + "&type=kugou&n=5")
-        var jo = JSON.parse(e0)
-        var datas = jo.data
-        var tips = "输入序号以选择"
-        for (var i = 0; i < datas.length; i++) {
-            var d0 = datas[i]
-            tips = tips + "\n" + (i + 1) + "," + d0.author_name + " - " + d0.media_name
-        }
-        context.send(tips)
-        utils.set("point_state", true)
-        utils.set("point_datas", datas)
-        utils.set("point_gid", context.getSubject().getId())
-        utils.set("point_qid", context.getSender().getId())
-    }
-    //点歌结束 */
     if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
         var name = okv[1];
@@ -243,4 +208,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/17-2
+//23/9/17-3
