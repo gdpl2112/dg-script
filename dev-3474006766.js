@@ -226,7 +226,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     if (msg.startsWith("捅")) {
         var aid = getAtId(msg)
         if (aid != null) {
-            context.send("<pci:" + utils.get("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
+            context.send("<pci:" + utils.requestGet("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
         }
     }
 }
