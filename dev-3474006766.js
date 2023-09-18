@@ -223,5 +223,11 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
         //context.send("<audio:" + d0.audiourl + ">")
     }
+    if (msg.startsWith("捅")) {
+        var aid = getAtId(msg)
+        if (aid != null) {
+            context.send("<pci:" + utils.get("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
+        }
+    }
 }
-//23/9/18
+//23/9/18-1
