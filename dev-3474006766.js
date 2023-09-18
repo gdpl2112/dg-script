@@ -196,16 +196,19 @@ if (context.getType() === "group" || context.getType() === "friend") {
         } else {
             context.send("未发现链接")
         }
-    }
-    if (msg.indexOf("【快手") > 0 || msg.indexOf("复制打开抖音") > 0) {
+    } else if (msg.indexOf("【快手") > 0 || msg.indexOf("复制打开抖音") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
             var u0 = encodeURI(urls[0]);
             var jo = JSON.parse(utils.requestGet("https://xiaoapi.cn/API/zs_dspjx.php?url=" + u0))
             var end = jo.url;
-            if(end==null) end = jo.video
-            context.send("解析结果: "+ end)
+            if (end == null) end = jo.video
+            if (end == null) {
+
+            } else {
+                context.send("解析结果: " + end)
+            }
         } else {
             context.send("未发现链接")
         }
@@ -221,4 +224,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //context.send("<audio:" + d0.audiourl + ">")
     }
 }
-//23/9/17-6
+//23/9/18
