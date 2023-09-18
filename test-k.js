@@ -80,10 +80,10 @@ function get_admin() {
         var admin_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-admin&key=" + senderId)
         if (admin_state !== null) {
             utils.set("admin" + senderId, admin_state)
-            var get_admin_state1 = utils.get("admin" + senderId)
-            return get_admin_state1
+            return admin_state
         } else {
-            return -1
+            utils.set("admin" + senderId, "false")
+            return "false"
         }
     } else {
         return get_admin_state
