@@ -226,8 +226,11 @@ if (context.getType() === "group" || context.getType() === "friend") {
     if (msg.startsWith("捅")) {
         var aid = getAtId(msg)
         if (aid != null) {
-            context.send("<pci:" + utils.requestGet("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
+            context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
         }
     }
+    if (msg.startsWith("摇")) {
+        context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/yao2yao?qid=" + context.getSender().getId() + ">"))
+    }
 }
-//23/9/18-1
+//23/9/18-3
