@@ -230,8 +230,8 @@ if (context.getType() === "group" || context.getType() === "friend") {
         }
     } else if (msg.startsWith("摇")) {
         context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/yao2yao?qid=" + context.getSender().getId() + ">"))
-    } else if (msg.startsWith("锤")) {
-        context.send("<pic:" + utils.requestGet("https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">"))
+    } else if (msg.trim() === ("锤") || msg.trim() === ("捶")) {
+        context.send("<pic:" + "https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
     }
 }
-//23/9/19
+//23/9/19-1
