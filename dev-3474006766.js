@@ -68,6 +68,10 @@ if (context.getType() == "group") {
                         context.send("out:\n" + outo.in)
                 }
                 break
+            case "/test":
+                var out = utils.requestPost("http://114.55.64.112:8080/parsor9/robot", "{app_id:51,client_id:'123456',session_id:'1695308740617',intent_update:'',query:'" + okv[1] + "'}")
+                context.send(out)
+                break
         }
     }
 }
@@ -234,4 +238,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<pic:" + "https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
     }
 }
-//23/9/19-1
+//23/9/22
