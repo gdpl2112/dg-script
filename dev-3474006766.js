@@ -185,21 +185,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     }
     //查询
     if (msg.startsWith("解析ks")) {
-        var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-        var urls = msg.match(reg)
-        if (urls !== null) {
-            context.send("正在解析...\n请稍等")
-            var u0 = encodeURI(urls[0]);
-            var arr = JSON.parse(utils.requestGet("http://kloping.top/api/search/parseImgs?url=" + u0 + "&type=ks"))
-            var builder = context.forwardBuilder();
-            for (var i = 0; i < arr.length; i++) {
-                var e = arr[i];
-                builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
-            }
-            context.send(builder.build())
-        } else {
-            context.send("未发现链接")
-        }
+        gotoParseKs()
     } else if (msg.indexOf("【快手") > 0 || msg.indexOf("复制打开抖音") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
@@ -209,7 +195,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var end = jo.url;
             if (end == null) end = jo.video
             if (end == null) {
-
+                gotoParseKs()
             } else {
                 context.send("解析结果: " + end)
             }
@@ -238,4 +224,26 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<pic:" + "https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
     }
 }
-//23/9/22
+function gotoParseKs() {
+    var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+    var urls = msg.match(reg)
+    if (urls !== null) {
+        context.send("正在解析...\n请稍等")
+        var u0 = encodeURI(urls[0]);
+        var arr = JSON.parse(utils.requestGet("http://kloping.top/api/search/parseImgs?url=" + u0 + "&type=ks"))
+        if (arr == null) {
+            context.send("解析失败!")
+        } else {
+            var builder = context.forwardBuilder();
+            for (var i = 0; i < arr.length; i++) {
+                var e = arr[i];
+                builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
+            }
+            context.send(builder.build())
+        }
+    } else {
+        context.send("未发现链接")
+    }
+}
+
+//23/9/24
