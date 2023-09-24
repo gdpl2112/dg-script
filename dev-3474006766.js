@@ -194,7 +194,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var jo = JSON.parse(utils.requestGet("https://xiaoapi.cn/API/zs_dspjx.php?url=" + u0))
             var end = jo.url;
             if (end == null) end = jo.video
-            if (end == null) {
+            if (end == null || end.length == 0) {
                 gotoParseImages()
             } else {
                 context.send("解析结果: " + end)
@@ -249,4 +249,4 @@ function gotoParseImages() {
     }
 }
 
-//23/9/24-1
+//23/9/24-2
