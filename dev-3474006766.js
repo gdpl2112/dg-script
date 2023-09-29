@@ -250,6 +250,7 @@ function gotoParseImages() {
 }
 
 if (context.getType() == "NudgeEvent") {
-    event.getFrom().nudge().sendTo(event.getSubject());
+    if (event.getFrom().getId() !== context.getBot().getId())
+        event.getFrom().nudge().sendTo(event.getSubject())
 }
-//23/9/29
+//23/9/29-1
