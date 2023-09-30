@@ -21,11 +21,47 @@ if (context.getType() === "group") {
         }
     }
     //====================解析结束
+
+    //喜报  
+    if (msg.startsWith("喜报")) {
+        context.send(context.uploadImage("https://api.andeer.top/API/img_xibao.php?data=" + msg.substring(2)));
+    }
+
+    //甘雨抱抱你
+    if (msg.startsWith("甘雨抱抱你")) {
+        var object = getApiObject(5)
+        context.send(context.uploadImage("https://api.andeer.top/API/img_love.php?qq=" + object))
+    }
+
+    //贴贴
+    if (msg.startsWith("贴贴")) {
+        var object = getApiObject(2)
+        context.send(context.uploadImage("https://api.xingzhige.com/API/baororo/?qq=" + object))
+    }
+
+    //顶
+    if (msg.startsWith("顶")) {
+        var object = getApiObject(1)
+        context.send(context.uploadImage("https://api.xingzhige.com/API/dingqiu/?qq=" + object))
+    }
+
+    //咬
+    if (msg.startsWith("咬")) {
+        var object = getApiObject(1)
+        context.send(context.uploadImage("https://api.xingzhige.com/API/bite/?qq=" + object))
+    }
+
+    //拍
+    if (msg.startsWith("拍")) {
+        var object = getApiObject(1)
+        context.send(context.uploadImage("https://api.xingzhige.com/API/grab/?qq=" + object))
+    }
+
+    //百度
     if (msg.startsWith("百度")) {
         var end = encodeURI(msg.substring(2));
         context.send("https://m.baidu.com/s?word=" + end);
     }
-    //================百度结束
 }
 
 
