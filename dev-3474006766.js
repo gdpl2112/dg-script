@@ -280,7 +280,8 @@ function randomNum(minNum, maxNum) {
 }
 
 if (context.getType() == "NudgeEvent") {
-    if (event.getFrom().getId() !== event.getBot().getId() && event.getTarget().getId() == event.getBot().getId()) {
+    var bid = event.getBot().getId();
+    if (event.getFrom().getId() !== bid && event.getTarget().getId() === bid) {
         var r0 = randomNum(1, 3)
         switch (r0) {
             case 1:
