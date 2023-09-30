@@ -153,7 +153,7 @@ if (context.getType() == "NudgeEvent") {
                 event.getSubject().sendMessage(context.newPlainText("啊，被戳洗了"))
                 break;
             case 3:
-                event.getSubject().sendMessage(context.newPlainText("直接嘎了"))
+                //event.getSubject().sendMessage(context.newPlainText("直接嘎了"))
                 break;
         }
     }

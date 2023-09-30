@@ -69,9 +69,10 @@ if (context.getType() == "group") {
                 }
                 break
             case "/test":
-                var out = utils.requestPost("http://114.55.64.112:8080/parsor9/robot", "{app_id:51,client_id:'123456',session_id:'1695308740617',intent_update:'',query:'" + okv[1] + "'}")
-                context.send(out)
+                var face = utils.newObject("net.mamoe.mirai.message.data.Face", 338, "20", 1)
+                context.send(face)
                 break
+
         }
     }
 }
