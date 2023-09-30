@@ -280,8 +280,20 @@ function randomNum(minNum, maxNum) {
 }
 
 if (context.getType() == "NudgeEvent") {
-    if (event.getFrom().getId() !== event.getBot().getId()) {
-        event.getFrom().nudge().sendTo(event.getSubject())
+    if (event.getFrom().getId() !== event.getBot().getId() && event.getTarget().getId() == event.getBot().getId()) {
+        var r0 = randomNum(1, 3)
+        switch (r0) {
+            case 1:
+                event.getSubject().sendMessage(context.newPlainText("反击!"))
+                event.getFrom().nudge().sendTo(event.getSubject())
+                break;
+            case 2:
+                event.getSubject().sendMessage(context.newPlainText("你干嘛~"))
+                break;
+            case 3:
+                event.getSubject().sendMessage(context.newPlainText("阿巴阿巴?"))
+                break;
+        }
     }
 }
-//23/9/29-3
+//23/9/30-1
