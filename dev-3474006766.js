@@ -69,7 +69,7 @@ if (context.getType() == "group") {
                 }
                 break
             case "/test":
-                var face = utils.newObject("net.mamoe.mirai.message.data.Face", 338, "20", 1)
+                var face = context.toSuperFace(338)
                 context.send(face)
                 break
 
