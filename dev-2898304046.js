@@ -1,10 +1,12 @@
 //data name
 //pwd=dg-2898304046 key=api_state 储存本地"api_state"
-//pwd=dg-2898304046-admin key=adminId 储存本地"admin"+senderId
 //pwd=dg-2898304046 key=update_log 储存本地异步"update_state"
 //pwd=dg-2898304046 key=group_state 储存本地"group_state"
+//pwd=dg-2898304046 key=manage_state 储存本地"manage_state"
+
 //本地异步"setLog_state"
 
+//pwd=dg-2898304046-admin key=adminId 储存本地"admin"+senderId
 
 
 if (msg == "date") {
@@ -111,6 +113,19 @@ function get_group_state() {
     }
 }
 
+//群管开关
+function get_manage_state() {
+    var get_manage = utils.get("manage_state")
+    if (get_manage == null) {
+        var manage_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=manage_state")
+        utils.set("manage_state", manage_state)
+        var get_mange_state = utils.get("manage_state")
+        return get_mange_state
+    } else {
+        return get_manage
+    }
+}
+
 //getGroupList
 function getGroup() {
     var groupList = context.getBot().getGroups()
@@ -134,6 +149,12 @@ function getApiObject(str) {
     } else {
         return -1
     }
+}
+
+//getGroupMember
+function getGroupMember() {
+    var subject = context.getSubject().getId()
+    var groupMembers = context.getBot().getGroup(subject).getMembers()
 }
 
 //============================================================================================================================================
@@ -166,9 +187,9 @@ if (context.getType() == "group" || context.getType() == "friend") {
                 if (get_group_state() == "false" || get_group_state() == null) {
                     utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=group_state&value=true")
                     utils.set("group_state", "true")
-                    context.send("正在开启...")
+                    context.send("正在开启杂项...")
                 } else {
-                    context.send("已开启")
+                    context.send("杂项已开启")
                 }
                 break
 
@@ -176,6 +197,26 @@ if (context.getType() == "group" || context.getType() == "friend") {
                 if (get_group_state() == "true" || get_group_state() == null) {
                     utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=group_state&value=false")
                     utils.set("group_state", "false")
+                    context.send("正在关闭杂项...")
+                } else {
+                    context.send("杂项已关闭")
+                }
+                break
+
+            case "默开":
+                if (get_manage_state() == "false" || get_manage_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=manage_state&value=true")
+                    utils.set("manage_state", "true")
+                    context.send("正在开启...")
+                } else {
+                    context.send("已开启")
+                }
+                break
+
+            case "默关":
+                if (get_manage_state() == "true" || get_manage_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=manage_state&value=false")
+                    utils.set("manage_state", "false")
                     context.send("正在关闭...")
                 } else {
                     context.send("已关闭")
@@ -185,10 +226,12 @@ if (context.getType() == "group" || context.getType() == "friend") {
             case ".state":
                 var api = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=api_state")
                 var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=group_state")
-                var botImage = context.getSender().getAvatarUrl()
+                var manage_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=manage_state")
+                var botImage = context.getBot().getAvatarUrl()
                 context.send("<pic:" + botImage + ">"
                     + "\napi状态为:" + api
-                    + "\n杂项状态为:" + group_state)
+                    + "\n杂项状态为:" + group_state
+                    + "\n群管状态为:" + manage_state)
                 break
 
             case ".log":
@@ -373,7 +416,6 @@ if (context.getType() == "group" || context.getType() == "friend") {
 }
 
 //杂项开关=======================================================================================================================================
-
 if (get_group_state() == "true") {
     //获取禁言事件
     if (context.getType() == "MemberMuteEvent") {
@@ -407,5 +449,39 @@ if (get_group_state() == "true") {
         group.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + tg.getName() + "”（" + tg.getId() + "）中被"
             + sn + "（" + context.getSender().getId() + "）提到"))
         group.sendMessage(context.deSerialize(("该消息为:\n" + msg)))
+    }
+}
+
+//群管功能========================================================================================================================================
+if (get_manage_state == "true") {
+    if (context.getType() == "group") {
+        if (get_admin() == "true") {
+            //禁言
+            if (msg.startsWith("默禁言")) {
+                var qid = getAtId(msg)
+                if (qid == null) {
+                    context.send("未发现at")
+                } else {
+                    var b = getAllNumber(msg.replace(qid, ""), 1)
+                    if (msg.endsWith("秒") || msg.endsWith("s") || msg.endsWith(" ")) {
+                        context.getSubject().get(qid).mute(b)
+                    } else if (msg.endsWith("分") || msg.endsWith("m")) {
+                        var timeM = Number(b * 60)
+                        context.getSubject().get(qid).mute(timeM)
+                    } else if (msg.endsWith("小时") || msg.endsWith("h")) {
+                        var timeH = Number(b * 3600)
+                        context.getSubject().get(qid).mute(timeH)
+                    }
+                }
+            }
+        }
+
+        //解除禁言
+        if (msg.startsWith("默解除禁言")) {
+            var qid = getAtId(msg)
+            if (qid !== null) {
+                context.getSubject().get(qid).unmute()
+            }
+        }
     }
 }
