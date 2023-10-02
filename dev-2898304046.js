@@ -1,3 +1,19 @@
+//data name
+//pwd=dg-2898304046 key=api_state 储存本地"api_state"
+//pwd=dg-2898304046 key=update_log 储存本地异步"update_state"
+//pwd=dg-2898304046 key=group_state 储存本地"group_state"
+//pwd=dg-2898304046 key=manage_state 储存本地"manage_state"
+
+//本地异步"setLog_state"
+
+//pwd=dg-2898304046-admin key=adminId 储存本地"admin"+senderId
+
+
+if (msg == "date") {
+    context.send(getTime())
+}
+//function
+//获取指定格式值 目前仅支持获取第一个出现的格式元素
 function getFormatValue(fk, inStr) {
     var i1 = inStr.indexOf("<")
     var i2 = inStr.indexOf(">")
@@ -14,15 +30,15 @@ function getFormatValue(fk, inStr) {
         return args[1]
     }
 }
-//===========================获取指定格式值 目前仅支持获取第一个出现的格式元素
 
+//获取at格式值并返回Number 或 null
 function getAtId(inStr) {
     var end = getFormatValue("at", inStr)
     if (end !== null) return Number(end)
     else return null
 }
-//================================获取at格式值并返回Number 或 null
 
+//获取消息中的全部数字
 function getAllNumber(str) {
     var ns = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     var out = ""
@@ -38,303 +54,430 @@ function getAllNumber(str) {
         return -1
     }
 }
-//==============================获取消息中的全部数字
 
-if (context.getSender().getId() == "2898304046" || context.getSender().getId() == "3474006766") {
-    if (msg.startsWith("setAdmin")) {
-        var adminId = getAtId(msg)
-        var admin = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-admin&key=admin")
-        var setAdmin = utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-admin&key=admin&value=" + admin + "，" + adminId)
-    }
-    if (msg == "刷新admin") {
-        var getadmin = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-admin&key=admin")
-        var getAdmin = utils.set(admin, getadmin)
-        var flushAdmin = utils.get("getAdmin")
-        context.send("当前admin为：" + flushAdmin)
+//获取时间
+function getTime() {
+    var timestamp = Date.now()
+    var time = new Date(timestamp)
+    var year = time.getFullYear()
+    var month = time.getMonth() + 1
+    var date = time.getDate()
+    var hours = time.getHours()
+    var minutes = time.getMinutes()
+    var seconds = time.getSeconds()
+    return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+}
+
+
+//检测API开关状态
+function get_api_state() {
+    var get_api = utils.get("api_state")
+    if (get_api == null) {
+        var api_now_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=api_state")
+        utils.set("api_state", api_now_state)
+        var get_api1 = utils.get("api_state")
+        return get_api1
+    } else {
+        return get_api
     }
 }
 
-if (context.getType() == "group" || context.getType() == "friend") {
-    var followAdmin = utils.get("admin")
-    var sender = context.getSender().getId()
-    if (sender = followAdmin.indexOf(followAdmin)) {
-        if (msg.startsWith("发送私信")) {
-            context.send("已发送")
-            var message = msg.substring(4)
-            context.getSender().sendMessage(message)
-        }
-        //==================发送私信结束
-
-        if (msg.startsWith("复述")) {
-            context.send("ok")
-            var repeat = msg.substring(2)
-            context.getSubject().sendMessage(repeat)
-        }
-        //======================复述结束
-
-        if (msg.startsWith("传话")) {
-            context.send("正在发送...请稍后")
-            var args = msg.split(" ")
-            var tar = context.getBot().getFriend(Number(args[1]));
-            tar.sendMessage(args[2])
-            context.send("发送完成")
-        }
-        //=============================传话结束
-
-        if (msg.startsWith("群传话")) {
-            context.send("正在发送...请稍后")
-            var args = msg.split(" ")
-            var tar = context.getBot().getGroup(Number(args[1]));
-            tar.sendMessage(args[2])
-            context.send("发送完成")
-        }
-        //=============================群传话结束
-
-        if (msg == ".clear") {
-            var number = utils.clear()
-            context.send("clear all" + "\nclear number:" + number)
-        }
-        //==============================清除所有变量完成
-
-        if (msg.startsWith(".del")) {
-            var del = msg.substring(4)
-            if (del.length == 0) {
-                context.send("请输入变量名！")
-            } else if (utils.get(del) == null) {
-                context.send("未找到该变量！")
-            } else {
-                context.delName = utils.del(del)
-                context.send("del " + delName)
-            }
-        }
-        //=================================删除变量完成
-
-        if (msg.startsWith(".set")) {
-            var createA = msg.substring(4).trim()
-            var create = createA.split(" ")
-            if (create[0].length == 0) {
-                context.send("请输入需创建的变量名！")
-            } else if (create[1].length == 0) {
-                context.send("请输入变量值！")
-            } else {
-                utils.set(create[0], create[1])
-                context.send("set key：" + create[0] + "\n   value：" + create[1])
-            }
-        }
-        //===================================创建变量结束
-
-        if (msg.startsWith(".get")) {
-            var name = msg.substring(4).trim()
-            if (name.length == 0) {
-                context.send(请输入变量名)
-            } else {
-                var value = utils.get(name)
-                context.send(name + " : " + value)
-            }
-        }
-        //=====================================获取变量结束
-
-        if (msg == ".list") {
-            var listA = utils.list()
-            context.send(context.newPlainText(listA.toString()))
-        }
-        //=====================================列出变量结束
-
-        if (msg.startsWith(".kpic")) {
-            var kgetOut = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=" + msg.substring(5).trim())
-            if (kgetOut == null) {
-                context.send("get null")
-            } else {
-                context.send("get!\n" + kgetOut)
-            }
-        }
-        //=======================================get kloping
-
-        if (msg.startsWith(".kloadpic")) {
-            var ksetData = msg.substring(9).trim()
-            var ksetDataOut = ksetData.split(" ")
-            if (ksetDataOut.length < 2) {
-                context.send("key null or value null")
-            } else {
-                var saveLoad = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=pic")
-                var ksetOut = utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=" + ksetDataOut[0] + "&value=" + "<pic:" + ksetDataOut[1] + ">")
-                var klist = utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=pic" + "&value=" + saveLoad + "," + ksetDataOut[0])
-                context.send("kload ok")
-            }
-        }
-        //============================================upload picture to kloping
-
-        if (msg == ".klistpic") {
-            var klist = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=pic")
-            if (klist !== null) {
-                context.send(klist)
-            } else {
-                context.send("pic null")
-            }
-        }
-        //======================================list kloping saved pic
-
-        if (msg.startsWith(".kdelall")) {
-            var delName = msg.substring(8).trim()
-            if (delName.length == 0) {
-                context.send("请输入key")
-            } else {
-                var getDelAllData = utils.requestGet("http://kloping.top/get?pwd=" + delName + "&key=")
-                if (getDelAllData !== null) {
-                    var delAllData = utils.requestGet("http://kloping.top/del?pwd=" + delName + "&key=")
-                    context.send("kdel " + delName + " all")
-                } else {
-                    context.send("pwd null")
-                }
-            }
-        }
-
-        if (msg.startsWith(".kdelone")) {
-            var delName = msg.substring(8).trim()
-            var delNameA = delName.split(" ")
-            if (delNameA < 2) {
-                context.send("请输入pwd or 请输入key")
-            } else {
-                var getDelData = utils.requestGet("http://kloping.top/get?pwd=" + delName[0] + "&key=" + delName[1])
-                if (getDelData !== null) {
-                    var delData = utils.requestGet("http://kloping.top/del?pwd=" + delNameA[0] + "&key=" + delNameA[1])
-                    context.send("kdel " + delNameA[1] + " ok")
-                } else {
-                    context.send("key null")
-                }
-            }
-        }
-        //================================================del kloping key all(x)
-    }
-}
-
-if (context.getType() == "group" || context.getType() == "friend") {
-    if (msg.startsWith(".上传") || msg.startsWith(".upload")) {
-        var iid = getFormatValue("pic", msg)
-        if (iid == null) {
-            context.send("未发现图片")
+//检测admin标签
+function get_admin() {
+    var senderId = context.getSender().getId()
+    var get_admin_state = utils.get("admin" + senderId)
+    if (get_admin_state == null) {
+        var admin_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-admin&key=" + senderId)
+        if (admin_state !== null) {
+            utils.set("admin" + senderId, admin_state)
+            return admin_state
         } else {
-            var iurl = utils.queryUrlFromId(iid)
-            iurl = encodeURI(iurl)
-            var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
-            context.send("upload finish: " + out)
+            utils.set("admin" + senderId, "false")
+            return "false"
+        }
+    } else {
+        return get_admin_state
+    }
+}
+
+//检测Bot杂项开关
+function get_group_state() {
+    var get_group = utils.get("group_state")
+    if (get_group == null) {
+        var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=group_state")
+        utils.set("group_state", group_state)
+        var get_group_state = utils.get("group_state")
+        return get_group_state
+    } else {
+        return get_group
+    }
+}
+
+//群管开关
+function get_manage_state() {
+    var get_manage = utils.get("manage_state")
+    if (get_manage == null) {
+        var manage_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=manage_state")
+        utils.set("manage_state", manage_state)
+        var get_mange_state = utils.get("manage_state")
+        return get_mange_state
+    } else {
+        return get_manage
+    }
+}
+
+//getGroupList
+function getGroup() {
+    var groupList = context.getBot().getGroups()
+    return groupList
+}
+
+//getFriendList
+function getFriend() {
+    var friendList = context.getBot().getFriends()
+    return friendList
+}
+
+//object of api
+function getApiObject(str) {
+    var id = msg.substring(str)
+    var at = getAtId(msg)
+    if (at !== null) {
+        return at
+    } else if (id !== null) {
+        return id
+    } else {
+        return -1
+    }
+}
+
+//getGroupMember
+function getGroupMember() {
+    var subject = context.getSubject().getId()
+    var groupMembers = context.getBot().getGroup(subject).getMembers()
+}
+
+//============================================================================================================================================
+//功能性admin用法
+if (context.getType() == "group" || context.getType() == "friend") {
+    if (get_admin() == "true") {
+        var okv = msg.split(" ")
+        switch (okv[0]) {
+            case "关闭api":
+                if (get_api_state() == "true" || get_api_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=api_state&value=false")
+                    utils.set("api_state", "false")
+                    context.send("正在关闭api...")
+                } else {
+                    context.send("已关闭api")
+                }
+                break
+
+            case "开启api":
+                if (get_api_state() == "false" || get_api_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=api_state&value=true")
+                    utils.set("api_state", "true")
+                    context.send("正在开启api...")
+                } else {
+                    context.send("已开启api")
+                }
+                break
+
+            case "开启杂项":
+                if (get_group_state() == "false" || get_group_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=group_state&value=true")
+                    utils.set("group_state", "true")
+                    context.send("正在开启杂项...")
+                } else {
+                    context.send("杂项已开启")
+                }
+                break
+
+            case "关闭杂项":
+                if (get_group_state() == "true" || get_group_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=group_state&value=false")
+                    utils.set("group_state", "false")
+                    context.send("正在关闭杂项...")
+                } else {
+                    context.send("杂项已关闭")
+                }
+                break
+
+            case "默开":
+                if (get_manage_state() == "false" || get_manage_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=manage_state&value=true")
+                    utils.set("manage_state", "true")
+                    context.send("正在开启...")
+                } else {
+                    context.send("已开启")
+                }
+                break
+
+            case "默关":
+                if (get_manage_state() == "true" || get_manage_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=manage_state&value=false")
+                    utils.set("manage_state", "false")
+                    context.send("正在关闭...")
+                } else {
+                    context.send("已关闭")
+                }
+                break
+
+            case ".state":
+                var api = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=api_state")
+                var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=group_state")
+                var manage_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=manage_state")
+                var botImage = context.getBot().getAvatarUrl()
+                context.send("<pic:" + botImage + ">"
+                    + "\napi状态为:" + api
+                    + "\n杂项状态为:" + group_state
+                    + "\n群管状态为:" + manage_state)
+                break
+
+            case ".log":
+                var log = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=update_log")
+                context.send("更新日志:\n" + log)
+                break
+
+            case ".clear":
+                var number = utils.clear()
+                context.send("clear all" + "\nclear number:" + number)
+                break
+
+            case ".list":
+                var listA = utils.list()
+                context.send(context.newPlainText(listA.toString()))
+                break
         }
     }
-    if (msg.startsWith("喜报")) {
-        context.send(context.uploadImage("https://api.andeer.top/API/img_xibao.php?data=" + msg.substring(2)));
-    }
-    //====================喜报结束
+}
 
-    if (msg.startsWith("甘雨抱抱你")) {
-        context.send(context.uploadImage("https://api.andeer.top/API/img_love.php?qq=" + msg.substring(5)));
-    }
-    //====================甘雨抱抱你结束
 
-    if (msg.startsWith("百度")) {
-        var end = encodeURI(msg.substring(2));
-        context.send("https://m.baidu.com/s?word=" + end);
-    }
-    //================百度结束
-
-    if (msg.startsWith("网易云热评")) {
-        var review = JSON.parse(context.requestGet("https://api.andeer.top/API/wangyi.php" + msg.substring(5)));
-        context.send(review.data);
-    }
-    //=================网易云热评结束
-
-    if (msg.startsWith("解方程")) {
-        var getNumberA = msg.substring(3).trim()
-        var getNumber = getNumberA.split(" ")
-        var unsq = Number(getNumber[1] * getNumber[1] - 4 * getNumber[0] * getNumber[2])
-        var sq = Math.sqrt(unsq)
-        var fz1 = Number((-getNumber[1]) + sq)
-        var fz2 = Number((-getNumber[1]) - sq)
-        var fm1 = Number(2 * getNumber[0])
-        var result1 = Number(fz1 / fm1)
-        var result2 = Number(fz2 / fm1)
-        if (getNumber[0] == 0) {
-            var result3 = Number(getNumber[2] / (-getNumber[1]))
-            context.send(getNumber[1] + "X+" + getNumber[2] + "=0")
-            context.send("X=" + result3)
-            if (getNumber[1] == 0) {
-                context.send("请输入未知数系数")
+//异步&Bot专用===================================================================================================================================
+if (context.getType() == "group" || context.getType() == "friend") {
+    if (context.getSender().getId() == context.getBot().getId()) {
+        //更新日志
+        var update_state = utils.get("update_state")
+        var time = getTime()
+        if (update_state == true) {
+            var qid2 = utils.get("qid1")
+            var qid = context.getSubject().getId()
+            if (qid == qid2) {
+                var log = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=update_log")
+                var newLog = msg
+                if (log !== null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + log + "\n" + time + " " + newLog)
+                    context.send("更新成功")
+                    utils.set("update_state", false)
+                } else {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + time + " " + newLog)
+                    context.send("更新成功")
+                    utils.set("update_state", false)
+                }
             }
-        } else {
-            if (unsq >= 0) {
-                context.send(getNumber[0] + "XX+" + getNumber[1] + "X+" + getNumber[2] + "=0")
-                context.send("X1=" + result1 + "\nX2=" + result2)
-            }
-            if (unsq < 0) {
-                context.send("该方程无解")
-            }
+        } else if (msg == ".update") {
+            context.send("启动更新日志 请输入")
+            var qid1 = context.getSubject().getId()
+            utils.set("qid1", qid1)
+            utils.set("update_state", true)
         }
-    }
-    //====================================解方程结束
-}
-//======================================function
 
+        //setLog
+        var setLog_state = utils.get("setLog_state")
+        if (setLog_state == true) {
+            var qid2 = utils.get("qid1")
+            var qid = context.getSubject().getId()
+            if (qid == qid2) {
+                var newLog = msg
+                if (newLog == "null") {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=")
+                    context.send("已清空更新日志")
+                    utils.set("setLog_state", false)
+                } else {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + newLog)
+                    context.send("修改成功")
+                    utils.set("setLog_state", false)
+                }
+            }
+        } else if (msg == ".setLog") {
+            context.send("开始修改更新日志 请输入")
+            var qid1 = context.getSubject().getId()
+            utils.set("qid1", qid1)
+            utils.set("setLog_state", true)
+        }
 
-if (context.getType() == "MemberMuteEvent") {
-    event.getGroup().sendMessage(context.newPlainText(event.getMember().getNick() + "\(" + event.getMember().getId() + "\)" + "禁止说话" + event.getDurationSeconds() + "秒"))
-}
-
-if (context.getType() == "MemberUnmuteEvent") {
-    var at = event.getMember().getId()
-    //var atA = context.deSerialize("<at:" + at + ">")
-    //==== context.deSerialize 返回的对象是Message 不能拼接字符串
-    //event.getGroup().sendMessage(atA + "被解除禁言了")
-    var out = context.deSerialize("<at:" + at + ">\n被解除禁言了")
-    event.getGroup().sendMessage(out)
-}
-//========================================获取禁言事件
-
-if (context.getType() == "BotMuteEvent") {
-    var bemute = context.getBot().getGroup(Number(868060057))
-    bemute.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + event.getGroup().getName() + "”（"
-        + event.getGroup().getId() + "）中被禁言" + "\n禁言时长为：" + event.getDurationSeconds() + "秒" +
-        "\n操作者为：" + event.getOperator().getNameCard() + "（" + event.getOperator().getId() + "）"))
-}
-//=========================================获取Bot被禁言，在群868060057中提示
-
-if (msg.indexOf("<at:" + context.getBot().getId() + ">") >= 0) {
-    var group = context.getBot().getGroup(Number(868060057))
-    var tg = context.getSubject()
-    var sn = context.getSender().getNameCard()
-    if (sn === null || sn === "") {
-        sn = context.getSender().getNick()
-    }
-    group.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + tg.getName() + "”（" + tg.getId() + "）中被"
-        + sn + "（" + context.getSender().getId() + "）提到"))
-    group.sendMessage(context.deSerialize(("该消息为:\n" + msg)))
-}
-//=======================================如果Bot被提到，则转发至群
-
-if (context.getType() == "group") {
-    if (context.getSender().getId() == 2898304046) {
-        if (msg.startsWith(".禁言")) {
-            var qid = getAtId(msg)
-            if (qid == null) {
-                context.send("未发现at")
+        //setAdmin
+        if (msg.startsWith("setAdmin")) {
+            var admin = msg.split(" ")
+            if (admin.length < 2) {
+                context.send("未检测到at")
             } else {
-                var b = getAllNumber(msg.replace(qid, ""), 1)
-                if (msg.endsWith("秒") || msg.endsWith("s") || msg.endsWith(" ")) {
-                    context.getSubject().get(qid).mute(b)
-                } else if (msg.endsWith("分") || msg.endsWith("m")) {
-                    var timeM = Number(b * 60)
-                    context.getSubject().get(qid).mute(timeM)
-                } else if (msg.endsWith("小时") || msg.endsWith("h")) {
-                    var timeH = Number(b * 3600)
-                    context.getSubject().get(qid).mute(timeH)
+                var getAdminId = getAtId(msg)
+                var admin_state = utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-admin&key=" + getAdminId + "&value=true")
+                utils.set("admin" + getAdminId, admin_state)
+                context.send("已设置" + context.getSender().getNick() + "(" + getAdminId + ")为管理")
+            }
+        }
+
+        //unAdmin
+        if (msg.startsWith("unAdmin")) {
+            var admin = msg.split(" ")
+            if (admin.length < 2) {
+                context.send("未检测到at")
+            } else {
+                var getAdminId = getAtId(msg)
+                utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-admin&key=" + getAdminId)
+                utils.del("admin" + getAdminId)
+                context.send("已取消" + context.getSender().getNick() + "(" + getAdminId + ")的管理")
+            }
+        }
+    }
+}
+
+//api调用=========================================================================================================================
+if (context.getType() == "group" || context.getType() == "friend") {
+    if (get_api_state() == "true") {
+        //喜报  
+        if (msg.startsWith("喜报")) {
+            context.send(context.uploadImage("https://api.andeer.top/API/img_xibao.php?data=" + msg.substring(2)));
+        }
+
+        //甘雨抱抱你
+        if (msg.startsWith("甘雨抱抱你")) {
+            var object = getApiObject(5)
+            context.send(context.uploadImage("https://api.andeer.top/API/img_love.php?qq=" + object))
+        }
+
+        //贴贴
+        if (msg.startsWith("贴贴")) {
+            var object = getApiObject(2)
+            context.send(context.uploadImage("https://api.xingzhige.com/API/baororo/?qq=" + object))
+        }
+
+        //顶
+        if (msg.startsWith("顶")) {
+            var object = getApiObject(1)
+            context.send(context.uploadImage("https://api.xingzhige.com/API/dingqiu/?qq=" + object))
+        }
+
+        //咬
+        if (msg.startsWith("咬")) {
+            var object = getApiObject(1)
+            context.send(context.uploadImage("https://api.xingzhige.com/API/bite/?qq=" + object))
+        }
+
+        //拍
+        if (msg.startsWith("拍")) {
+            var object = getApiObject(1)
+            context.send(context.uploadImage("https://api.xingzhige.com/API/grab/?qq=" + object))
+        }
+
+        //百度
+        if (msg.startsWith("百度")) {
+            var end = encodeURI(msg.substring(2));
+            context.send("https://m.baidu.com/s?word=" + end);
+        }
+
+        //网易云热评
+        if (msg.startsWith("网易云热评")) {
+            var review = JSON.parse(utils.requestGet("https://api.andeer.top/API/wangyi.php" + msg.substring(5)));
+            context.send(review.data);
+        }
+
+        //解方程
+        if (msg.startsWith("解方程")) {
+            var getNumberA = msg.substring(3).trim()
+            var getNumber = getNumberA.split(" ")
+            var unsq = Number(getNumber[1] * getNumber[1] - 4 * getNumber[0] * getNumber[2])
+            var sq = Math.sqrt(unsq)
+            var fz1 = Number((-getNumber[1]) + sq)
+            var fz2 = Number((-getNumber[1]) - sq)
+            var fm1 = Number(2 * getNumber[0])
+            var result1 = Number(fz1 / fm1)
+            var result2 = Number(fz2 / fm1)
+            if (getNumber[0] == 0) {
+                var result3 = Number(getNumber[2] / (-getNumber[1]))
+                context.send(getNumber[1] + "X+" + getNumber[2] + "=0")
+                context.send("X=" + result3)
+                if (getNumber[1] == 0) {
+                    context.send("请输入未知数系数")
+                }
+            } else {
+                if (unsq >= 0) {
+                    context.send(getNumber[0] + "XX+" + getNumber[1] + "X+" + getNumber[2] + "=0")
+                    context.send("X1=" + result1 + "\nX2=" + result2)
+                }
+                if (unsq < 0) {
+                    context.send("该方程无解")
                 }
             }
         }
     }
 }
-//===============================================================禁言结束
 
-if (context.getType() == "group") {
-    if (context.getSender().getId() == 2898304046) {
-        if (msg.startsWith("解除禁言")) {
+//杂项开关=======================================================================================================================================
+if (get_group_state() == "true") {
+    //获取禁言事件
+    if (context.getType() == "MemberMuteEvent") {
+        event.getGroup().sendMessage(context.newPlainText(event.getMember().getNick() + "\(" + event.getMember().getId() + "\)" + "禁止说话" + event.getDurationSeconds() + "秒"))
+    }
+
+    //获取禁言事件
+    if (context.getType() == "MemberUnmuteEvent") {
+        var out = context.deSerialize("<at:" + at + ">\n被解除禁言了")
+        event.getGroup().sendMessage(out)
+    }
+
+    //获取Bot被禁言，在群704114206中提示
+    if (context.getType() == "BotMuteEvent") {
+        var bemute = context.getBot().getGroup(Number(704114206))
+        bemute.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + event.getGroup().getName() + "”（"
+            + event.getGroup().getId() + "）中被禁言" + "\n禁言时长为：" + event.getDurationSeconds() + "秒" +
+            "\n操作者为：" + event.getOperator().getNameCard() + "（" + event.getOperator().getId() + "）"))
+    }
+
+    //如果Bot被提到，则转发至群
+    if (msg.indexOf("<at:" + context.getBot().getId() + ">") >= 0) {
+        var group = context.getBot().getGroup(Number(704114206))
+        var tg = context.getSubject()
+        var sn = context.getSender().getNameCard()
+        var time = getTime()
+        if (sn === null || sn === "") {
+            sn = context.getSender().getNick()
+        }
+        group.sendMessage(time)
+        group.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + tg.getName() + "”（" + tg.getId() + "）中被"
+            + sn + "（" + context.getSender().getId() + "）提到"))
+        group.sendMessage(context.deSerialize(("该消息为:\n" + msg)))
+    }
+}
+
+//群管功能========================================================================================================================================
+if (get_manage_state == "true") {
+    if (context.getType() == "group") {
+        if (get_admin() == "true") {
+            //禁言
+            if (msg.startsWith("默禁言")) {
+                var qid = getAtId(msg)
+                if (qid == null) {
+                    context.send("未发现at")
+                } else {
+                    var b = getAllNumber(msg.replace(qid, ""), 1)
+                    if (msg.endsWith("秒") || msg.endsWith("s") || msg.endsWith(" ")) {
+                        context.getSubject().get(qid).mute(b)
+                    } else if (msg.endsWith("分") || msg.endsWith("m")) {
+                        var timeM = Number(b * 60)
+                        context.getSubject().get(qid).mute(timeM)
+                    } else if (msg.endsWith("小时") || msg.endsWith("h")) {
+                        var timeH = Number(b * 3600)
+                        context.getSubject().get(qid).mute(timeH)
+                    }
+                }
+            }
+        }
+
+        //解除禁言
+        if (msg.startsWith("默解除禁言")) {
             var qid = getAtId(msg)
             if (qid !== null) {
                 context.getSubject().get(qid).unmute()
@@ -342,32 +485,3 @@ if (context.getType() == "group") {
         }
     }
 }
-//==========================================================解除禁言结束
-
-if (context.getType() == "group") {
-    if (context.getSender().getId() == 2898304046) {
-        var kick_state = utils.get("kicker_state")
-        if (kick_state !== null || kick_state == true) {
-            var qunid2 = utils.get("qunid1")
-            var qunid = context.getSubject().getId()
-            if (qunid == qunid2) {
-                var tid2 = utils.get("tid1")
-                var tips = msg
-                context.getSubject(qunid2).get(tid2).kick(tips)
-                utils.set("kicker_state", false)
-            }
-        } else if (msg.startsWith("kick")) {
-            var tid = getAtId(msg)
-            var qunid = context.getSubject().getId()
-            if (tid == null) {
-                context.send("未发现at")
-            } else {
-                utils.set("kicker_state", true)
-                utils.set("tid1", tid)
-                utils.set("qunid1", qunid)
-                context.send("请输入踢出原因")
-            }
-        }
-    }
-}
-//============================================kick结束
