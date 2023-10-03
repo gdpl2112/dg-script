@@ -21,6 +21,11 @@ if (context.getType() === "group") {
         }
     }
     //====================解析结束
+    if (msg.startsWith("妤百度")) {
+        var end = encodeURI(msg.substring(2));
+        context.send("https://m.baidu.com/s?word=" + end);
+    }
+    //================百度结束
 
     //喜报  
     if (msg.startsWith("喜报")) {
@@ -56,12 +61,6 @@ if (context.getType() === "group") {
         var object = getApiObject(1)
         context.send(context.uploadImage("https://api.xingzhige.com/API/grab/?qq=" + object))
     }
-
-    //百度
-    if (msg.startsWith("百度")) {
-        var end = encodeURI(msg.substring(2));
-        context.send("https://m.baidu.com/s?word=" + end);
-    }
 }
 
 
@@ -73,7 +72,8 @@ function get_group_state() {
     if (get_group == null) {
         var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-189696825&key=group_state")
         utils.set("group_state", group_state)
-        return utils.get("group_state")
+        var get_group_state = utils.get("group_state")
+        return get_group_state
     } else {
         return get_group
     }
@@ -90,6 +90,44 @@ function getTime() {
     var minutes = time.getMinutes()
     var seconds = time.getSeconds()
     return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+}
+
+//object of api
+function getApiObject(str) {
+    var id = msg.substring(str)
+    var at = getAtId(msg)
+    if (at !== null) {
+        return at
+    } else if (id !== null) {
+        return id
+    } else {
+        return -1
+    }
+}
+
+//获取指定格式值 目前仅支持获取第一个出现的格式元素
+function getFormatValue(fk, inStr) {
+    var i1 = inStr.indexOf("<")
+    var i2 = inStr.indexOf(">")
+    if (i1 < 0 || i2 <= 0) return null
+    var format0 = inStr.substring(i1 + 1, i2)
+    var args = format0.split(":")
+    if (args[0] !== fk) {
+        if (i2 <= inStr.length) {
+            return getFormatValue(fk, inStr.substring(i2 + 1))
+        } else {
+            return null
+        }
+    } else {
+        return args[1]
+    }
+}
+
+//获取at格式值并返回Number 或 null
+function getAtId(inStr) {
+    var end = getFormatValue("at", inStr)
+    if (end !== null) return Number(end)
+    else return null
 }
 
 
@@ -156,41 +194,5 @@ if (get_group_state() == "true") {
         group.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + tg.getName() + "”（" + tg.getId() + "）中被"
             + sn + "（" + context.getSender().getId() + "）提到"))
         group.sendMessage(context.deSerialize(("该消息为:\n" + msg)))
-    }
-}
-
-
-//生成从minNum到maxNum的随机数
-function randomNum(minNum, maxNum) {
-    switch (arguments.length) {
-        case 1:
-            return parseInt(Math.random() * minNum + 1, 10);
-            break;
-        case 2:
-            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
-            break;
-        default:
-            return 0;
-            break;
-    }
-}
-
-if (context.getType() == "NudgeEvent") {
-    if (event.getFrom().getId() !== event.getBot().getId() && event.getTarget().getId() == event.getBot().getId()) {
-        var r0 = randomNum(1, 3)
-        switch (r0) {
-            case 1:
-                event.getSubject().sendMessage(context.newPlainText("反击三连!!"))
-                event.getFrom().nudge().sendTo(event.getSubject())
-                event.getFrom().nudge().sendTo(event.getSubject())
-                event.getFrom().nudge().sendTo(event.getSubject())
-                break;
-            case 2:
-                event.getSubject().sendMessage(context.newPlainText("啊，被戳洗了"))
-                break;
-            case 3:
-                //event.getSubject().sendMessage(context.newPlainText("直接嘎了"))
-                break;
-        }
     }
 }

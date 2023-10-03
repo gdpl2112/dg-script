@@ -3,6 +3,7 @@
 //pwd=dg-2898304046 key=update_log 储存本地异步"update_state"
 //pwd=dg-2898304046 key=group_state 储存本地"group_state"
 //pwd=dg-2898304046 key=manage_state 储存本地"manage_state"
+//pwd=dg-2898304046 key=nudge_state 储存本地"nudge_state"
 
 //本地异步"setLog_state"
 
@@ -126,6 +127,19 @@ function get_manage_state() {
     }
 }
 
+//拍一拍开关
+function get_nudge_state() {
+    var get_nudge = utils.get("nudge_state")
+    if (get_nudge == null) {
+        var nudge_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=nudge_state")
+        utils.set("nudge_state", nudge_state)
+        var get_nudge_state = utils.get("nudge_state")
+        return get_nudge_state
+    } else {
+        return get_nudge
+    }
+}
+
 //getGroupList
 function getGroup() {
     var groupList = context.getBot().getGroups()
@@ -148,6 +162,21 @@ function getApiObject(str) {
         return id
     } else {
         return -1
+    }
+}
+
+//getRandomNumber
+function getRandomNumber(minNum, maxNum) {
+    switch (arguments.length) {
+        case 1:
+            return parseInt(Math.random() * minNum + 1, 10);
+            break;
+        case 2:
+            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+            break;
+        default:
+            return 0;
+            break;
     }
 }
 
@@ -223,15 +252,37 @@ if (context.getType() == "group" || context.getType() == "friend") {
                 }
                 break
 
+            case "开启戳一戳":
+                if (get_nudge_state() == "false" || get_nudge_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=nudge_state&value=true")
+                    utils.set("nudge_state", "true")
+                    context.send("正在开启戳一戳...")
+                } else {
+                    context.send("已开启戳一戳")
+                }
+                break
+
+            case "关闭戳一戳":
+                if (get_nudge_state() == "true" || get_nudge_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=nudge_state&value=false")
+                    utils.set("nudge_state", "false")
+                    context.send("正在关闭戳一戳...")
+                } else {
+                    context.send("已关闭戳一戳")
+                }
+                break
+
             case ".state":
                 var api = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=api_state")
                 var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=group_state")
                 var manage_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=manage_state")
+                var nudge_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=nudge_state")
                 var botImage = context.getBot().getAvatarUrl()
-                context.send("<pic:" + botImage + ">"
+                context.send("<at:" + context.getSender().getId() + ">"
                     + "\napi状态为:" + api
                     + "\n杂项状态为:" + group_state
-                    + "\n群管状态为:" + manage_state)
+                    + "\n群管状态为:" + manage_state
+                    + "\n戳一戳状态为:" + nudge_state)
                 break
 
             case ".log":
@@ -482,6 +533,40 @@ if (get_manage_state == "true") {
             if (qid !== null) {
                 context.getSubject().get(qid).unmute()
             }
+        }
+    }
+}
+
+//戳一戳回复=====================================================================================================================================
+if (get_nudge_state() == "true") {
+    if (context.getType() == "NudgeEvent") {
+        if (event.getFrom().getId() !== event.getBot().getId() && event.getTarget().getId() == event.getBot().getId()) {
+            var randomReply = getRandomNumber(1, 5)
+            switch (randomReply) {
+                case 1:
+                    event.getSubject().sendMessage(context.newPlainText("不要再戳辣>ᯅ<在戳就坏惹！"))
+                    break
+                case 2:
+                    event.getSubject().sendMessage(context.newPlainText("戳戳戳！就知道戳！服啦"))
+                    break
+                case 3:
+                    event.getSubject().sendMessage(context.newPlainText("戳我是想我的意思嘛~嘻嘻"))
+                    break
+                case 4:
+                    event.getSubject().sendMessage(context.newPlainText("反击!"))
+                    event.getFrom().nudge().sendTo(event.getSubject())
+                    break
+                case 5:
+                    event.getSubject().sendMessage(context.newPlainText("偷偷摸摸的ヾ(ﾟ∀ﾟゞ)系不系暗恋窝鸭"))
+                    break
+            }
+        }
+
+        if (msg.startsWith("戳")) {
+            var beNudge = getApiObject(1)
+            var qid = context.getSubject().getId()
+            context.gerGroup(qid).get(beNudge).nudge().sendTo(group)
+            event.getSubject().sendMessage(context.newPlainText("戳戳你的awa"))
         }
     }
 }
