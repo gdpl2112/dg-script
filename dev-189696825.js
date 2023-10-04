@@ -6,7 +6,7 @@ if (context.getType() === "group") {
             if (urls !== null) {
                 context.send("正在解析...\n请稍等")
                 var u0 = encodeURI(urls[0]);
-                var arr = JSON.parse(utils.requestGet("http://kloping.top/api/search/parseImgs?url=" + u0 + "&type=ks"))
+                var arr = JSON.parse(utils.requestGet("http://localhost/api/search/parseImgs?url=" + u0 + "&type=ks"))
                 var builder = context.forwardBuilder();
                 for (var i = 0; i < arr.length; i++) {
                     var e = arr[i];
@@ -70,7 +70,7 @@ if (context.getType() === "group") {
 function get_group_state() {
     var get_group = utils.get("group_state")
     if (get_group == null) {
-        var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-189696825&key=group_state")
+        var group_state = utils.requestGet("http://localhost/get?pwd=dg-189696825&key=group_state")
         utils.set("group_state", group_state)
         var get_group_state = utils.get("group_state")
         return get_group_state
@@ -139,7 +139,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
         switch (okv[0]) {
             case "开启杂项":
                 if (get_group_state() == "false" || get_group_state() == null) {
-                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=group_state&value=true")
+                    utils.requestGet("http://localhost/put?pwd=dg-189696825&key=group_state&value=true")
                     utils.set("group_state", "true")
                     context.send("正在开启...")
                 } else {
@@ -149,7 +149,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
             case "关闭杂项":
                 if (get_group_state() == "true" || get_group_state() == null) {
-                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=group_state&value=false")
+                    utils.requestGet("http://localhost/put?pwd=dg-189696825&key=group_state&value=false")
                     utils.set("group_state", "false")
                     context.send("正在关闭...")
                 } else {
