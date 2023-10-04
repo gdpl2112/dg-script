@@ -95,7 +95,7 @@ if (context.getType() == "group") {
             break
         case "戳自己":
             var group = context.getSubject()
-            var member = gr.getBotAsMember()
+            var member = group.getBotAsMember()
             member.nudge().sendTo(group)
             break
     }
