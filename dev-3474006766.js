@@ -147,6 +147,46 @@ function getImageUrlAll(msg) {
     }
 }
 
+
+function gotoParseImages() {
+    var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+    var urls = msg.match(reg)
+    if (urls !== null) {
+        context.send("正在解析...\n请稍等")
+        var u0 = encodeURI(urls[0]);
+        var jo0 = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + u0))
+        if (jo0 == null) {
+            context.send("解析失败!")
+        } else {
+            context.send("解析成功!\n数量:" + jo0.count + "\n正在发送,请稍等..")
+            var arr = jo0.images
+            var builder = context.forwardBuilder();
+            for (var i = 0; i < arr.length; i++) {
+                var e = arr[i];
+                builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
+            }
+            context.send(builder.build())
+        }
+    } else {
+        context.send("未发现链接")
+    }
+}
+
+//生成从minNum到maxNum的随机数
+function randomNum(minNum, maxNum) {
+    switch (arguments.length) {
+        case 1:
+            return parseInt(Math.random() * minNum + 1, 10);
+            break;
+        case 2:
+            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+            break;
+        default:
+            return 0;
+            break;
+    }
+}
+
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() == context.getBot().getId()) {
         if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
@@ -225,43 +265,25 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<pic:" + "https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
     }
 }
-
-function gotoParseImages() {
-    var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-    var urls = msg.match(reg)
-    if (urls !== null) {
-        context.send("正在解析...\n请稍等")
-        var u0 = encodeURI(urls[0]);
-        var jo0 = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + u0))
-        if (jo0 == null) {
-            context.send("解析失败!")
-        } else {
-            context.send("解析成功!\n数量:" + jo0.count + "\n正在发送,请稍等..")
-            var arr = jo0.images
-            var builder = context.forwardBuilder();
-            for (var i = 0; i < arr.length; i++) {
-                var e = arr[i];
-                builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
+if (context.getType() === "group") {
+    var sid = context.getSender().getId();
+    if (context.getSubject().getId() == 868060057) {
+        if (msg == "扫码帮助") {
+            context.send("不填就是群的可选，1为qun.qq.com，2为vip.qq.com，3为qzone.qq.com，4为huifu.qq.com，5为id.qq.com，6为docs.qq.com，7为connect.qq.com")
+        } else if (msg.startsWith("扫码登录")) {
+            var result0 = JSON.parse(utils.requestGet("http://api.wuxixindong.cn/api/qqrcode.php?type=" + msg.substring(4)))
+            utils.set(sid, result0.qrsig)
+            context.send(result0.url)
+        } else if (msg == "完成") {
+            var qrsig = utils.get(sid)
+            if (qrsig != null) {
+                var result1 = JSON.parse(utils.requestGet("https://api.wuxixindong.cn/api/qqrcode.php?qrsig=" + qrsig))
+                context.send(result1.text)
+                if (result1.data != null) {
+                    context.send(result1.data)
+                }
             }
-            context.send(builder.build())
         }
-    } else {
-        context.send("未发现链接")
-    }
-}
-
-//生成从minNum到maxNum的随机数
-function randomNum(minNum, maxNum) {
-    switch (arguments.length) {
-        case 1:
-            return parseInt(Math.random() * minNum + 1, 10);
-            break;
-        case 2:
-            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
-            break;
-        default:
-            return 0;
-            break;
     }
 }
 
@@ -283,6 +305,5 @@ if (context.getType() == "NudgeEvent") {
         // }
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
-
 }
-//23/10/2
+//23/10/5
