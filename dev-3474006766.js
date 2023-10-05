@@ -273,7 +273,7 @@ if (context.getType() === "group") {
         } else if (msg.startsWith("扫码登录")) {
             var result0 = JSON.parse(utils.requestGet("http://api.wuxixindong.cn/api/qqrcode.php?type=" + msg.substring(4)))
             utils.set(sid, result0.qrsig)
-            context.send(result0.url)
+            context.send("<pic:" + result0.url + ">")
         } else if (msg == "完成") {
             var qrsig = utils.get(sid)
             if (qrsig != null) {
@@ -306,4 +306,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/5
+//23/10/5-1
