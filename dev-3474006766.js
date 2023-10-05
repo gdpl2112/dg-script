@@ -68,6 +68,14 @@ if (context.getType() == "group") {
                         context.send("out:\n" + outo.in)
                 }
                 break
+            case "/req-get":
+                if (okv.length !== 2) {
+                    context.send("args size less 2")
+                } else {
+                    var out = utils.requestGet(okv[1])
+                    context.send("out :\n" + out)
+                }
+                break
             case "/test":
                 var face = context.toSuperFace(338)
                 context.send(face)
@@ -274,14 +282,11 @@ if (context.getType() === "group") {
             var result0 = JSON.parse(utils.requestGet("http://api.wuxixindong.cn/api/qqrcode.php?type=" + msg.substring(4)))
             utils.set(sid, result0.qrsig)
             context.send("<pic:" + result0.url + ">")
-        } else if (msg == "完成") {
+        } else if (msg == "完成" || msg == "ok") {
             var qrsig = utils.get(sid)
             if (qrsig != null) {
                 var result1 = JSON.parse(utils.requestGet("https://api.wuxixindong.cn/api/qqrcode.php?qrsig=" + qrsig))
-                context.send(result1.text)
-                if (result1.data != null) {
-                    context.send(result1.data)
-                }
+                context.send(result1.text + "\n" + JSON.stringify(result1.data))
             }
         }
     }
