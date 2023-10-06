@@ -247,10 +247,8 @@ if (context.getType() === "group") {
             }
         } else if (msg == "/tsm") {
             var ms = context.getSubject().getMembers()
-            var iterator = ms.iterator();
-            while (iterator.hasNext()){
-                context.send(iterator.next())
-            }
+            var list = utils.newObject("java.util.ArrayList", group.getMembers().delegate)
+            context.send(list.toString())
         }
     }
 }

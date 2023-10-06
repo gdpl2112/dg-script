@@ -33,7 +33,7 @@ class Utils {
     requestPost(url, data);
 
     queryUrlFromId(id);
-    
+
     serialize(msg);
 
     get(key);
@@ -45,6 +45,8 @@ class Utils {
     clear();
 
     list();
+
+    newObject(name, args);
 }
 
 var msg = "";
