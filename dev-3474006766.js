@@ -247,8 +247,9 @@ if (context.getType() === "group") {
             }
         } else if (msg == "/tsm") {
             var ms = context.getSubject().getMembers()
-            var list = utils.newObject("java.util.ArrayList", ms.delegate)
-            context.send(list.toString())
+            var list = utils.newObject("java.util.ArrayList")
+            list.addAll(ms.delegate)
+            context.send(context.newPlainText(list.toString()))
         }
     }
 }
