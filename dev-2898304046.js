@@ -74,7 +74,7 @@ function getTime() {
 function get_api_state() {
     var get_api = utils.get("api_state")
     if (get_api == null) {
-        var api_now_state = utils.requestGet("http://localhost/get?pwd=dg-2898304046&key=api_state")
+        var api_now_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=api_state")
         utils.set("api_state", api_now_state)
         var get_api1 = utils.get("api_state")
         return get_api1
@@ -88,7 +88,7 @@ function get_admin() {
     var senderId = context.getSender().getId()
     var get_admin_state = utils.get("admin" + senderId)
     if (get_admin_state == null) {
-        var admin_state = utils.requestGet("http://localhost/get?pwd=dg-2898304046-admin&key=" + senderId)
+        var admin_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-admin&key=" + senderId)
         if (admin_state !== null) {
             utils.set("admin" + senderId, admin_state)
             return admin_state
@@ -105,7 +105,7 @@ function get_admin() {
 function get_group_state() {
     var get_group = utils.get("group_state")
     if (get_group == null) {
-        var group_state = utils.requestGet("http://localhost/get?pwd=dg-2898304046&key=group_state")
+        var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=group_state")
         utils.set("group_state", group_state)
         var get_group_state = utils.get("group_state")
         return get_group_state
@@ -118,7 +118,7 @@ function get_group_state() {
 function get_manage_state() {
     var get_manage = utils.get("manage_state")
     if (get_manage == null) {
-        var manage_state = utils.requestGet("http://localhost/get?pwd=dg-2898304046&key=manage_state")
+        var manage_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=manage_state")
         utils.set("manage_state", manage_state)
         var get_mange_state = utils.get("manage_state")
         return get_mange_state
@@ -131,7 +131,7 @@ function get_manage_state() {
 function get_nudge_state() {
     var get_nudge = utils.get("nudge_state")
     if (get_nudge == null) {
-        var nudge_state = utils.requestGet("http://localhost/get?pwd=dg-2898304046&key=nudge_state")
+        var nudge_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=nudge_state")
         utils.set("nudge_state", nudge_state)
         var get_nudge_state = utils.get("nudge_state")
         return get_nudge_state
@@ -194,7 +194,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
         switch (okv[0]) {
             case "关闭api":
                 if (get_api_state() == "true" || get_api_state() == null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=api_state&value=false")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=api_state&value=false")
                     utils.set("api_state", "false")
                     context.send("正在关闭api...")
                 } else {
@@ -204,7 +204,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
             case "开启api":
                 if (get_api_state() == "false" || get_api_state() == null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=api_state&value=true")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=api_state&value=true")
                     utils.set("api_state", "true")
                     context.send("正在开启api...")
                 } else {
@@ -214,7 +214,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
             case "开启杂项":
                 if (get_group_state() == "false" || get_group_state() == null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=group_state&value=true")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=group_state&value=true")
                     utils.set("group_state", "true")
                     context.send("正在开启杂项...")
                 } else {
@@ -224,7 +224,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
             case "关闭杂项":
                 if (get_group_state() == "true" || get_group_state() == null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=group_state&value=false")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=group_state&value=false")
                     utils.set("group_state", "false")
                     context.send("正在关闭杂项...")
                 } else {
@@ -234,7 +234,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
             case "默开":
                 if (get_manage_state() == "false" || get_manage_state() == null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=manage_state&value=true")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=manage_state&value=true")
                     utils.set("manage_state", "true")
                     context.send("正在开启...")
                 } else {
@@ -244,7 +244,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
             case "默关":
                 if (get_manage_state() == "true" || get_manage_state() == null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=manage_state&value=false")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=manage_state&value=false")
                     utils.set("manage_state", "false")
                     context.send("正在关闭...")
                 } else {
@@ -254,7 +254,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
             case "开启戳一戳":
                 if (get_nudge_state() == "false" || get_nudge_state() == null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=nudge_state&value=true")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=nudge_state&value=true")
                     utils.set("nudge_state", "true")
                     context.send("正在开启戳一戳...")
                 } else {
@@ -264,7 +264,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
             case "关闭戳一戳":
                 if (get_nudge_state() == "true" || get_nudge_state() == null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=nudge_state&value=false")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=nudge_state&value=false")
                     utils.set("nudge_state", "false")
                     context.send("正在关闭戳一戳...")
                 } else {
@@ -273,10 +273,10 @@ if (context.getType() == "group" || context.getType() == "friend") {
                 break
 
             case ".state":
-                var api = utils.requestGet("http://localhost/get?pwd=dg-2898304046&key=api_state")
-                var group_state = utils.requestGet("http://localhost/get?pwd=dg-2898304046&key=group_state")
-                var manage_state = utils.requestGet("http://localhost/get?pwd=dg-2898304046&key=manage_state")
-                var nudge_state = utils.requestGet("http://localhost/get?pwd=dg-2898304046&key=nudge_state")
+                var api = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=api_state")
+                var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=group_state")
+                var manage_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=manage_state")
+                var nudge_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=nudge_state")
                 var botImage = context.getBot().getAvatarUrl()
                 context.send("<at:" + context.getSender().getId() + ">"
                     + "\napi状态为:" + api
@@ -286,7 +286,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
                 break
 
             case ".log":
-                var log = utils.requestGet("http://localhost/get?pwd=dg-2898304046&key=update_log")
+                var log = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=update_log")
                 context.send("更新日志:\n" + log)
                 break
 
@@ -314,14 +314,14 @@ if (context.getType() == "group" || context.getType() == "friend") {
             var qid2 = utils.get("qid1")
             var qid = context.getSubject().getId()
             if (qid == qid2) {
-                var log = utils.requestGet("http://localhost/get?pwd=dg-2898304046&key=update_log")
+                var log = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=update_log")
                 var newLog = msg
                 if (log !== null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=update_log&value=" + log + "\n" + time + " " + newLog)
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + log + "\n" + time + " " + newLog)
                     context.send("更新成功")
                     utils.set("update_state", false)
                 } else {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=update_log&value=" + time + " " + newLog)
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + time + " " + newLog)
                     context.send("更新成功")
                     utils.set("update_state", false)
                 }
@@ -341,11 +341,11 @@ if (context.getType() == "group" || context.getType() == "friend") {
             if (qid == qid2) {
                 var newLog = msg
                 if (newLog == "null") {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=update_log&value=")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=")
                     context.send("已清空更新日志")
                     utils.set("setLog_state", false)
                 } else {
-                    utils.requestGet("http://localhost/put?pwd=dg-2898304046&key=update_log&value=" + newLog)
+                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + newLog)
                     context.send("修改成功")
                     utils.set("setLog_state", false)
                 }
@@ -358,28 +358,26 @@ if (context.getType() == "group" || context.getType() == "friend") {
         }
 
         //setAdmin
-        if (msg.startsWith("setAdmin")) {
-            var admin = msg.split(" ")
-            if (admin.length < 2) {
+        if (msg.startsWith(".setAdmin")) {
+            var getAdminId = getApiObject(9)
+            if (msg.length <= 9) {
                 context.send("未检测到at")
             } else {
-                var getAdminId = getAtId(msg)
-                var admin_state = utils.requestGet("http://localhost/put?pwd=dg-2898304046-admin&key=" + getAdminId + "&value=true")
-                utils.set("admin" + getAdminId, admin_state)
-                context.send("已设置" + context.getSender().getNick() + "(" + getAdminId + ")为管理")
+                var admin_state = utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-admin&key=" + getAdminId + "&value=true")
+                utils.set("admin" + getAdminId, "true")
+                context.send("已设置" + context.getSubject().get(getAdminId).getNick() + "(" + getAdminId + ")为管理")
             }
         }
 
         //unAdmin
-        if (msg.startsWith("unAdmin")) {
-            var admin = msg.split(" ")
-            if (admin.length < 2) {
+        if (msg.startsWith(".unAdmin")) {
+            var getAdminId = getApiObject(8)
+            if (msg.length <= 8) {
                 context.send("未检测到at")
             } else {
-                var getAdminId = getAtId(msg)
-                utils.requestGet("http://localhost/del?pwd=dg-2898304046-admin&key=" + getAdminId)
+                utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-admin&key=" + getAdminId)
                 utils.del("admin" + getAdminId)
-                context.send("已取消" + context.getSender().getNick() + "(" + getAdminId + ")的管理")
+                context.send("已取消" + context.getSubject().get(getAdminId).getNick() + "(" + getAdminId + ")的管理")
             }
         }
     }
@@ -504,25 +502,23 @@ if (get_group_state() == "true") {
 }
 
 //群管功能========================================================================================================================================
-if (get_manage_state == "true") {
-    if (context.getType() == "group") {
-        if (get_admin() == "true") {
-            //禁言
-            if (msg.startsWith("默禁言")) {
-                var qid = getAtId(msg)
-                if (qid == null) {
-                    context.send("未发现at")
-                } else {
-                    var b = getAllNumber(msg.replace(qid, ""), 1)
-                    if (msg.endsWith("秒") || msg.endsWith("s") || msg.endsWith(" ")) {
-                        context.getSubject().get(qid).mute(b)
-                    } else if (msg.endsWith("分") || msg.endsWith("m")) {
-                        var timeM = Number(b * 60)
-                        context.getSubject().get(qid).mute(timeM)
-                    } else if (msg.endsWith("小时") || msg.endsWith("h")) {
-                        var timeH = Number(b * 3600)
-                        context.getSubject().get(qid).mute(timeH)
-                    }
+if (get_manage_state() == "true") {
+    if (get_admin() == "true") {
+        //禁言
+        if (msg.startsWith("默禁言")) {
+            var qid = getAtId(msg)
+            if (qid == null) {
+                context.send("未发现at")
+            } else {
+                var b = getAllNumber(msg.replace(qid, ""))
+                if (msg.endsWith("秒") || msg.endsWith("s") || msg.endsWith(" ")) {
+                    context.getSubject().get(qid).mute(b)
+                } else if (msg.endsWith("分") || msg.endsWith("m")) {
+                    var timeM = Number(b * 60)
+                    context.getSubject().get(qid).mute(timeM)
+                } else if (msg.endsWith("小时") || msg.endsWith("h")) {
+                    var timeH = Number(b * 3600)
+                    context.getSubject().get(qid).mute(timeH)
                 }
             }
         }
@@ -561,12 +557,12 @@ if (get_nudge_state() == "true") {
                     break
             }
         }
-
-        if (msg.startsWith("戳")) {
-            var beNudge = getApiObject(1)
-            var qid = context.getSubject().getId()
-            context.gerGroup(qid).get(beNudge).nudge().sendTo(group)
-            event.getSubject().sendMessage(context.newPlainText("戳戳你的awa"))
-        }
+    }
+    if (msg.startsWith("戳")) {
+        var beNudge = getApiObject(1)
+        var group = context.getSubject()
+        var member = group.get(beNudge)
+        member.nudge().sendTo(group)
+        event.getSubject().sendMessage(context.newPlainText("戳戳你的awa"))
     }
 }
