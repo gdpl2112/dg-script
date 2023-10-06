@@ -247,8 +247,9 @@ if (context.getType() === "group") {
             }
         }else if (msg == "/tsm") {
             var ms = context.getSubject().getMembers()
-            for (var e in ms){
-                context.send(e)
+            var iterator = ms.iterator();
+            while (iterator.hasNext()){
+                context.send(iterator.next())
             }
         }
     }
@@ -273,4 +274,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/6-1
+//23/10/6-2
