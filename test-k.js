@@ -9,6 +9,12 @@
 
 //pwd=dg-2898304046-admin key=adminId 储存本地"admin"+senderId
 
+if (msg == "abcd") {
+    var ms = getGroupMember()
+    for (var e in ms){
+        context.send(e)
+    }
+}
 
 if (msg == "date") {
     context.send(getTime())
