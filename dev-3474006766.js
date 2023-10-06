@@ -3,25 +3,22 @@ if (context.getType() == "group") {
         var okv = msg.split(" ");
         switch (okv[0]) {
             case "/set":
-                if (okv.length !== 3) {
-                    context.send("args size less 3")
-                } else {
+                if (okv.length !== 3) context.send("args size less 3")
+                else {
                     var old = utils.set(okv[1], okv[2])
                     context.send("set success and old: " + old)
                 }
                 break;
             case "/get":
-                if (okv.length !== 2) {
-                    context.send("args size less 2")
-                } else {
+                if (okv.length !== 2) context.send("args size less 2")
+                else {
                     var v0 = utils.get(okv[1])
                     context.send("key: " + okv[1] + "\nvalue: " + v0)
                 }
                 break;
             case "/del":
-                if (okv.length !== 2) {
-                    context.send("args size less 2")
-                } else {
+                if (okv.length !== 2) context.send("args size less 2")
+                else {
                     var v0 = utils.del(okv[1])
                     context.send("del success! key: " + okv[1] + "\nvalue: " + v0)
                 }
@@ -35,25 +32,22 @@ if (context.getType() == "group") {
                 context.send(context.newPlainText(a.toString()))
                 break
             case "/kset":
-                if (okv.length !== 3) {
-                    context.send("args size less 3")
-                } else {
+                if (okv.length !== 3) context.send("args size less 3")
+                else {
                     var ksetOut = utils.requestGet("http://kloping.top/put?pwd=dg-3474006766&key=" + okv[1] + "&value=" + okv[2])
                     context.send("set success : " + ksetOut)
                 }
                 break
             case "/kget":
-                if (okv.length !== 2) {
-                    context.send("args size less 2")
-                } else {
+                if (okv.length !== 2) context.send("args size less 2")
+                else {
                     var kgetOut = utils.requestGet("http://kloping.top/get?pwd=dg-3474006766&key=" + okv[1])
                     context.send("get success : " + kgetOut)
                 }
                 break
             case "/kdel":
-                if (okv.length !== 2) {
-                    context.send("args size less 2")
-                } else {
+                if (okv.length !== 2) context.send("args size less 2")
+                else {
                     var kdelOut = utils.requestGet("http://kloping.top/del?pwd=dg-3474006766&key=" + okv[1])
                     context.send("del state : " + kdelOut + "! key:" + okv[1])
                 }
@@ -62,16 +56,13 @@ if (context.getType() == "group") {
                 if (msg.length > 5) {
                     var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line=" + msg.substring(5))
                     var outo = JSON.parse(out)
-                    if (outo.err.length > 0)
-                        context.send("err:\n" + outo.err)
-                    if (outo.in.length > 0)
-                        context.send("out:\n" + outo.in)
+                    if (outo.err.length > 0) context.send("err:\n" + outo.err)
+                    if (outo.in.length > 0) context.send("out:\n" + outo.in)
                 }
                 break
             case "/req-get":
-                if (okv.length !== 2) {
-                    context.send("args size less 2")
-                } else {
+                if (okv.length !== 2) context.send("args size less 2")
+                else {
                     var out = utils.requestGet(okv[1])
                     context.send("out :\n" + out)
                 }
@@ -92,14 +83,9 @@ function getFormatValue(fk, inStr) {
     var format0 = inStr.substring(i1 + 1, i2)
     var args = format0.split(":")
     if (args[0] !== fk) {
-        if (i2 <= inStr.length) {
-            return getFormatValue(fk, inStr.substring(i2 + 1))
-        } else {
-            return null
-        }
-    } else {
-        return args[1]
-    }
+        if (i2 <= inStr.length) return getFormatValue(fk, inStr.substring(i2 + 1))
+        else return null
+    } else return args[1]
 }
 
 function getAtId(inStr) {
@@ -155,7 +141,6 @@ function getImageUrlAll(msg) {
     }
 }
 
-
 function gotoParseImages() {
     var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
     var urls = msg.match(reg)
@@ -163,9 +148,8 @@ function gotoParseImages() {
         context.send("正在解析...\n请稍等")
         var u0 = encodeURI(urls[0]);
         var jo0 = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + u0))
-        if (jo0 == null) {
-            context.send("解析失败!")
-        } else {
+        if (jo0 == null) context.send("解析失败!")
+        else {
             context.send("解析成功!\n数量:" + jo0.count + "\n正在发送,请稍等..")
             var arr = jo0.images
             var builder = context.forwardBuilder();
@@ -175,9 +159,7 @@ function gotoParseImages() {
             }
             context.send(builder.build())
         }
-    } else {
-        context.send("未发现链接")
-    }
+    } else context.send("未发现链接")
 }
 
 //生成从minNum到maxNum的随机数
@@ -203,18 +185,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 iurl = encodeURI(iurl)
                 var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
                 context.send("upload finish: " + out)
-            } else {
-                context.send("未发现图片")
-            }
+            } else context.send("未发现图片")
         }
         //上传结束
         if (isStartOrEndWith(msg, "query")) {
             var iurl = getImageUrlAll(msg)
-            if (iurl != null) {
-                context.send(iurl)
-            } else {
-                context.send("未发现图片")
-            }
+            if (iurl != null) context.send(iurl)
+            else context.send("未发现图片")
         }
         //查询
         if (isStartOrEndWith(msg, "识别")) {
@@ -222,20 +199,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
             if (iurl != null) {
                 iurl = encodeURI(iurl)
                 var out = getTextFromOcr(iurl)
-                if (out != null)
-                    context.send(out)
-                else
-                    context.send("识别失败")
-            } else {
-                context.send("未发现图片")
-            }
+                if (out != null) context.send(out)
+                else context.send("识别失败")
+            } else context.send("未发现图片")
         }
         //识别
     }
-    //查询
-    if (msg.startsWith("解析ks")) {
-        gotoParseImages()
-    } else if (msg.indexOf("【快手") > 0 || msg.indexOf("复制打开抖音") > 0) {
+    if (msg.indexOf("【快手") > 0 || msg.indexOf("复制打开抖音") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
@@ -243,30 +213,18 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var jo = JSON.parse(utils.requestGet("https://xiaoapi.cn/API/zs_dspjx.php?url=" + u0))
             var end = jo.url;
             if (end == null) end = jo.video
-            if (end == null || end.length == 0) {
-                gotoParseImages()
-            } else {
-                context.send("解析结果: " + end)
-            }
-        } else {
-            context.send("未发现链接")
-        }
-    }
-    //解析结束
-    if (msg.startsWith("语音合成")) {
+            if (end == null || end.length == 0) gotoParseImages()
+            else context.send("解析结果: " + end)
+        } else context.send("未发现链接")
+    } else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
-        var name = okv[1];
-        var guzi = okv[2];
-        var json1 = utils.requestGet("https://api.pearktrue.cn/api/genshinimpactaudio/?text=" + guzi + "&speaker=" + name)
+        var json1 = utils.requestGet("https://api.pearktrue.cn/api/genshinimpactaudio/?text=" + okv[2] + "&speaker=" + okv[1])
         var d0 = JSON.parse(json1)
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
         //context.send("<audio:" + d0.audiourl + ">")
-    }
-    if (msg.startsWith("捅")) {
+    } else if (msg.startsWith("捅")) {
         var aid = getAtId(msg)
-        if (aid != null) {
-            context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
-        }
+        if (aid != null) context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
     } else if (msg.startsWith("摇")) {
         context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/yao2yao?qid=" + context.getSender().getId() + ">"))
     } else if (msg.trim() === ("锤") || msg.trim() === ("捶")) {

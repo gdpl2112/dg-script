@@ -85,6 +85,7 @@ function getMemberObjFromMsgAtOrNumber(group, msg) {
     if (qid == -1) return null
     return group.get(qid);
 }
+
 //============以上介是实用方法===============
 //============以下是各种实例
 
