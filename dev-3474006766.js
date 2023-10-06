@@ -245,7 +245,7 @@ if (context.getType() === "group") {
                 var result1 = JSON.parse(utils.requestGet("https://api.wuxixindong.cn/api/qqrcode.php?qrsig=" + qrsig))
                 context.send(result1.text + "\n" + JSON.stringify(result1.data))
             }
-        }else if (msg == "/tsm") {
+        } else if (msg == "/tsm") {
             var ms = context.getSubject().getMembers()
             var iterator = ms.iterator();
             while (iterator.hasNext()){
