@@ -71,7 +71,6 @@ if (context.getType() == "group") {
                 var face = context.toSuperFace(338)
                 context.send(face)
                 break
-
         }
     }
 }
@@ -99,7 +98,7 @@ function getAllNumber(str) {
     var out = ""
     for (var i = 0; i < str.length; i++) {
         var e = str[i]
-        if (ns.indexOf(e) > 0) {
+        if (ns.indexOf(e) >= 0) {
             out = out + e
         }
     }
@@ -246,6 +245,11 @@ if (context.getType() === "group") {
                 var result1 = JSON.parse(utils.requestGet("https://api.wuxixindong.cn/api/qqrcode.php?qrsig=" + qrsig))
                 context.send(result1.text + "\n" + JSON.stringify(result1.data))
             }
+        }else if (msg == "/tsm") {
+            var ms = context.getSubject().getMembers()
+            for (var e in ms){
+                context.send(e)
+            }
         }
     }
 }
@@ -269,4 +273,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/6
+//23/10/6-1
