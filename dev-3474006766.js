@@ -247,7 +247,7 @@ if (context.getType() === "group") {
             }
         } else if (msg == "/tsm") {
             var ms = context.getSubject().getMembers()
-            var list = utils.newObject("java.util.ArrayList", group.getMembers().delegate)
+            var list = utils.newObject("java.util.ArrayList", ms.delegate)
             context.send(list.toString())
         }
     }
@@ -272,4 +272,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/6-2
+//23/10/6-3
