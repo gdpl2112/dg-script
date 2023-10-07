@@ -140,27 +140,6 @@ function getImageUrlAll(msg) {
     }
 }
 
-function gotoParseImages() {
-    var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-    var urls = msg.match(reg)
-    if (urls !== null) {
-        context.send("正在解析...\n请稍等")
-        var u0 = encodeURI(urls[0]);
-        var jo0 = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + u0))
-        if (jo0 == null) context.send("解析失败!")
-        else {
-            context.send("解析成功!\n数量:" + jo0.count + "\n正在发送,请稍等..")
-            var arr = jo0.images
-            var builder = context.forwardBuilder();
-            for (var i = 0; i < arr.length; i++) {
-                var e = arr[i];
-                builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
-            }
-            context.send(builder.build())
-        }
-    } else context.send("未发现链接")
-}
-
 //生成从minNum到maxNum的随机数
 function randomNum(minNum, maxNum) {
     switch (arguments.length) {
@@ -209,11 +188,22 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var urls = msg.match(reg)
         if (urls !== null) {
             var u0 = encodeURI(urls[0]);
-            var jo = JSON.parse(utils.requestGet("https://xiaoapi.cn/API/zs_dspjx.php?url=" + u0))
+            var jo = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/video/api.php?url=" + u0))
             var end = jo.url;
-            if (end == null) end = jo.video
-            if (end == null || end.length == 0) gotoParseImages()
-            else context.send("解析结果: " + end)
+            if (end == null || end.length == 0) {
+                var jo0 = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + u0))
+                if (jo0 == null) context.send("解析失败!")
+                else {
+                    context.send("解析成功!\n数量:" + jo0.count + "\n正在发送,请稍等..")
+                    var arr = jo0.images
+                    var builder = context.forwardBuilder();
+                    for (var i = 0; i < arr.length; i++) {
+                        var e = arr[i];
+                        builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
+                    }
+                    context.send(builder.build())
+                }
+            } else context.send("解析结果: " + end)
         } else context.send("未发现链接")
     } else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
@@ -273,4 +263,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/6-3
+//23/10/7
