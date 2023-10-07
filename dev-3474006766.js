@@ -195,8 +195,8 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 if (result.code == 200) sout = sout + "\n" + result.data.url
                 context.send(sout)
             } else {
-                context.send("解析成功!\n数量:" + jo0.count + "\n正在发送,请稍等..")
-                var arr = jo0.images
+                context.send("解析成功!\n数量:" + result.count + "\n正在发送,请稍等..")
+                var arr = result.images
                 var builder = context.forwardBuilder();
                 for (var i = 0; i < arr.length; i++) {
                     var e = arr[i];
@@ -263,4 +263,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/7 - fix bug -3
+//23/10/7 - fix bug -4
