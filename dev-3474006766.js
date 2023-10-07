@@ -189,8 +189,8 @@ if (context.getType() === "group" || context.getType() === "friend") {
         if (urls !== null) {
             var u0 = encodeURI(urls[0]);
             var jo = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/video/api.php?url=" + u0))
-            var end = jo.url;
-            if (end == null || end.length == 0) {
+            var end = jo.data;
+            if (end == null || end.url.length == 0) {
                 var jo0 = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + u0))
                 if (jo0 == null) context.send("解析失败!")
                 else {
@@ -203,7 +203,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                     }
                     context.send(builder.build())
                 }
-            } else context.send("解析结果: " + end)
+            } else context.send("解析结果: " + end.url)
         } else context.send("未发现链接")
     } else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
@@ -263,4 +263,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/7
+//23/10/7 - fix bug -1
