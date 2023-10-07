@@ -187,15 +187,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
-            var u0 = encodeURI(urls[0]);
-            var result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + u0))
+            var url = urls[0];
+            var result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + url))
             if (result.count == 0 || result.images == null) {
-                result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/video/api.php?url=" + u0))
-                if (result.data == null || result.data.url.length == 0) {
-                    context.send("解析失败!")
-                } else {
-                    context.send("解析结果:" + result.data.url)
-                }
+                result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/video/api.php?url=" + url))
+                var sout = "code: " + result.code + " " + result.msg
+                if (result.code == 200) sout = sout + "\n" + result.data.url
+                context.send(sout)
             } else {
                 context.send("解析成功!\n数量:" + jo0.count + "\n正在发送,请稍等..")
                 var arr = jo0.images
@@ -265,4 +263,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/7 - fix bug -2
+//23/10/7 - fix bug -3
