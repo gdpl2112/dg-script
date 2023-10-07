@@ -188,22 +188,24 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var urls = msg.match(reg)
         if (urls !== null) {
             var u0 = encodeURI(urls[0]);
-            var jo = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/video/api.php?url=" + u0))
-            var end = jo.data;
-            if (end == null || end.url.length == 0) {
-                var jo0 = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + u0))
-                if (jo0 == null) context.send("解析失败!")
-                else {
-                    context.send("解析成功!\n数量:" + jo0.count + "\n正在发送,请稍等..")
-                    var arr = jo0.images
-                    var builder = context.forwardBuilder();
-                    for (var i = 0; i < arr.length; i++) {
-                        var e = arr[i];
-                        builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
-                    }
-                    context.send(builder.build())
+            var result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + u0))
+            if (result.count == 0 || result.images == null) {
+                result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/video/api.php?url=" + u0))
+                if (result.data == null || result.data.url.length == 0) {
+                    context.send("解析失败!")
+                } else {
+                    context.send("解析结果:" + result.data.url)
                 }
-            } else context.send("解析结果: " + end.url)
+            } else {
+                context.send("解析成功!\n数量:" + jo0.count + "\n正在发送,请稍等..")
+                var arr = jo0.images
+                var builder = context.forwardBuilder();
+                for (var i = 0; i < arr.length; i++) {
+                    var e = arr[i];
+                    builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
+                }
+                context.send(builder.build())
+            }
         } else context.send("未发现链接")
     } else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
@@ -263,4 +265,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/7 - fix bug -1
+//23/10/7 - fix bug -2
