@@ -184,7 +184,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         }
         //识别
     }
-    if (msg.indexOf("【快手") > 0 || msg.indexOf("复制打开抖音") > 0) {
+    if (msg.indexOf("douyin") > 0 || msg.indexOf("kuaishou") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
