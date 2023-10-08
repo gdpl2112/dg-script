@@ -68,9 +68,10 @@ if (context.getType() == "group") {
                 }
                 break
             case "/test":
-                //https://tenapi.cn/v2/video -X POST -d 'url=https://v.douyin.com/6BEYVNs'
-                var out = utils.requestPost("https://tenapi.cn/v2/video", "url=https://v.kuaishou.com/53Lwda ")
-                context.send(out)
+                break
+            case "/repeat":
+                if (okv.length !== 2) context.send("args size less 2")
+                context.send(okv[1])
                 break
         }
     }
@@ -262,4 +263,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/8-fix
+//23/10/8-1

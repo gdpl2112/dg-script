@@ -6,8 +6,8 @@
 
 var url = "https://ghproxy.com/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js"
 
-if (context.getType() == "group") {
-    if (msg == "update") {
+if (context.getType() === "group") {
+    if (msg === "update") {
         var jsAll = utils.requestGet(url)
         utils.clear()
         utils.set("jsAll", jsAll)
