@@ -189,22 +189,19 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var urls = msg.match(reg)
         if (urls !== null) {
             var url = urls[0];
-            var result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/tuji/api.php?url=" + url))
-            if (result.count == 0 || result.images == null) {
-                result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/video/api.php?url=" + url))
-                var sout = "code: " + result.code + " " + result.msg
-                if (result.code == 200) sout = sout + "\n" + result.data.url
-                context.send(sout)
-            } else {
-                context.send("解析成功!\n数量:" + result.count + "\n正在发送,请稍等..")
-                var arr = result.images
-                var builder = context.forwardBuilder();
-                for (var i = 0; i < arr.length; i++) {
-                    var e = arr[i];
-                    builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
-                }
-                context.send(builder.build())
-            }
+            var result = JSON.parse(utils.requestGet("https://api.xtaoa.com/api/video_v1.php?url=" + url))
+            if (result.code == 200) {
+                if (result.type == "图集") {
+                    context.send("解析成功!\n数量:" + result.images.size + "\n正在发送,请稍等..")
+                    var arr = result.images
+                    var builder = context.forwardBuilder();
+                    for (var i = 0; i < arr.length; i++) {
+                        var e = arr[i];
+                        builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
+                    }
+                    context.send(builder.build())
+                } else context.send(result.desc + "\n视频直链: " + result.video)
+            } else context.send("解析失败!\ncode:" + result.code)
         } else context.send("未发现链接")
     } else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
@@ -264,4 +261,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/8-1
+//23/10/8-2
