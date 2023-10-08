@@ -68,8 +68,9 @@ if (context.getType() == "group") {
                 }
                 break
             case "/test":
-                var face = context.toSuperFace(338)
-                context.send(face)
+                //https://tenapi.cn/v2/video -X POST -d 'url=https://v.douyin.com/6BEYVNs'
+                var out = utils.requestPost("https://tenapi.cn/v2/video", "url=https://v.kuaishou.com/53Lwda ")
+                context.send(out)
                 break
         }
     }
@@ -263,4 +264,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/8
+//23/10/8-1
