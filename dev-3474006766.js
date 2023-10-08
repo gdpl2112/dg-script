@@ -192,7 +192,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var result = JSON.parse(utils.requestGet("https://api.xtaoa.com/api/video_v1.php?url=" + url))
             if (result.code == 200) {
                 if (result.type == "图集") {
-                    context.send("解析成功!\n数量:" + result.images.size + "\n正在发送,请稍等..")
+                    context.send("解析成功!\n数量:" + result.images.length + "\n正在发送,请稍等..")
                     var arr = result.images
                     var builder = context.forwardBuilder();
                     for (var i = 0; i < arr.length; i++) {
@@ -261,4 +261,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/8-3
+//23/10/8-fix
