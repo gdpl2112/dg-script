@@ -222,7 +222,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
 }
 if (context.getType() === "group") {
     var sid = context.getSender().getId();
-    if (context.getSubject().getId() == 868060057) {
+    if (context.getSubject().getId() == 868060057 || context.getSubject().getId() == 696516964) {
         if (msg == "扫码帮助") {
             context.send("不填就是群的可选，1为qun.qq.com，2为vip.qq.com，3为qzone.qq.com，4为huifu.qq.com，5为id.qq.com，6为docs.qq.com，7为connect.qq.com")
         } else if (msg.startsWith("扫码登录")) {
@@ -263,4 +263,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/7 - fix bug -4
+//23/10/8
