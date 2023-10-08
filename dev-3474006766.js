@@ -197,6 +197,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                     var builder = context.forwardBuilder();
                     for (var i = 0; i < arr.length; i++) {
                         var e = arr[i];
+                        if (e.endsWith(".webp")) e = e.replace(".webp", ".jpg")
                         builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
                     }
                     context.send(builder.build())
