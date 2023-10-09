@@ -242,7 +242,7 @@ if (context.getType() === "group") {
             context.send(context.newPlainText(list.toString()))
         }
     } else if (msg.indexOf("<at:3474006766>") >= 0) {
-        var req = msg.replace("<at:3474006766>", "").trim()
+        var req = msg.replace("<at:3474006766>", "").replace(/<qr:\d+>/g, "").trim()
         if (req.length > 2) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + req))
     }
 }
@@ -266,4 +266,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/9-fix
+//23/10/9-fix1
