@@ -241,6 +241,9 @@ if (context.getType() === "group") {
             list.addAll(ms.delegate)
             context.send(context.newPlainText(list.toString()))
         }
+    } else if (msg.indexOf("<at:3474006766>") >= 0) {
+        var req = msg.replace("<at:3474006766>", "")
+        context.send(utils.requestGet("http://kloping.top/api/ai?req=" + req))
     }
 }
 
@@ -263,4 +266,4 @@ if (context.getType() == "NudgeEvent") {
         //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
     }
 }
-//23/10/8-1
+//23/10/9
