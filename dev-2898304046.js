@@ -399,7 +399,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
 //api调用=========================================================================================================================
 if (context.getType() == "group" || context.getType() == "friend") {
     if (get_api_state() == "true") {
-        //喜报
+        //喜报  
         if (msg.startsWith("喜报")) {
             context.send(context.uploadImage("https://api.andeer.top/API/img_xibao.php?data=" + msg.substring(2)));
         }
@@ -648,5 +648,17 @@ if (msg == "娶群友") {
             + "太贪心啦！你今天已经拥有一个老婆了！\n今天你的群友老婆是\n"
             + "<pic:" + beHusbandImage + ">\n"
             + beHusbandName + "(" + married + ")")
+    }
+}
+
+if (context.getType() == "MemberJoinRequestEvent") {
+    var joinMessage = event.getMessage()
+    var joinId = event.getFromId()
+    var joinNick = event.fromNick()
+    var invitorId = event.getInvitorId()
+    event.sendMessage(context.newPlainText("有一个新的宝宝要入群啦！\n他的名字叫:" + joinNick + "(" + joinId + ")\n邀请者为:" + getInvitorId))
+
+    if (msg == "同意申请") {
+        event.accept()
     }
 }
