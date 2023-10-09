@@ -252,18 +252,19 @@ if (context.getType() == "NudgeEvent") {
     if (event.getFrom() == event.getBot()) {
         //主动戳出 不做处理
     } else if (event.getTarget().getId() == bid) {
-        // var r0 = randomNum(1, 3)
-        // switch (r0) {
-        //     case 1:
-        //         event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
-        //         break;
-        //     case 2:
-        //         break;
-        //     case 3:
-        //         event.getSubject().sendMessage(context.newPlainText("阿巴阿巴?"))
-        //         break;
-        // }
-        //event.getSubject().sendMessage(context.newPlainText("你在干嘛里"))
+        var r0 = randomNum(1, 3)
+        switch (r0) {
+            case 1:
+                event.getSubject().sendMessage(context.newPlainText("(T＿T)"))
+                break;
+            case 2:
+                event.getSubject().sendMessage(context.newPlainText("有事么?￣へ￣"))
+                break;
+            case 3:
+                event.getSubject().sendMessage(context.newPlainText("阿巴阿巴?(〃'▽'〃)"))
+                break;
+        }
+        if (randomNum(1, 5) == 0) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/9-fix1
+//23/10/9
