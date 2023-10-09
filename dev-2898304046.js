@@ -589,65 +589,99 @@ if (get_nudge_state() == "true") {
 }
 
 
+if (context.getType() == "group") {
+    //dg-2898304046-wife key=husband value=wife
+    //dg-2898304046-husband key=wife value=husband
+    if (msg == "娶群友") {
+        //获取群内成员并分组
+        var getMemberList = getGroupMember()
+        var memberListString = getMemberList.toString()
+        var memberList = memberListString.split(",")
+        //获取群人数
+        var memberMax = context.getSubject().getMembers().size()
+        //随机获取群友
+        var i = getRandomNumber(0, memberMax)
+        //获取群友qq号
+        var wife = memberList[i].replace(/[^\d]/g, "")
+        var husband = context.getSender().getId()
+        //获取群友头像
+        var wifeImage = context.getSubject().get(wife).getAvatarUrl()
+        var husbandImage = context.getSubject().get(husband).getAvatarUrl()
+        //获取群友名字
+        var wifeName = context.getSubject().get(wife).getNick()
+        var husbandName = context.getSubject().get(husband).getNick()
 
-//dg-2898304046-wife key=husband value=wife
-//dg-2898304046-husband key=wife value=husband
-if (msg == "娶群友") {
-    //获取群内成员并分组
-    var getMemberList = getGroupMember()
-    var memberListString = getMemberList.toString()
-    var memberList = memberListString.split(",")
-    //获取群人数
-    var memberMax = context.getSubject().getMembers().size()
-    //随机获取群友
-    var i = getRandomNumber(0, memberMax)
-    //获取群友qq号
-    var wife = memberList[i].replace(/[^\d]/g, "")
-    var husband = context.getSender().getId()
-    //获取群友头像
-    var wifeImage = context.getSubject().get(wife).getAvatarUrl()
-    var husbandImage = context.getSubject().get(husband).getAvatarUrl()
-    //获取群友名字
-    var wifeName = context.getSubject().get(wife).getNick()
-    var husbandName = context.getSubject().get(husband).getNick()
 
+        //储存
+        //检测是否有老婆
+        var married = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-wife&key=" + husband)
+        //检测是否有老公
+        var beMarried = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-husband&key=" + husband)
+        if (married == null) {
+            if (beMarried == null) {
+                //将发送者存为老公
+                utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-wife&key=" + husband + "&value=" + wife)
+                //将获取的群友存为老婆
+                utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-husband&key=" + wife + "&value=" + husband)
+                context.send("<at:" + context.getSender().getId() + ">\n"
+                    + "今天你的群友老婆是\n"
+                    + "<pic:" + wifeImage + ">\n"
+                    + wifeName + "(" + wife + ")")
+            } else if (context.getSubject().get(beMarried) == null) {
+                context.send("< at:" + context.getSender().getId() + " >\n你今日已被娶 你的群友老公在别的群哦 找错地方啦")
+            } else {
+                //获取已存老公头像
+                var beWifeImage = context.getSubject().get(beMarried).getAvatarUrl()
+                //获取已存老公名字
+                var beWifeName = context.getSubject().get(beMarried).getNick()
 
-    //储存
-    //检测是否有老婆
-    var married = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-wife&key=" + husband)
-    //检测是否有老公
-    var beMarried = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-husband&key=" + husband)
-    if (married == null) {
-        if (beMarried == null) {
-            //将发送者存为老公
-            utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-wife&key=" + husband + "&value=" + wife)
-            //将获取的群友存为老婆
-            utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-husband&key=" + wife + "&value=" + husband)
-            context.send("<at:" + context.getSender().getId() + ">\n"
-                + "今天你的群友老婆是\n"
-                + "<pic:" + wifeImage + ">\n"
-                + wifeName + "(" + wife + ")")
+                context.send("<at:" + context.getSender().getId() + ">\n"
+                    + "今天你已被娶\n群友老公是\n"
+                    + "<pic:" + beWifeImage + ">\n"
+                    + beWifeName + "(" + beMarried + ")")
+            }
+        } else if (context.getSubject().get(married) == null) {
+            context.send("<at:" + context.getSender().getId() + ">\n你今天已经有群友老婆啦 去别的群把他找回来吧")
         } else {
-            //获取已存老公头像
-            var beWifeImage = context.getSubject().get(beMarried).getAvatarUrl()
-            //获取已存老公名字
-            var beWifeName = context.getSubject().get(beMarried).getNick()
+            //获取已存老婆头像
+            var beHusbandImage = context.getSubject().get(married).getAvatarUrl()
+            //获取已存老婆名字
+            var beHusbandName = context.getSubject().get(married).getNick()
 
             context.send("<at:" + context.getSender().getId() + ">\n"
-                + "今天你已被娶\n群友老公是\n"
-                + "<pic:" + beWifeImage + ">\n"
-                + beWifeName + "(" + beMarried + ")")
+                + "太贪心啦！你今天已经拥有一个老婆了！\n今天你的群友老婆是\n"
+                + "<pic:" + beHusbandImage + ">\n"
+                + beHusbandName + "(" + married + ")")
         }
-    } else {
-        //获取已存老婆头像
-        var beHusbandImage = context.getSubject().get(married).getAvatarUrl()
-        //获取已存老婆名字
-        var beHusbandName = context.getSubject().get(married).getNick()
+    }
 
+    if (msg == "重娶群友") {
+        //获取群内成员并分组
+        var getMemberList = getGroupMember()
+        var memberListString = getMemberList.toString()
+        var memberList = memberListString.split(",")
+        //获取群人数
+        var memberMax = context.getSubject().getMembers().size()
+        //随机获取群友
+        var i = getRandomNumber(0, memberMax)
+        //获取群友qq号
+        var wife = memberList[i].replace(/[^\d]/g, "")
+        var husband = context.getSender().getId()
+        //获取群友头像
+        var wifeImage = context.getSubject().get(wife).getAvatarUrl()
+        var husbandImage = context.getSubject().get(husband).getAvatarUrl()
+        //获取群友名字
+        var wifeName = context.getSubject().get(wife).getNick()
+        var husbandName = context.getSubject().get(husband).getNick()
+
+        //将发送者存为老公
+        utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-wife&key=" + husband + "&value=" + wife)
+        //将获取的群友存为老婆
+        utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-husband&key=" + wife + "&value=" + husband)
         context.send("<at:" + context.getSender().getId() + ">\n"
-            + "太贪心啦！你今天已经拥有一个老婆了！\n今天你的群友老婆是\n"
-            + "<pic:" + beHusbandImage + ">\n"
-            + beHusbandName + "(" + married + ")")
+            + "今天你的群友老婆是\n"
+            + "<pic:" + wifeImage + ">\n"
+            + wifeName + "(" + wife + ")")
     }
 }
 
