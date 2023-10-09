@@ -245,7 +245,7 @@ if (context.getType() === "group") {
         }
     } else if (msg.indexOf("<at:3474006766>") >= 0) {
         var req = msg.replace("<at:3474006766>", "").replace(/<qr:-?\d+>/g, "").trim()
-        if (req.length > 2) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + req))
+        if (req.length > 2) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + req + "&id=3474006766"))
     }
 }
 
@@ -275,4 +275,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/9-5
+//23/10/9-fix
