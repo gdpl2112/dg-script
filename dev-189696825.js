@@ -6,7 +6,7 @@ if (context.getType() === "group") {
             if (urls !== null) {
                 context.send("正在解析...\n请稍等")
                 var u0 = encodeURI(urls[0]);
-                var arr = JSON.parse(utils.requestGet("http://localhost/api/search/parseImgs?url=" + u0 + "&type=ks"))
+                var arr = JSON.parse(utils.requestGet("http://kloping.top/api/search/parseImgs?url=" + u0 + "&type=ks"))
                 var builder = context.forwardBuilder();
                 for (var i = 0; i < arr.length; i++) {
                     var e = arr[i];
@@ -26,11 +26,6 @@ if (context.getType() === "group") {
         context.send("https://m.baidu.com/s?word=" + end);
     }
     //================百度结束
-
-    //喜报  
-    if (msg.startsWith("喜报")) {
-        context.send(context.uploadImage("https://api.andeer.top/API/img_xibao.php?data=" + msg.substring(2)));
-    }
 
     //甘雨抱抱你
     if (msg.startsWith("甘雨抱抱你")) {
@@ -70,7 +65,7 @@ if (context.getType() === "group") {
 function get_group_state() {
     var get_group = utils.get("group_state")
     if (get_group == null) {
-        var group_state = utils.requestGet("http://localhost/get?pwd=dg-189696825&key=group_state")
+        var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-189696825&key=group_state")
         utils.set("group_state", group_state)
         var get_group_state = utils.get("group_state")
         return get_group_state
@@ -139,7 +134,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
         switch (okv[0]) {
             case "开启杂项":
                 if (get_group_state() == "false" || get_group_state() == null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-189696825&key=group_state&value=true")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=group_state&value=true")
                     utils.set("group_state", "true")
                     context.send("正在开启...")
                 } else {
@@ -149,7 +144,7 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
             case "关闭杂项":
                 if (get_group_state() == "true" || get_group_state() == null) {
-                    utils.requestGet("http://localhost/put?pwd=dg-189696825&key=group_state&value=false")
+                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=group_state&value=false")
                     utils.set("group_state", "false")
                     context.send("正在关闭...")
                 } else {
@@ -195,4 +190,43 @@ if (get_group_state() == "true") {
             + sn + "（" + context.getSender().getId() + "）提到"))
         group.sendMessage(context.deSerialize(("该消息为:\n" + msg)))
     }
+}
+
+
+
+//getRandomNumber
+function getRandomNumber(minNum, maxNum) {
+    switch (arguments.length) {
+        case 1:
+            return parseInt(Math.random() * minNum + 1, 10);
+            break;
+        case 2:
+            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+            break;
+        default:
+            return 0;
+            break;
+    }
+}
+
+
+if (context.getType() == "NudgeEvent") {
+    if (event.getFrom().getId() !== event.getBot().getId() && event.getTarget().getId() == event.getBot().getId()) {
+        var randomReply = getRandomNumber(1, 2)
+        switch (randomReply) {
+            case 1:
+                event.getSubject().sendMessage(context.newPlainText("粗来惹，粗来惹⸝⸝ ᷇࿀ ᷆⸝⸝不要再戳了"))
+                break
+            case 2:
+                event.getSubject().sendMessage(context.newPlainText(" 反击 𓂃 ꙳ ⋆ "))
+                event.getFrom().nudge().sendTo(event.getSubject())
+        }
+    }
+}
+
+
+
+if (msg == "妤菜单") {
+    context.send("<at:" + context.getSender().getId() + ">"
+        + "\n【api功能】\n百度+\n解析快手图集+url\n\n【表情包】\n甘雨抱抱你+qid/@\n贴贴+qid/@\n顶+qid/@\n咬+qid/@\n拍+qid/@\n牵+qid/@")
 }

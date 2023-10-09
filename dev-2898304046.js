@@ -13,6 +13,7 @@
 if (msg == "date") {
     context.send(getTime())
 }
+
 //function
 //获取指定格式值 目前仅支持获取第一个出现的格式元素
 function getFormatValue(fk, inStr) {
@@ -85,19 +86,21 @@ function get_api_state() {
 
 //检测admin标签
 function get_admin() {
-    var senderId = context.getSender().getId()
-    var get_admin_state = utils.get("admin" + senderId)
-    if (get_admin_state == null) {
-        var admin_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-admin&key=" + senderId)
-        if (admin_state !== null) {
-            utils.set("admin" + senderId, admin_state)
-            return admin_state
+    if (context.getType() == "group" || context.getType() == "friend") {
+        var senderId = context.getSender().getId()
+        var get_admin_state = utils.get("admin" + senderId)
+        if (get_admin_state == null) {
+            var admin_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-admin&key=" + senderId)
+            if (admin_state !== null) {
+                utils.set("admin" + senderId, admin_state)
+                return admin_state
+            } else {
+                utils.set("admin" + senderId, "false")
+                return "false"
+            }
         } else {
-            utils.set("admin" + senderId, "false")
-            return "false"
+            return get_admin_state
         }
-    } else {
-        return get_admin_state
     }
 }
 
@@ -182,8 +185,10 @@ function getRandomNumber(minNum, maxNum) {
 
 //getGroupMember
 function getGroupMember() {
-    var subject = context.getSubject().getId()
-    var groupMembers = context.getBot().getGroup(subject).getMembers()
+    if (context.getType() == "group") {
+        var groupMembers = context.getSubject().getMembers()
+        return groupMembers
+    }
 }
 
 //============================================================================================================================================
@@ -380,13 +385,21 @@ if (context.getType() == "group" || context.getType() == "friend") {
                 context.send("已取消" + context.getSubject().get(getAdminId).getNick() + "(" + getAdminId + ")的管理")
             }
         }
+
+        //clear wifeList
+        if (msg == "delwife") {
+            utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-husband&key=")
+            utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-wife&key=")
+            context.send("ok")
+        }
     }
 }
+
 
 //api调用=========================================================================================================================
 if (context.getType() == "group" || context.getType() == "friend") {
     if (get_api_state() == "true") {
-        //喜报  
+        //喜报
         if (msg.startsWith("喜报")) {
             context.send(context.uploadImage("https://api.andeer.top/API/img_xibao.php?data=" + msg.substring(2)));
         }
@@ -433,6 +446,13 @@ if (context.getType() == "group" || context.getType() == "friend") {
             context.send(review.data);
         }
 
+        //setu
+        if (msg == "setu") {
+            var parse = JSON.parse(utils.requestGet("https://api.lolicon.app/setu/v2"))
+            var url = parse.data[0].urls.original
+            context.send(context.uploadImage(url))
+        }
+
         //解方程
         if (msg.startsWith("解方程")) {
             var getNumberA = msg.substring(3).trim()
@@ -473,6 +493,7 @@ if (get_group_state() == "true") {
 
     //获取禁言事件
     if (context.getType() == "MemberUnmuteEvent") {
+        var at = event.getMember().getId()
         var out = context.deSerialize("<at:" + at + ">\n被解除禁言了")
         event.getGroup().sendMessage(out)
     }
@@ -564,5 +585,68 @@ if (get_nudge_state() == "true") {
         var member = group.get(beNudge)
         member.nudge().sendTo(group)
         event.getSubject().sendMessage(context.newPlainText("戳戳你的awa"))
+    }
+}
+
+
+
+//dg-2898304046-wife key=husband value=wife
+//dg-2898304046-husband key=wife value=husband
+if (msg == "娶群友") {
+    //获取群内成员并分组
+    var getMemberList = getGroupMember()
+    var memberListString = getMemberList.toString()
+    var memberList = memberListString.split(",")
+    //获取群人数
+    var memberMax = context.getSubject().getMembers().size()
+    //随机获取群友
+    var i = getRandomNumber(0, memberMax)
+    //获取群友qq号
+    var wife = memberList[i].replace(/[^\d]/g, "")
+    var husband = context.getSender().getId()
+    //获取群友头像
+    var wifeImage = context.getSubject().get(wife).getAvatarUrl()
+    var husbandImage = context.getSubject().get(husband).getAvatarUrl()
+    //获取群友名字
+    var wifeName = context.getSubject().get(wife).getNick()
+    var husbandName = context.getSubject().get(husband).getNick()
+
+
+    //储存
+    //检测是否有老婆
+    var married = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-wife&key=" + husband)
+    //检测是否有老公
+    var beMarried = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-husband&key=" + husband)
+    if (married == null) {
+        if (beMarried == null) {
+            //将发送者存为老公
+            utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-wife&key=" + husband + "&value=" + wife)
+            //将获取的群友存为老婆
+            utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-husband&key=" + wife + "&value=" + husband)
+            context.send("<at:" + context.getSender().getId() + ">\n"
+                + "今天你的群友老婆是\n"
+                + "<pic:" + wifeImage + ">\n"
+                + wifeName + "(" + wife + ")")
+        } else {
+            //获取已存老公头像
+            var beWifeImage = context.getSubject().get(beMarried).getAvatarUrl()
+            //获取已存老公名字
+            var beWifeName = context.getSubject().get(beMarried).getNick()
+
+            context.send("<at:" + context.getSender().getId() + ">\n"
+                + "今天你已被娶\n群友老公是\n"
+                + "<pic:" + beWifeImage + ">\n"
+                + beWifeName + "(" + beMarried + ")")
+        }
+    } else {
+        //获取已存老婆头像
+        var beHusbandImage = context.getSubject().get(married).getAvatarUrl()
+        //获取已存老婆名字
+        var beHusbandName = context.getSubject().get(married).getNick()
+
+        context.send("<at:" + context.getSender().getId() + ">\n"
+            + "太贪心啦！你今天已经拥有一个老婆了！\n今天你的群友老婆是\n"
+            + "<pic:" + beHusbandImage + ">\n"
+            + beHusbandName + "(" + married + ")")
     }
 }
