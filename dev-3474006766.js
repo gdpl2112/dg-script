@@ -252,7 +252,8 @@ if (context.getType() == "NudgeEvent") {
     if (event.getFrom() == event.getBot()) {
         //主动戳出 不做处理
     } else if (event.getTarget().getId() == bid) {
-        var r0 = randomNum(1, 3)
+        var r0 = utils.get("nc0")
+        if (r0 == null) r0 = 1;
         switch (r0) {
             case 1:
                 event.getSubject().sendMessage(context.newPlainText("(T＿T)"))
@@ -264,7 +265,8 @@ if (context.getType() == "NudgeEvent") {
                 event.getSubject().sendMessage(context.newPlainText("阿巴阿巴?(〃'▽'〃)"))
                 break;
         }
-        if (randomNum(1, 5) == 0) event.getFrom().nudge().sendTo(event.getSubject());
+        utils.set("nc0", r0)
+        if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/9-2
+//23/10/9-3
