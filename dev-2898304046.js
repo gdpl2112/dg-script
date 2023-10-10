@@ -423,22 +423,34 @@ if (context.getType() == "group" || context.getType() == "friend") {
         }
 
         //clear wifeList
-        if (msg == "delwife") {
+        if (msg == ".delwife") {
             utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-husband&key=")
             utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-wife&key=")
             context.send("delwife ok")
         }
 
         //clear favorability
-        if (msg == "delfavor") {
-            utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-favorability&key=")
-            context.send("delfavor ok")
+        if (msg == ".delfavor") {
+            var object = getApiObject(9)
+            if (object !== null) {
+                utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-favorability&key=" + object)
+                context.send("del " + object + " favor ok")
+            } else {
+                utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-name&key=")
+                context.send("delfavor ok")
+            }
         }
 
         //clear name
-        if (msg == "delname") {
-            utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-name&key=")
-            context.send("delname ok")
+        if (msg == ".delname") {
+            var object = getApiObject(8)
+            if (object !== null) {
+                utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-name&key=" + object)
+                context.send("del " + object + " name ok")
+            } else {
+                utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-name&key=")
+                context.send("delname ok")
+            }
         }
     }
 }
