@@ -178,7 +178,7 @@ function getApiObject(str) {
     } else if (id !== null) {
         return id
     } else {
-        return -1
+        return null
     }
 }
 
@@ -430,21 +430,21 @@ if (context.getType() == "group" || context.getType() == "friend") {
         }
 
         //clear favorability
-        if (msg == ".delfavor") {
+        if (msg.startsWith(".delfavor")) {
             var object = getApiObject(9)
-            if (object !== null) {
+            if (object.length > 0) {
                 utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-favorability&key=" + object)
                 context.send("del " + object + " favor ok")
             } else {
-                utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-name&key=")
+                utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-favorability&key=")
                 context.send("delfavor ok")
             }
         }
 
         //clear name
-        if (msg == ".delname") {
+        if (msg.startsWith(".delname")) {
             var object = getApiObject(8)
-            if (object !== null) {
+            if (object.length > 0) {
                 utils.requestGet("http://kloping.top/del?pwd=dg-2898304046-name&key=" + object)
                 context.send("del " + object + " name ok")
             } else {
@@ -763,17 +763,17 @@ if (context.getType() == "group") {
             var favor = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-favorability&key=" + context.getSender().getId())
             if (favor == null) {
                 var favor = "0"
-                context.send("<at:" + context.getSender().getId() + ">\n" + "你的称呼为:" + name + "\n当前好感度为:" + favor)
+                context.send("<pic:" + image + ">" + "\n<at:" + context.getSender().getId() + ">\n" + "你的称呼为:" + name + "\n当前好感度为:" + favor)
             } else {
-                context.send("<at:" + context.getSender().getId() + ">\n" + "你的称呼为:" + name + "\n当前好感度为:" + favor)
+                context.send("<pic:" + image + ">" + "\n<at:" + context.getSender().getId() + ">\n" + "你的称呼为:" + name + "\n当前好感度为:" + favor)
             }
         } else if (isRun == 1) {
             if (msg.indexOf("<at:" + context.getBot().getId() + ">") >= 0 || msg.indexOf("默默") >= 0) {
                 var name = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-name&key=" + context.getSender().getId())
                 var favorability = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-favorability&key=" + context.getSender().getId())
                 var addRandomFavor = getRandomNumber(1, 5)
-                var addFavor = Number(favorability + addRandomFavor)
-                utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-favorability&key=" + context.getSender().getId() + "&value" + addFavor)
+                var addFavor = Number(Number(favorability) + Number(addRandomFavor))
+                utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-favorability&key=" + context.getSender().getId() + "&value=" + addFavor)
                 if (name == null) {
                     var name = context.getSender().getNick()
                     context.send("感谢" + name + "陪默默聊天 好感度+" + addRandomFavor)
