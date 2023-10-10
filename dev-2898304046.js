@@ -739,11 +739,17 @@ if (context.getType() == "group") {
     if (get_fool_state() == "true") {
         var isRun = getRandomNumber(1, 2)
         //设置名字
+        //查看档案
         //获取at 加好感度
         if (msg.startsWith("默默以后请叫我")) {
             var name = msg.substring(7)
             utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-name&key=" + context.getSender().getId() + "&value=" + name)
             context.send("okk 默默知道啦 以后就称呼你为" + name + "了")
+        } else if (msg == "默默查看我的档案") {
+            var image = context.getSender().getAvatarUrl()
+            var name = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-name&key=" + context.getSender().getId())
+            var favor = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-favorability&key=" + context.getSender().getId())
+            context.send("<at:" + context.getSender().getId() + ">\n" + "你的称呼为:" + name + "\n当前好感度为:" + favor)
         } else if (isRun == 1) {
             if (msg.indexOf("<at:" + context.getBot().getId() + ">") >= 0 || msg.indexOf("默默") >= 0) {
                 var name = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-name&key=" + context.getSender().getId())
@@ -769,13 +775,6 @@ if (context.getType() == "group") {
             } else {
                 context.send("这个默默知道！你是" + name)
             }
-        }
-
-        //查询档案
-        if(msg == "默默查看我的档案"){
-            var image = context.getSender().getAvatarUrl()
-            var name = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-name&key=" + context.getSender().getId())
-            var favor = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-favorability&key=" + context.getSender().getId())
         }
     }
 }
