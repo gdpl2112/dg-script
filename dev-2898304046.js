@@ -809,8 +809,4 @@ if (context.getType() == "MemberJoinRequestEvent") {
     var joinNick = event.fromNick()
     var invitorId = event.getInvitorId()
     event.sendMessage(context.newPlainText("有一个新的成员要入群啦！\n他的名字叫:" + joinNick + "(" + joinId + ")\n邀请者为:" + getInvitorId))
-
-    if (msg == "同意申请") {
-        event.accept()
-    }
 }
