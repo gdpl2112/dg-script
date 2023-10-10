@@ -222,7 +222,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<pic:https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
     else if (msg.trim() === ("趴")) context.send("<pic:https://api.xingzhige.com/API/grab/?qq=" + context.getSender().getId() + ">")
     else if (msg.trim() === ("贴")) context.send("<pic:https://api.xingzhige.com/API/baororo/?qq=" + context.getSender().getId() + ">")
-
+    else if (msg.trim() === ("打")) context.send("<pic:https://api.xingzhige.com/API/pound/?qq=" + context.getSender().getId() + ">")
 }
 
 if (context.getType() === "group") {
@@ -280,4 +280,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/10-new1
+//23/10/10-new2
