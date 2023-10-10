@@ -216,12 +216,15 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg.startsWith("捅")) {
         var aid = getAtId(msg)
         if (aid != null) context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
-    } else if (msg.startsWith("摇")) {
+    } else if (msg.startsWith("摇"))
         context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/yao2yao?qid=" + context.getSender().getId() + ">"))
-    } else if (msg.trim() === ("锤") || msg.trim() === ("捶")) {
-        context.send("<pic:" + "https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
-    }
+    else if (msg.trim() === ("锤") || msg.trim() === ("捶"))
+        context.send("<pic:https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
+    else if (msg.trim() === ("趴")) context.send("<pic:https://api.xingzhige.com/API/grab/?qq=" + context.getSender().getId() + ">")
+    else if (msg.trim() === ("贴")) context.send("<pic:https://api.xingzhige.com/API/baororo/?qq=" + context.getSender().getId() + ">")
+    else if (msg.trim() === ("打")) context.send("<pic:https://api.xingzhige.com/API/pound/?qq=" + context.getSender().getId() + ">")
 }
+
 if (context.getType() === "group") {
     var sid = context.getSender().getId();
     if (context.getSubject().getId() == 868060057 || context.getSubject().getId() == 696516964) {
@@ -277,4 +280,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/9-update
+//23/10/10-test
