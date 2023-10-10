@@ -749,7 +749,12 @@ if (context.getType() == "group") {
             var image = context.getSender().getAvatarUrl()
             var name = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-name&key=" + context.getSender().getId())
             var favor = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-favorability&key=" + context.getSender().getId())
-            context.send("<at:" + context.getSender().getId() + ">\n" + "你的称呼为:" + name + "\n当前好感度为:" + favor)
+            if (favor == null) {
+                var favor = "0"
+                context.send("<at:" + context.getSender().getId() + ">\n" + "你的称呼为:" + name + "\n当前好感度为:" + favor)
+            } else {
+                context.send("<at:" + context.getSender().getId() + ">\n" + "你的称呼为:" + name + "\n当前好感度为:" + favor)
+            }
         } else if (isRun == 1) {
             if (msg.indexOf("<at:" + context.getBot().getId() + ">") >= 0 || msg.indexOf("默默") >= 0) {
                 var name = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-name&key=" + context.getSender().getId())
