@@ -68,6 +68,7 @@ if (context.getType() == "group") {
                 }
                 break
             case "/test":
+                context.send(context.newPlainText(utils.executeSelectOne("select * from pkv")))
                 break
             case "/repeat":
                 if (okv.length !== 2) context.send("args size less 2")
@@ -77,10 +78,10 @@ if (context.getType() == "group") {
                 context.send(utils.executeSql(msg.substring(4)))
                 break
             case "/select":
-                context.send(utils.executeSelectList(msg.substring("/select".length)))
+                context.send(context.newPlainText(utils.executeSelectList(msg.substring(7))))
                 break
             case "/selectOne":
-                context.send(utils.executeSelectList(msg.substring("/selectOne".length)))
+                context.send(context.newPlainText(utils.executeSelectOne(msg.substring(10))))
                 break
 
         }
@@ -221,6 +222,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var d0 = JSON.parse(json1)
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
         //context.send("<audio:" + d0.audiourl + ">")
+    } else if (msg.startsWith("ai:")) {
+        var req = msg.replace("ai:", "").replace(/<qr:-?\d+>/g, "").trim()
+        if (req.length > 2) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + req + "&id=3474006766"))
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.trim().substring(2) + "&type=text&end="))
     } else if (msg.startsWith("捅")) {
@@ -255,11 +259,6 @@ if (context.getType() === "group") {
             var list = utils.newObject("java.util.ArrayList")
             list.addAll(ms.delegate)
             context.send(context.newPlainText(list.toString()))
-        }
-    } else if (msg.startsWith("ai:")) {
-        if (context.getSubject().getId() != 852662621) {
-            var req = msg.replace("ai:", "").replace(/<qr:-?\d+>/g, "").trim()
-            if (req.length > 2) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + req + "&id=3474006766"))
         }
     }
 }
