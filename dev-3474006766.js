@@ -267,6 +267,13 @@ if (context.getType() == "NudgeEvent") {
     var bid = event.getBot().getId()
     if (event.getFrom() == event.getBot()) {
         //主动戳出 不做处理
+        utils.executeSql("CREATE TABLE IF NOT EXISTS  `nlist` (\n" +
+            "\t`qid` BIGINT NOT NULL,\n" +
+            "\t`sid` BIGINT NOT NULL,\n" +
+            "\t`time` VARCHAR(50) NOT NULL,\n" +
+            "\t`tips` VARCHAR(50) NOT NULL\n" +
+            ");")
+        utils.executeSql("INSERT INTO `test`.`nlist` (`qid`, `sid`, `time`, `tips`) VALUES (" + bid + ", " + event.getTarget().getId() + ", '暂不设置', '暂无说明');")
     } else if (event.getTarget().getId() == bid) {
         var r0 = utils.get("nc0")
         if (r0 == null) r0 = 1;
@@ -289,4 +296,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12
+//23/10/12-1
