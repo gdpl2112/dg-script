@@ -20,7 +20,7 @@ if (context.getType() === "group") {
         utils.clear()
         utils.set("jsAll", jsAll)
         var ss = jsAll.split("\n")
-        context.send(ss[ss.length - 1])
+        context.send(context.newPlainText(ss[ss.length - 1]))
     } else {
         work()
     }
