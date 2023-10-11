@@ -44,6 +44,8 @@ class Utils {
 
     list();
 
+    executeSql(sql);
+
     executeSelectList(sql);
 
     executeSelectOne(sql);
