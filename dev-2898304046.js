@@ -5,6 +5,7 @@
 //pwd=dg-2898304046 key=manage_state 储存本地"manage_state"
 //pwd=dg-2898304046 key=nudge_state 储存本地"nudge_state"
 //pwd=dg-2898304046 key=fool_state 储存本地"fool_state""
+//pwd=dg-2898304046-bottle key=bottleId value=bottleMessage 储存本地"bottle_state"
 
 //本地异步"setLog_state"
 
@@ -797,7 +798,72 @@ if (context.getType() == "group") {
 }
 
 
+var bottle_state = utils.get("bottle_state")
+if (bottle_state == true) {
+    var gid2 = utils.get("gid1")
+    var qid2 = utils.get("qid1")
+    var gid = context.getSubject().getId()
+    var qid = context.getSender().getId()
+    if (gid == gid2) {
+        if (qid == qid2) {
+            //获取bottle内容
+            var bottleMessage = msg
+            //获取当前群名
+            var groupName = context.getBot().getGroup(gid2).getName()
+            //获取发送者名字
+            var senderName = context.getSender().getNick()
+            //获取发送者id
+            var senderId = context.getSender().getId()
+            //构建bottle内容
+            var setBottleMessage = "你捡到了一个来自群\"" + groupName + "\"(" + gid2 + ")的瓶子\n内容为:"
+                + msg +
+                "\n丢取的人是:" + senderName + "(" + senderId + ")"
+            //获取当前bottle序号
+            var getBottleNumber = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-bottle&key=number")
+            if (getBottleNumber = null) {
+                utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-bottle&key=number&value=0")
+                utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-bottle&key=0&value=" + setBottleMessage)
+                context.send("你的瓶子已扔向大海啦")
+                utils.set("bottle_state", false)
+            } else {
+                var bottleNumber = Number(Number(getBottleNumber) + 1)
+                utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-bottle&key=number&value=" + bottleNumber)
+                utils.requestGet("http://kloping.top/put?pwd=dg-2898304046-bottle&key=" + bottleNumber + "&value=" + setBottleMessage)
+                context.send("你的瓶子已扔向大海啦")
+                utils.set("bottle_state", false)
+            }
+        }
+    }
+} else if (msg == "扔瓶子") {
+    var name = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-bottle&key=" + context.getSender().getId())
+    if (name == null) {
+        var name = context.getSender().getNick()
+        context.send("请" + name + "快写下自己想说的话吧")
+        var gid1 = context.getSubject().getId()
+        var qid1 = context.getSender().getId()
+        utils.set("gid1", gid1)
+        utils.set("qid1", qid1)
+        utils.set("bottle_state", true)
+    } else {
+        context.send("请" + name + "快写下自己想说的话吧")
+        var gid1 = context.getSubject().getId()
+        var qid1 = context.getSender().getId()
+        utils.set("gid1", gid1)
+        utils.set("qid1", qid1)
+        utils.set("bottle_state", true)
+    }
+}
 
+if (msg == "捡瓶子") {
+    var getBottleNumber = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-bottle&key=number")
+    var getRandomBottle = getRandomNumber(1, getBottleNumber)
+    if (getBottleNumber < 1) {
+        context.send("当前还没有瓶子哦 赶快扔一个吧")
+    } else {
+        var bottle = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046-bottle&key=" + getRandomBottle)
+        context.send("<at:" + context.getSender().getId() + ">\n" + bottle)
+    }
+}
 
 
 
