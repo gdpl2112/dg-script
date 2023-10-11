@@ -12,7 +12,7 @@
 //!!! https://ghps.cc/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js
 
 
-var url = "https://gh.api.99988866.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js"
+var url = "https://ghproxy.com/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js"
 
 if (context.getType() === "group") {
     if (msg === "update") {

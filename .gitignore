@@ -2,3 +2,4 @@
 *.http
 .vscode
 test.js
+temp.txt

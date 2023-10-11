@@ -1,5 +1,3 @@
-// 环境脚本
-
 class Context {
     getBot();
 
@@ -46,9 +44,14 @@ class Utils {
 
     list();
 
-    newObject(name, args);
+    executeSql(sql);
+
+    executeSelectList(sql);
+
+    executeSelectOne(sql);
 }
 
 var msg = "";
 var context = new Context();
 var utils = new Utils();
+var event;
