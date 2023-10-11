@@ -73,6 +73,16 @@ if (context.getType() == "group") {
                 if (okv.length !== 2) context.send("args size less 2")
                 context.send(okv[1])
                 break
+            case "/sql":
+                context.send(utils.executeSql(msg.substring(4)))
+                break
+            case "/select":
+                context.send(utils.executeSelectList(msg.substring("/select".length)))
+                break
+            case "/selectOne":
+                context.send(utils.executeSelectList(msg.substring("/selectOne".length)))
+                break
+
         }
     }
 }
@@ -280,4 +290,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/11
+//23/10/11-1
