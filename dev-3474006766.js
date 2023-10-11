@@ -273,7 +273,7 @@ if (context.getType() == "NudgeEvent") {
             "\t`time` VARCHAR(50) NOT NULL,\n" +
             "\t`tips` VARCHAR(50) NOT NULL\n" +
             ");")
-        utils.executeSql("INSERT INTO `test`.`nlist` (`qid`, `sid`, `time`, `tips`) VALUES (" + bid + ", " + event.getTarget().getId() + ", '暂不设置', '暂无说明');")
+        utils.executeSql("INSERT INTO `nlist` (`qid`, `sid`, `time`, `tips`) VALUES (" + bid + ", " + event.getTarget().getId() + ", '暂不设置', '暂无说明');")
     } else if (event.getTarget().getId() == bid) {
         var r0 = utils.get("nc0")
         if (r0 == null) r0 = 1;
