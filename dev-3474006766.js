@@ -266,7 +266,7 @@ if (context.getType() === "group") {
 if (context.getType() == "NudgeEvent") {
     var bid = event.getBot().getId()
     utils.executeSql("CREATE TABLE IF NOT EXISTS  `nlist` (\n" + "\t`qid` BIGINT NOT NULL,\n" + "\t`sid` BIGINT NOT NULL,\n" + "\t`time` VARCHAR(50) NOT NULL,\n" + "\t`tips` VARCHAR(50) NOT NULL\n" + ");")
-    utils.executeSql("INSERT INTO `nlist` (`qid`, `sid`, `time`, `tips`) VALUES (" + event.getFrom().getId() + ", " + event.getTarget().getId() + ", '暂不设置', '暂无说明');")
+    utils.executeSql("INSERT INTO `nlist` (`qid`, `sid`, `time`, `tips`) VALUES (" + event.getFrom().getId() + ", " + event.getTarget().getId() + ", '" + new Date() + "', '暂无说明');")
     if (event.getFrom() == event.getBot()) {
         //主动戳出 不做处理
     } else if (event.getTarget().getId() == bid) {
