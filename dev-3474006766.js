@@ -83,7 +83,6 @@ if (context.getType() == "group") {
             case "/selectOne":
                 context.send(context.newPlainText(utils.executeSelectOne(msg.substring(10))))
                 break
-
         }
     }
 }
@@ -206,7 +205,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
         //context.send("<audio:" + d0.audiourl + ">")
     } else if (msg.startsWith("ai:")) {
-        var req = msg.replace("ai:", "").replace(/<qr:-?\d+>/g, "").trim()
+        var req = encodeURI(msg.substring(3))
         if (req.length > 2) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + req + "&id=3474006766"))
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.trim().substring(2) + "&type=text&end="))
@@ -273,4 +272,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12
+//23/10/12-fix
