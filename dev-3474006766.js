@@ -174,22 +174,26 @@ if (context.getType() === "group" || context.getType() === "friend") {
             } else context.send("未发现图片")
         }
         //上传结束
-        if (isStartOrEndWith(msg, "query")) {
+        else if (isStartOrEndWith(msg, "query")) {
             var iurl = getImageUrlAll(msg)
-            if (iurl != null) context.send(iurl)
-            else context.send("未发现图片")
+            if (iurl != null)
+                context.send(iurl)
+            else
+                context.send("未发现图片")
         }
         //查询
-        if (isStartOrEndWith(msg, "识别")) {
+        else if (isStartOrEndWith(msg, "识别")) {
             var iurl = getImageUrlAll(msg)
             if (iurl != null) {
                 iurl = encodeURI(iurl)
                 var out = getTextFromOcr(iurl)
-                if (out != null) context.send(out)
-                else context.send("识别失败")
+                if (out != null) context.send(out) else context.send("识别失败")
             } else context.send("未发现图片")
         }
         //识别
+        else if (msg === "aiclear") {
+            context.send(utils.requestGet("http://kloping.top/api/ai/clear?id=3474006766"))
+        }
     }
     if (msg.indexOf("douyin") > 0 || msg.indexOf("kuaishou") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
@@ -290,4 +294,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-17.22
+//23/10/12-17.51
