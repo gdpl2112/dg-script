@@ -210,8 +210,7 @@ function getGroupMember() {
 //菜单
 if (context.getType() == "group" || context.getType() == "friend") {
     if (msg == "默的菜单") {
-        var menu = utils.requestGet("http://kloping.top/temp/2023/10/12/4f4476aa-4513-4ab1-8d3d-4a842d4c4438.jpg")
-        context.send("<at:" + context.getSender().getId() + ">\n" + menu)
+        context.send("<at:" + context.getSender().getId() + ">\n" + "<pic:http://kloping.top/m-2898304046.jpg>")
     }
 }
 
