@@ -151,11 +151,12 @@ function randomNum(minNum, maxNum) {
 }
 
 function sendToText(out) {
-    if (out.length >= 1000) {
+    var max = 600
+    if (out.length >= max) {
         var builder = context.forwardBuilder()
-        while (out.length >= 1000) {
-            var e = out.substring(0, 1000)
-            out = out.substring(1000)
+        while (out.length >= max) {
+            var e = out.substring(0, max)
+            out = out.substring(max)
             builder.add(context.getBot().getId(), "AI", context.newPlainText(e.trim()))
         }
         if (out.length > 0) builder.add(context.getBot().getId(), "AI", context.newPlainText(out.trim()))
@@ -298,4 +299,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-21.28
+//23/10/12-21.35
