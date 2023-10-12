@@ -150,7 +150,7 @@ function randomNum(minNum, maxNum) {
 }
 
 function sendToText(out) {
-    if (out.length >= 500) {
+    if (out.length >= 1000) {
         var as = out.split(/[\n]+/g)
         var builder = context.forwardBuilder()
         for (var i = 0; i < as.length; i++) {
@@ -290,4 +290,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-17.20
+//23/10/12-17.22
