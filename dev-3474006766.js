@@ -84,7 +84,7 @@ if (context.getType() == "group") {
                 context.send(context.newPlainText(utils.executeSelectOne(msg.substring(10))))
                 break
             case "/test":
-                context.send(context.uploadImage("https://p.xiaofankj.com.cn/images/2023/10/12/1697125374652813fe540c0.jpg"))
+                context.send(context.uploadImage("http://kloping.top/m-2898304046.jpg"))
                 break
         }
     }
