@@ -204,7 +204,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var d0 = JSON.parse(json1)
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
         //context.send("<audio:" + d0.audiourl + ">")
-    } else if (msg.startsWith("ai:")) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
+    }
+    else if (msg.startsWith("ai:")) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + msg.substring(3) + "&id=3474006766"))
+    else if (msg.startsWith("AI:")) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
     else if (msg.startsWith("翻译")) context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.trim().substring(2) + "&type=text&end="))
     else if (msg.startsWith("捅")) {
         var aid = getAtId(msg)
@@ -267,4 +269,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-fix2
+//23/10/12-fix3
