@@ -68,7 +68,7 @@ if (context.getType() == "group") {
                 }
                 break
             case "/eval":
-                eval(msg.substring(5))
+                eval(msg.substring(5).trim())
                 break
             case "/repeat":
                 if (okv.length !== 2) context.send("args size less 2")
@@ -299,4 +299,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-21.35
+//23/10/12-23.38
