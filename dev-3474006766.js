@@ -105,23 +105,6 @@ function getAtId(inStr) {
     if (end !== null) return Number(end); else return null
 }
 
-var ns = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-function getAllNumber(str) {
-    var out = ""
-    for (var i = 0; i < str.length; i++) {
-        var e = str[i]
-        if (ns.indexOf(e) >= 0) {
-            out = out + e
-        }
-    }
-    if (out.length > 0) {
-        return Number(out)
-    } else {
-        return -1
-    }
-}
-
 function getTextFromOcr(url) {
     var json = utils.requestGet("http://kloping.top/api/ocr?url=" + url)
     var jo = JSON.parse(json)
@@ -290,4 +273,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-3
+//23/10/12

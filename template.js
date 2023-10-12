@@ -23,22 +23,12 @@ function getAtId(inStr) {
     if (end !== null) return Number(end); else return null
 }
 
-var ns = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-
 //获取指定str中所有阿拉伯数字
-function getAllNumber(str) {
-    var out = ""
-    for (var i = 0; i < str.length; i++) {
-        var e = str[i]
-        if (ns.indexOf(e) > 0) {
-            out = out + e
-        }
-    }
-    if (out.length > 0) {
-        return Number(out)
-    } else {
-        return -1
-    }
+function parseAndConcatNumbers(str) {
+    var regex = /\d+/g;
+    var numbers = str.match(regex);
+    var concatenatedNumber = numbers.join('');
+    return parseInt(concatenatedNumber);
 }
 
 //orc识别图片(url) 返回文本
