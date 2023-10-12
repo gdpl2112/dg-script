@@ -1,3 +1,71 @@
+//完善
+function getFormatValue(fk, inStr) {
+    var i1 = inStr.indexOf("<")
+    var i2 = inStr.indexOf(">")
+    if (i1 < 0 || i2 <= 0) return null
+    var format0 = inStr.substring(i1 + 1, i2)
+    var args = format0.split(":")
+    if (args[0] !== fk) {
+        if (i2 <= inStr.length) return getFormatValue(fk, inStr.substring(i2 + 1))
+        else return null
+    } else return args[1]
+}
+
+function getAtId(inStr) {
+    var end = getFormatValue("at", inStr)
+    if (end !== null) return Number(end); else return null
+}
+
+function getTextFromOcr(url) {
+    var json = utils.requestGet("http://kloping.top/api/ocr?url=" + url)
+    var jo = JSON.parse(json)
+    return jo.data.ParsedText
+}
+
+function isStartOrEndWith(msg, key) {
+    return (msg.startsWith(key) || msg.endsWith(key))
+}
+
+function getImageUrlAll(msg) {
+    var iid = getFormatValue("pic", msg)
+    if (iid == null) {
+        var msgId = getFormatValue("qr", msg)
+        if (msgId === null) {
+            return null
+        } else {
+            var msgc = context.getMessageChainById(msgId)
+            var msgcs = utils.serialize(msgc)
+            iid = getFormatValue("pic", msgcs)
+            if (iid == null) {
+                return null
+            } else {
+                return utils.queryUrlFromId(iid)
+            }
+        }
+    } else {
+        return utils.queryUrlFromId(iid)
+    }
+}
+
+function sendToText(out) {
+    var max = 600
+    if (out.length >= max) {
+        var builder = context.forwardBuilder()
+        while (out.length >= max) {
+            var e = out.substring(0, max)
+            out = out.substring(max)
+            builder.add(context.getBot().getId(), "AI", context.newPlainText(e.trim()))
+        }
+        if (out.length > 0) builder.add(context.getBot().getId(), "AI", context.newPlainText(out.trim()))
+        context.send(builder.build())
+    } else {
+        context.send(out)
+    }
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 if (context.getType() == "group") {
     if (context.getSender().getId() == 3474006766) {
         var okv = msg.split(" ");
@@ -68,7 +136,7 @@ if (context.getType() == "group") {
                 }
                 break
             case "/eval":
-                eval(msg.substring(5))
+                eval(msg.substring(5).trim())
                 break
             case "/repeat":
                 if (okv.length !== 2) context.send("args size less 2")
@@ -83,89 +151,11 @@ if (context.getType() == "group") {
             case "/selectOne":
                 context.send(context.newPlainText(utils.executeSelectOne(msg.substring(10))))
                 break
+            case "/test":
+                break
         }
     }
 }
-//完善
-function getFormatValue(fk, inStr) {
-    var i1 = inStr.indexOf("<")
-    var i2 = inStr.indexOf(">")
-    if (i1 < 0 || i2 <= 0) return null
-    var format0 = inStr.substring(i1 + 1, i2)
-    var args = format0.split(":")
-    if (args[0] !== fk) {
-        if (i2 <= inStr.length) return getFormatValue(fk, inStr.substring(i2 + 1))
-        else return null
-    } else return args[1]
-}
-
-function getAtId(inStr) {
-    var end = getFormatValue("at", inStr)
-    if (end !== null) return Number(end); else return null
-}
-
-function getTextFromOcr(url) {
-    var json = utils.requestGet("http://kloping.top/api/ocr?url=" + url)
-    var jo = JSON.parse(json)
-    return jo.data.ParsedText
-}
-
-function isStartOrEndWith(msg, key) {
-    return (msg.startsWith(key) || msg.endsWith(key))
-}
-
-function getImageUrlAll(msg) {
-    var iid = getFormatValue("pic", msg)
-    if (iid == null) {
-        var msgId = getFormatValue("qr", msg)
-        if (msgId === null) {
-            return null
-        } else {
-            var msgc = context.getMessageChainById(msgId)
-            var msgcs = utils.serialize(msgc)
-            iid = getFormatValue("pic", msgcs)
-            if (iid == null) {
-                return null
-            } else {
-                return utils.queryUrlFromId(iid)
-            }
-        }
-    } else {
-        return utils.queryUrlFromId(iid)
-    }
-}
-
-//生成从minNum到maxNum的随机数
-function randomNum(minNum, maxNum) {
-    switch (arguments.length) {
-        case 1:
-            return parseInt(Math.random() * minNum + 1, 10);
-            break;
-        case 2:
-            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
-            break;
-        default:
-            return 0;
-            break;
-    }
-}
-
-function sendToText(out) {
-    var max = 600
-    if (out.length >= max) {
-        var builder = context.forwardBuilder()
-        while (out.length >= max) {
-            var e = out.substring(0, max)
-            out = out.substring(max)
-            builder.add(context.getBot().getId(), "AI", context.newPlainText(e.trim()))
-        }
-        if (out.length > 0) builder.add(context.getBot().getId(), "AI", context.newPlainText(out.trim()))
-        context.send(builder.build())
-    } else {
-        context.send(out)
-    }
-}
-
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() == context.getBot().getId() || context.getSender().getId() == 2898304046) {
         if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
@@ -247,7 +237,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<pic:https://api.xingzhige.com/API/pound/?qq=" + context.getSender().getId() + ">")
     }
 }
-
 if (context.getType() === "group") {
     var sid = context.getSender().getId();
     if (context.getSubject().getId() == 868060057 || context.getSubject().getId() == 696516964) {
@@ -271,7 +260,6 @@ if (context.getType() === "group") {
         }
     }
 }
-
 if (context.getType() == "NudgeEvent") {
     var bid = event.getBot().getId()
     utils.executeSql("CREATE TABLE IF NOT EXISTS  `nlist` (\n" + "\t`qid` BIGINT NOT NULL,\n" + "\t`sid` BIGINT NOT NULL,\n" + "\t`time` VARCHAR(50) NOT NULL,\n" + "\t`tips` VARCHAR(50) NOT NULL\n" + ");")
@@ -296,7 +284,7 @@ if (context.getType() == "NudgeEvent") {
                 break;
         }
         utils.set("nc0", r0 + 1)
-        if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
+        if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-21.35
+//23/10/12-23.51
