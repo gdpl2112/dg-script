@@ -83,6 +83,9 @@ if (context.getType() == "group") {
             case "/selectOne":
                 context.send(context.newPlainText(utils.executeSelectOne(msg.substring(10))))
                 break
+            case "/test":
+                context.send(context.uploadImage("https://p.xiaofankj.com.cn/images/2023/10/12/1697125374652813fe540c0.jpg"))
+                break
         }
     }
 }
@@ -299,4 +302,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-23.38
+//23/10/12-23.44
