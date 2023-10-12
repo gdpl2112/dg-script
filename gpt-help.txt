@@ -1,0 +1,46 @@
+现有一程序bot，该bot每当接受到消息就会执行一次js脚本且该js脚本不能引入任何库只能使用基本的逻辑和给定的变量。以下是预设变量以及部分说明
+class Context {
+    getBot();
+    //发送消息
+    send(str);
+    builder();
+    forwardBuilder();
+    getSender();
+    getSubject();
+    getMessageChainById(id);
+    createMusicShare(kind, title, summer, jumUrl, picUrl, url);
+    uploadImage(url);
+    newPlainText(text);
+    deSerialize(msg);
+    //判断环境 常为 friend 或者 group
+    getType();
+}
+class Utils {
+    //获得指定密文数据返回字符串
+    requestGet(url);
+    requestPost(url, data);
+    queryUrlFromId(id);
+    serialize(msg);
+    //获取内存中的变量
+    get(key);
+    //向内存在设置变量
+    set(key, value);
+    //删除内存在的变量
+    del(key);
+    //清除内存中所有变量
+    clear();
+    //列出内存在所有变量
+    list();
+    executeSql(sql);
+    executeSelectList(sql);
+    executeSelectOne(sql);
+}
+//消息体
+var msg = "";
+var context = new Context();
+var utils = new Utils();
+var event;
+其中msg为接收到的消息 类型为字符串
+event仅特殊情况不为null
+请写出一段js
+你的需求#当bot接收到消息"一言"且环境为"group"时获取密文数据 https://api.xtaoa.com/api/yiyan.php并发送数据为纯文本无需解析
