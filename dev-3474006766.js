@@ -187,7 +187,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
             if (iurl != null) {
                 iurl = encodeURI(iurl)
                 var out = getTextFromOcr(iurl)
-                if (out != null) context.send(out) else context.send("识别失败")
+                if (out != null) {
+                    context.send(out)
+                } else context.send("识别失败")
             } else context.send("未发现图片")
         }
         //识别
@@ -294,4 +296,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-17.51
+//23/10/12-17.57
