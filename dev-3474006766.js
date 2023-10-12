@@ -150,6 +150,20 @@ function randomNum(minNum, maxNum) {
     }
 }
 
+function sendToText(out) {
+    if (out.length >= 300) {
+        var as = out.split(/[\n]+/g)
+        var builder = context.forwardBuilder();
+        for (let i = 0; i < as.length; i++) {
+            var e = as[i];
+            builder.add(context.getBot().getId(), "AI", context.newPlainText(e.trim()))
+        }
+        context.send(builder.build())
+    } else {
+        context.send(out)
+    }
+}
+
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() == context.getBot().getId()) {
         if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
@@ -204,18 +218,26 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var d0 = JSON.parse(json1)
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
         //context.send("<audio:" + d0.audiourl + ">")
-    }
-    else if (msg.startsWith("ai:")) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + msg.substring(3) + "&id=3474006766"))
-    else if (msg.startsWith("AI:")) context.send(utils.requestGet("http://kloping.top/api/ai?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
-    else if (msg.startsWith("翻译")) context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.trim().substring(2) + "&type=text&end="))
-    else if (msg.startsWith("捅")) {
+    } else if (msg.startsWith("ai:")) {
+        sendToText(utils.requestGet("http://kloping.top/api/ai?req=" + msg.substring(3) + "&id=3474006766"))
+    } else if (msg.startsWith("AI:")) {
+        sendToText(utils.requestGet("http://kloping.top/api/ai?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
+    } else if (msg.startsWith("翻译")) {
+        context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.trim().substring(2) + "&type=text&end="))
+    } else if (msg.startsWith("捅")) {
         var aid = getAtId(msg)
         if (aid != null) context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
-    } else if (msg.startsWith("摇")) context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/yao2yao?qid=" + context.getSender().getId() + ">"))
-    else if (msg.trim() === ("锤") || msg.trim() === ("捶")) context.send("<pic:https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
-    else if (msg.trim() === ("趴")) context.send("<pic:https://api.xingzhige.com/API/grab/?qq=" + context.getSender().getId() + ">")
-    else if (msg.trim() === ("贴")) context.send("<pic:https://api.xingzhige.com/API/baororo/?qq=" + context.getSender().getId() + ">")
-    else if (msg.trim() === ("打")) context.send("<pic:https://api.xingzhige.com/API/pound/?qq=" + context.getSender().getId() + ">")
+    } else if (msg.startsWith("摇")) {
+        context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/yao2yao?qid=" + context.getSender().getId() + ">"))
+    }else if (msg.trim() === ("锤") || msg.trim() === ("捶")) {
+        context.send("<pic:https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
+    } else if (msg.trim() === ("趴")) {
+        context.send("<pic:https://api.xingzhige.com/API/grab/?qq=" + context.getSender().getId() + ">")
+    }else if (msg.trim() === ("贴")) {
+        context.send("<pic:https://api.xingzhige.com/API/baororo/?qq=" + context.getSender().getId() + ">")
+    } else if (msg.trim() === ("打")) {
+        context.send("<pic:https://api.xingzhige.com/API/pound/?qq=" + context.getSender().getId() + ">")
+    }
 }
 
 if (context.getType() === "group") {
@@ -269,4 +291,4 @@ if (context.getType() == "NudgeEvent") {
         if (randomNum(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-fix3
+//23/10/12-update
