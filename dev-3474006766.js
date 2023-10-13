@@ -188,7 +188,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         }
         //识别
         else if (msg === "aiclear") {
-            context.send(utils.requestGet("http://kloping.top/api/ai/clear?id=3474006766"))
+            context.send(utils.requestGet("http://kloping.top/api/ai1/clear?id=3474006766"))
         }
     }
     if (msg.indexOf("douyin") > 0 || msg.indexOf("kuaishou") > 0) {
@@ -292,4 +292,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/13-22.29
+//23/10/13-22.44
