@@ -1,60 +1,170 @@
+//检测API开关状态
+function get_api_state() {
+    var get_api = utils.get("api_state")
+    if (get_api == null) {
+        var api_now_state = utils.requestGet("http://kloping.top/get?pwd=dg-189696825&key=api_state")
+        utils.set("api_state", api_now_state)
+        var get_api1 = utils.get("api_state")
+        return get_api1
+    } else {
+        return get_api
+    }
+}
+
 if (context.getType() === "group") {
-    if (msg.startsWith("解析快手图集")) {
-        if (context.getType() === "group") {
-            var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-            var urls = msg.match(reg)
-            if (urls !== null) {
-                context.send("正在解析...\n请稍等")
-                var u0 = encodeURI(urls[0]);
-                var arr = JSON.parse(utils.requestGet("http://kloping.top/api/search/parseImgs?url=" + u0 + "&type=ks"))
-                var builder = context.forwardBuilder();
-                for (var i = 0; i < arr.length; i++) {
-                    var e = arr[i];
-                    builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
+    if (get_api_state() == "true") {
+        if (msg.startsWith("解析快手图集")) {
+            if (context.getType() === "group") {
+                var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+                var urls = msg.match(reg)
+                if (urls !== null) {
+                    context.send("正在解析...\n请稍等")
+                    var u0 = encodeURI(urls[0]);
+                    var arr = JSON.parse(utils.requestGet("http://kloping.top/api/search/parseImgs?url=" + u0 + "&type=ks"))
+                    var builder = context.forwardBuilder();
+                    for (var i = 0; i < arr.length; i++) {
+                        var e = arr[i];
+                        builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
+                    }
+                    context.send(builder.build())
+                } else {
+                    context.send("未发现链接")
                 }
-                context.send(builder.build())
             } else {
-                context.send("未发现链接")
+                context.send("命令仅适用群聊")
             }
-        } else {
-            context.send("命令仅适用群聊")
         }
-    }
-    //====================解析结束
-    if (msg.startsWith("妤百度")) {
-        var end = encodeURI(msg.substring(2));
-        context.send("https://m.baidu.com/s?word=" + end);
-    }
-    //================百度结束
+        //====================解析结束
+        if (msg.startsWith("妤百度")) {
+            var end = encodeURI(msg.substring(2));
+            context.send("https://m.baidu.com/s?word=" + end);
+        }
+        //================百度结束
 
-    //甘雨抱抱你
-    if (msg.startsWith("甘雨抱抱你")) {
-        var object = getApiObject(5)
-        context.send(context.uploadImage("https://api.andeer.top/API/img_love.php?qq=" + object))
-    }
+        //甘雨抱抱你
+        if (msg.startsWith("甘雨抱抱你")) {
+            var object = getApiObject(5)
+            context.send(context.uploadImage("https://api.andeer.top/API/img_love.php?qq=" + object))
+        }
 
-    //贴贴
-    if (msg.startsWith("贴贴")) {
-        var object = getApiObject(2)
-        context.send(context.uploadImage("https://api.xingzhige.com/API/baororo/?qq=" + object))
-    }
+        //贴贴
+        if (msg.startsWith("贴贴")) {
+            var object = getApiObject(2)
+            context.send(context.uploadImage("https://api.xingzhige.com/API/baororo/?qq=" + object))
+        }
 
-    //顶
-    if (msg.startsWith("顶")) {
-        var object = getApiObject(1)
-        context.send(context.uploadImage("https://api.xingzhige.com/API/dingqiu/?qq=" + object))
-    }
+        //顶
+        if (msg.startsWith("顶")) {
+            var object = getApiObject(1)
+            context.send(context.uploadImage("https://api.xingzhige.com/API/dingqiu/?qq=" + object))
+        }
 
-    //咬
-    if (msg.startsWith("咬")) {
-        var object = getApiObject(1)
-        context.send(context.uploadImage("https://api.xingzhige.com/API/bite/?qq=" + object))
-    }
+        //咬
+        if (msg.startsWith("咬")) {
+            var object = getApiObject(1)
+            context.send(context.uploadImage("https://api.xingzhige.com/API/bite/?qq=" + object))
+        }
 
-    //拍
-    if (msg.startsWith("拍")) {
-        var object = getApiObject(1)
-        context.send(context.uploadImage("https://api.xingzhige.com/API/grab/?qq=" + object))
+        //拍
+        if (msg.startsWith("拍")) {
+            var object = getApiObject(1)
+            context.send(context.uploadImage("https://api.xingzhige.com/API/grab/?qq=" + object))
+        }
+
+        //娶群友
+        if (context.getType() == "group") {
+            if (msg == "娶群友") {
+                //获取群内成员并分组
+                var getMemberList = getGroupMember()
+                var memberListString = getMemberList.toString()
+                var memberList = memberListString.split(",")
+                //获取群人数
+                var memberMax = context.getSubject().getMembers().size()
+                //随机获取群友
+                var i = getRandomNumber(0, memberMax)
+                //获取群友qq号
+                var wife = memberList[i].replace(/[^\d]/g, "")
+                var husband = context.getSender().getId()
+                //获取群友头像
+                var wifeImage = context.getSubject().get(wife).getAvatarUrl()
+                var husbandImage = context.getSubject().get(husband).getAvatarUrl()
+                //获取群友名字
+                var wifeName = context.getSubject().get(wife).getNick()
+                var husbandName = context.getSubject().get(husband).getNick()
+
+
+                //储存189696825
+                //检测是否有老婆
+                var married = utils.requestGet("http://kloping.top/get?pwd=dg-189696825-wife&key=" + husband)
+                //检测是否有老公
+                var beMarried = utils.requestGet("http://kloping.top/get?pwd=dg-189696825-husband&key=" + husband)
+                if (married == null) {
+                    if (beMarried == null) {
+                        //将发送者存为老公
+                        utils.requestGet("http://kloping.top/put?pwd=dg-189696825-wife&key=" + husband + "&value=" + wife)
+                        //将获取的群友存为老婆
+                        utils.requestGet("http://kloping.top/put?pwd=dg-189696825-husband&key=" + wife + "&value=" + husband)
+                        context.send("<at:" + context.getSender().getId() + ">\n"
+                            + "今天你的群友老婆是\n"
+                            + "<pic:" + wifeImage + ">\n"
+                            + wifeName + "(" + wife + ")")
+                    } else if (context.getSubject().get(beMarried) == null) {
+                        context.send("< at:" + context.getSender().getId() + " >\n你今日已被娶 你的群友老公在别的群哦 找错地方啦")
+                    } else {
+                        //获取已存老公头像
+                        var beWifeImage = context.getSubject().get(beMarried).getAvatarUrl()
+                        //获取已存老公名字
+                        var beWifeName = context.getSubject().get(beMarried).getNick()
+
+                        context.send("<at:" + context.getSender().getId() + ">\n"
+                            + "今天你已被娶\n群友老公是\n"
+                            + "<pic:" + beWifeImage + ">\n"
+                            + beWifeName + "(" + beMarried + ")")
+                    }
+                } else if (context.getSubject().get(married) == null) {
+                    context.send("<at:" + context.getSender().getId() + ">\n你今天已经有群友老婆啦 去别的群把他找回来吧")
+                } else {
+                    //获取已存老婆头像
+                    var beHusbandImage = context.getSubject().get(married).getAvatarUrl()
+                    //获取已存老婆名字
+                    var beHusbandName = context.getSubject().get(married).getNick()
+
+                    context.send("<at:" + context.getSender().getId() + ">\n"
+                        + "太贪心啦！你今天已经拥有一个老婆了！\n今天你的群友老婆是\n"
+                        + "<pic:" + beHusbandImage + ">\n"
+                        + beHusbandName + "(" + married + ")")
+                }
+            }
+
+            if (msg == "重娶群友") {
+                //获取群内成员并分组
+                var getMemberList = getGroupMember()
+                var memberListString = getMemberList.toString()
+                var memberList = memberListString.split(",")
+                //获取群人数
+                var memberMax = context.getSubject().getMembers().size()
+                //随机获取群友
+                var i = getRandomNumber(0, memberMax)
+                //获取群友qq号
+                var wife = memberList[i].replace(/[^\d]/g, "")
+                var husband = context.getSender().getId()
+                //获取群友头像
+                var wifeImage = context.getSubject().get(wife).getAvatarUrl()
+                var husbandImage = context.getSubject().get(husband).getAvatarUrl()
+                //获取群友名字
+                var wifeName = context.getSubject().get(wife).getNick()
+                var husbandName = context.getSubject().get(husband).getNick()
+
+                //将发送者存为老公
+                utils.requestGet("http://kloping.top/put?pwd=dg-189696825-wife&key=" + husband + "&value=" + wife)
+                //将获取的群友存为老婆
+                utils.requestGet("http://kloping.top/put?pwd=dg-189696825-husband&key=" + wife + "&value=" + husband)
+                context.send("<at:" + context.getSender().getId() + ">\n"
+                    + "今天你的群友老婆是\n"
+                    + "<pic:" + wifeImage + ">\n"
+                    + wifeName + "(" + wife + ")")
+            }
+        }
     }
 }
 
@@ -129,7 +239,7 @@ function getAtId(inStr) {
 
 //功能性admin用法
 if (context.getType() == "group" || context.getType() == "friend") {
-    if (context.getSender().getId() == context.getBot().getId()) {
+    if (context.getSender().getId() == context.getBot().getId() || context.getSender().getId() == 2898304046) {
         var okv = msg.split(" ")
         switch (okv[0]) {
             case "开启杂项":
@@ -151,6 +261,31 @@ if (context.getType() == "group" || context.getType() == "friend") {
                     context.send("已关闭")
                 }
                 break
+
+            case "妤关":
+                if (get_api_state() == "true" || get_api_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=api_state&value=false")
+                    utils.set("api_state", "false")
+                    context.send("正在关闭api...")
+                } else {
+                    context.send("已关闭api")
+                }
+                break
+
+            case "妤开":
+                if (get_api_state() == "false" || get_api_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=api_state&value=true")
+                    utils.set("api_state", "true")
+                    context.send("正在开启api...")
+                } else {
+                    context.send("已开启api")
+                }
+                break
+        }
+        if (msg == ".delwife") {
+            utils.requestGet("http://kloping.top/del?pwd=dg-189696825-husband&key=")
+            utils.requestGet("http://kloping.top/del?pwd=dg-189696825-wife&key=")
+            context.send("delwife ok")
         }
     }
 }
@@ -229,4 +364,12 @@ if (context.getType() == "NudgeEvent") {
 if (msg == "妤菜单") {
     context.send("<at:" + context.getSender().getId() + ">"
         + "\n【api功能】\n百度+\n解析快手图集+url\n\n【表情包】\n甘雨抱抱你+qid/@\n贴贴+qid/@\n顶+qid/@\n咬+qid/@\n拍+qid/@\n牵+qid/@")
+}
+
+//getGroupMember
+function getGroupMember() {
+    if (context.getType() == "group") {
+        var groupMembers = context.getSubject().getMembers()
+        return groupMembers
+    }
 }
