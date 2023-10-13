@@ -218,9 +218,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
         //context.send("<audio:" + d0.audiourl + ">")
     } else if (msg.startsWith("ai:")) {
-        sendToText(utils.requestGet("http://kloping.top/api/ai?req=" + msg.substring(3) + "&id=3474006766"))
+        sendToText(utils.requestGet("http://kloping.top/api/ai1?req=" + msg.substring(3) + "&id=3474006766"))
     } else if (msg.startsWith("AI:")) {
-        sendToText(utils.requestGet("http://kloping.top/api/ai?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
+        sendToText(utils.requestGet("http://kloping.top/api/ai1?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.trim().substring(2) + "&type=text&end="))
     } else if (msg.startsWith("捅")) {
@@ -292,4 +292,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/13-10.35
+//23/10/13-22.29
