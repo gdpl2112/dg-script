@@ -235,6 +235,11 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<pic:https://api.xingzhige.com/API/baororo/?qq=" + context.getSender().getId() + ">")
     } else if (msg.trim() === ("打")) {
         context.send("<pic:https://api.xingzhige.com/API/pound/?qq=" + context.getSender().getId() + ">")
+    } else if (msg === "喵") {
+        var senderId = context.getSender().getId();
+        var imageUrl = "https://api.xingzhige.com/API/FortuneCat/?qq=" + senderId;
+        var image = utils.uploadImage(imageUrl);
+        context.send(context.builder().add(image).build());
     }
 }
 if (context.getType() === "group") {
@@ -287,4 +292,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/12-23.51
+//23/10/13-10.13
