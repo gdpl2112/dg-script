@@ -235,7 +235,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<pic:https://api.xingzhige.com/API/baororo/?qq=" + context.getSender().getId() + ">")
     } else if (msg.trim() === ("打")) {
         context.send("<pic:https://api.xingzhige.com/API/pound/?qq=" + context.getSender().getId() + ">")
-    } else if (msg === "喵") {
+    } else if (msg.trim() === "喵") {
         var senderId = context.getSender().getId();
         var imageUrl = "https://api.xingzhige.com/API/FortuneCat/?qq=" + senderId;
         var image = context.uploadImage(imageUrl);

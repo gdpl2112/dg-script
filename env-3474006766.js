@@ -11,11 +11,20 @@
 //!!! https://github.moeyy.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js
 //!!! https://ghps.cc/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js
 
-
-var url = "https://ghproxy.com/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js"
+var urls = [
+    "https://raw.github.com/gdpl2112/dg-script/master/dev-3474006766.js",
+    "https://raw.njuu.cf/gdpl2112/dg-script/master/dev-3474006766.js",
+    "https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js",
+    "https://gh.api.99988866.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js",
+]
+var index0 = utils.get("index0")
+if (index0 == null) index0 = 0
+var url = urls[index0]
 
 if (context.getType() === "group") {
     if (msg === "update") {
+        index0++
+        if (index0 >= urls.length) index0 = 0
         var jsAll = utils.requestGet(url)
         utils.clear()
         utils.set("jsAll", jsAll)
