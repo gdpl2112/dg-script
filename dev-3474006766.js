@@ -239,7 +239,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var senderId = context.getSender().getId();
         var imageUrl = "https://api.xingzhige.com/API/FortuneCat/?qq=" + senderId;
         var image = context.uploadImage(imageUrl);
-        context.send(context.builder().add(image).build());
+        context.send(image);
     }
 }
 if (context.getType() === "group") {
@@ -292,4 +292,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/13-10.31
+//23/10/13-10.35
