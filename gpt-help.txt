@@ -1,4 +1,5 @@
-现有一程序bot，该bot每当接受到消息就会执行一次js脚本且该js脚本不能引入任何库只能使用基本的逻辑和给定的变量。以下是预设变量以及部分说明
+现有一程序bot，该bot每当接受到消息就会执行一次js脚本且该js脚本不能引入任何库只能使用基本的逻辑和给定的变量。
+以下是预设变量以及部分说明
 class Context {
     getBot();
     //发送消息
@@ -7,10 +8,15 @@ class Context {
     builder();
     //转发消息构造者其添加函数为add(id,name,msg)
     forwardBuilder();
+    //发送者一般为成员
     getSender();
+    //发送环境一般为对象类型为群聊或好友
     getSubject();
+    //从消息id中获得message chain
     getMessageChainById(id);
+    //创建音乐分享消息
     createMusicShare(kind, title, summer, jumUrl, picUrl, url);
+    //上传为图片
     uploadImage(url);
     //创造一个纯文本消息
     newPlainText(text);
@@ -21,7 +27,9 @@ class Context {
 class Utils {
     //获得网址数据返回字符串
     requestGet(url);
+    //通过post方式获取网络数据
     requestPost(url, data);
+    //从图片id中获得图片url
     queryUrlFromId(id);
     //将文本转为可发送的对象
     serialize(msg);
@@ -44,10 +52,12 @@ class Utils {
 }
 //消息体
 var msg = "";
+//context的实例
 var context = new Context();
+//utils的实例
 var utils = new Utils();
+//event仅特殊情况不为null
 var event;
 其中msg为接收到的消息 类型为字符串
-event仅特殊情况不为null
 请写出一段js
 你的需求#当bot接收到消息"一言"且环境为"group"时获取密文数据 https://api.xtaoa.com/api/yiyan.php并发送数据为纯文本无需解析
