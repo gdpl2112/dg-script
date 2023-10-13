@@ -238,8 +238,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg.trim() === "喵") {
         var senderId = context.getSender().getId();
         var imageUrl = "https://api.xingzhige.com/API/FortuneCat/?qq=" + senderId;
-        var image = context.uploadImage(imageUrl);
-        context.send(image);
+        context.send(context.uploadImage(imageUrl));
     }
 }
 if (context.getType() === "group") {
