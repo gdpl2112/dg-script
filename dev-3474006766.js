@@ -66,6 +66,7 @@ function sendToText(out) {
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
 if (context.getType() == "group") {
     if (context.getSender().getId() == 3474006766) {
         var okv = msg.split(" ");

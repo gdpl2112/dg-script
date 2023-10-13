@@ -1,4 +1,3 @@
-
 //https://raw.github.com/gdpl2112/dg-script/master/dev-3474006766.js
 
 //https://raw.njuu.cf/gdpl2112/dg-script/master/dev-3474006766.js

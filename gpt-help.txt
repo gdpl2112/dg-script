@@ -60,4 +60,4 @@ var utils = new Utils();
 var event;
 其中msg为接收到的消息 类型为字符串
 请写出一段js
-你的需求#当bot接收到消息"一言"且环境为"group"时获取密文数据 https://api.xtaoa.com/api/yiyan.php并发送数据为纯文本无需解析
+#当bot接收到消息"一言"且环境为"group"时获取密文数据 https://api.xtaoa.com/api/yiyan.php并发送数据为纯文本无需解析
