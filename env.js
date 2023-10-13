@@ -20,7 +20,7 @@ class Context {
     getType();
 }
 class Utils {
-    //获得指定密文数据返回字符串
+    //获得网址数据返回字符串
     requestGet(url);
     requestPost(url, data);
     queryUrlFromId(id);
