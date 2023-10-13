@@ -67,6 +67,10 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function getAiUrl() {
+    return "http://kloping.top/api/ai"
+}
+
 if (context.getType() == "group") {
     if (context.getSender().getId() == 3474006766) {
         var okv = msg.split(" ");
@@ -157,6 +161,7 @@ if (context.getType() == "group") {
         }
     }
 }
+
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() == context.getBot().getId() || context.getSender().getId() == 2898304046) {
         if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
@@ -188,7 +193,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         }
         //识别
         else if (msg === "aiclear") {
-            context.send(utils.requestGet("http://kloping.top/api/ai1/clear?id=3474006766"))
+            context.send(utils.requestGet(getAiUrl() + "/clear?id=3474006766"))
         }
     }
     if (msg.indexOf("douyin") > 0 || msg.indexOf("kuaishou") > 0) {
@@ -218,9 +223,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
         //context.send("<audio:" + d0.audiourl + ">")
     } else if (msg.startsWith("ai:")) {
-        sendToText(utils.requestGet("http://kloping.top/api/ai1?req=" + msg.substring(3) + "&id=3474006766"))
+        sendToText(utils.requestGet(getAiUrl() +"?req=" + msg.substring(3) + "&id=3474006766"))
     } else if (msg.startsWith("AI:")) {
-        sendToText(utils.requestGet("http://kloping.top/api/ai1?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
+        sendToText(utils.requestGet(getAiUrl() +"?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.trim().substring(2) + "&type=text&end="))
     } else if (msg.startsWith("捅")) {
@@ -292,4 +297,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/13-22.44
+//23/10/13-23.03
