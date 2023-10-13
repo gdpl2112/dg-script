@@ -151,7 +151,7 @@ if (context.getType() == "group") {
                 context.send(utils.executeSql(msg.substring(4)))
                 break
             case "/select":
-                context.send(context.newPlainText(utils.executeSelectList(msg.substring(7))))
+                sendToText(context.newPlainText(utils.executeSelectList(msg.substring(7))))
                 break
             case "/selectOne":
                 context.send(context.newPlainText(utils.executeSelectOne(msg.substring(10))))
@@ -297,4 +297,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/13-23.03
+//23/10/14-6.41
