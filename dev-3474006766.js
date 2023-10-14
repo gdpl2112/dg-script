@@ -49,7 +49,8 @@ function getImageUrlAll(msg) {
 
 function sendToText(out) {
     var max = 600
-    if (out.length >= max) {
+    var length0 = out.length
+    if (length0 >= max) {
         var builder = context.forwardBuilder()
         while (out.length >= max) {
             var e = out.substring(0, max)
@@ -150,10 +151,10 @@ if (context.getType() == "group") {
             case "/sql":
                 context.send(utils.executeSql(msg.substring(4)))
                 break
-            case "/select":
+            case "/sqls":
                 sendToText(utils.executeSelectList(msg.substring(7)))
                 break
-            case "/selectOne":
+            case "/sqlso":
                 sendToText(utils.executeSelectOne(msg.substring(10)))
                 break
             case "/test":
@@ -297,4 +298,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/14-13.27
+//23/10/14-18.29
