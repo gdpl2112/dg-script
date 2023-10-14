@@ -50,6 +50,7 @@ function getImageUrlAll(msg) {
 function sendToText(out) {
     var max = 600
     var length0 = out.length
+    context.send(length0)
     if (length0 >= max) {
         var builder = context.forwardBuilder()
         while (out.length >= max) {
@@ -311,4 +312,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/14-18.35
+//23/10/14-18.38
