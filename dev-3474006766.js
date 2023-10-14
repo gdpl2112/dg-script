@@ -74,91 +74,86 @@ function getAiUrl() {
 
 if (context.getType() == "group") {
     if (context.getSender().getId() == 3474006766) {
-        var okv = msg.split(" ");
-        switch (okv[0]) {
-            case "/set":
-                if (okv.length !== 3) context.send("args size less 3")
-                else {
-                    var old = utils.set(okv[1], okv[2])
-                    context.send("set success and old: " + old)
-                }
-                break;
-            case "/get":
-                if (okv.length !== 2) context.send("args size less 2")
-                else {
-                    var v0 = utils.get(okv[1])
-                    context.send("key: " + okv[1] + "\nvalue: " + v0)
-                }
-                break;
-            case "/del":
-                if (okv.length !== 2) context.send("args size less 2")
-                else {
-                    var v0 = utils.del(okv[1])
-                    context.send("del success! key: " + okv[1] + "\nvalue: " + v0)
-                }
-                break;
-            case "/clear":
-                var n = utils.clear();
-                context.send("clear success and clear numbers: " + n)
-                break;
-            case "/list":
-                var a = utils.list()
-                context.send(context.newPlainText(a.toString()))
-                break
-            case "/kset":
-                if (okv.length !== 3) context.send("args size less 3")
-                else {
-                    var ksetOut = utils.requestGet("http://kloping.top/put?pwd=dg-3474006766&key=" + okv[1] + "&value=" + okv[2])
-                    context.send("set success : " + ksetOut)
-                }
-                break
-            case "/kget":
-                if (okv.length !== 2) context.send("args size less 2")
-                else {
-                    var kgetOut = utils.requestGet("http://kloping.top/get?pwd=dg-3474006766&key=" + okv[1])
-                    context.send("get success : " + kgetOut)
-                }
-                break
-            case "/kdel":
-                if (okv.length !== 2) context.send("args size less 2")
-                else {
-                    var kdelOut = utils.requestGet("http://kloping.top/del?pwd=dg-3474006766&key=" + okv[1])
-                    context.send("del state : " + kdelOut + "! key:" + okv[1])
-                }
-                break
-            case "/exec":
-                if (msg.length > 5) {
-                    var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line=" + msg.substring(5))
-                    var outo = JSON.parse(out)
-                    if (outo.err.length > 0) context.send("err:\n" + outo.err)
-                    if (outo.in.length > 0) context.send("out:\n" + outo.in)
-                }
-                break
-            case "/req-get":
-                if (okv.length !== 2) context.send("args size less 2")
-                else {
-                    var out = utils.requestGet(okv[1])
-                    context.send("out :\n" + out)
-                }
-                break
-            case "/eval":
-                eval(msg.substring(5).trim())
-                break
-            case "/repeat":
-                if (okv.length !== 2) context.send("args size less 2")
-                context.send(okv[1])
-                break
-            case "/sql":
-                context.send(utils.executeSql(msg.substring(4)))
-                break
-            case "/sqls":
-                sendToText(utils.executeSelectList(msg.substring(7)))
-                break
-            case "/sqlso":
-                sendToText(utils.executeSelectOne(msg.substring(10)))
-                break
-            case "/test":
-                break
+        if (msg.trim().startsWith("/")) {
+            var okv = msg.split(" ");
+            switch (okv[0]) {
+                case "/set":
+                    if (okv.length !== 3) context.send("args size less 3") else {
+                        var old = utils.set(okv[1], okv[2])
+                        context.send("set success and old: " + old)
+                    }
+                    break;
+                case "/get":
+                    if (okv.length !== 2) context.send("args size less 2") else {
+                        var v0 = utils.get(okv[1])
+                        context.send("key: " + okv[1] + "\nvalue: " + v0)
+                    }
+                    break;
+                case "/del":
+                    if (okv.length !== 2) context.send("args size less 2") else {
+                        var v0 = utils.del(okv[1])
+                        context.send("del success! key: " + okv[1] + "\nvalue: " + v0)
+                    }
+                    break;
+                case "/clear":
+                    var n = utils.clear();
+                    context.send("clear success and clear numbers: " + n)
+                    break;
+                case "/list":
+                    var a = utils.list()
+                    context.send(context.newPlainText(a.toString()))
+                    break
+                case "/kset":
+                    if (okv.length !== 3) context.send("args size less 3") else {
+                        var ksetOut = utils.requestGet("http://kloping.top/put?pwd=dg-3474006766&key=" + okv[1] + "&value=" + okv[2])
+                        context.send("set success : " + ksetOut)
+                    }
+                    break
+                case "/kget":
+                    if (okv.length !== 2) context.send("args size less 2") else {
+                        var kgetOut = utils.requestGet("http://kloping.top/get?pwd=dg-3474006766&key=" + okv[1])
+                        context.send("get success : " + kgetOut)
+                    }
+                    break
+                case "/kdel":
+                    if (okv.length !== 2) context.send("args size less 2") else {
+                        var kdelOut = utils.requestGet("http://kloping.top/del?pwd=dg-3474006766&key=" + okv[1])
+                        context.send("del state : " + kdelOut + "! key:" + okv[1])
+                    }
+                    break
+                case "/exec":
+                    if (msg.length > 5) {
+                        var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line=" + msg.substring(5))
+                        var outo = JSON.parse(out)
+                        if (outo.err.length > 0) context.send("err:\n" + outo.err)
+                        if (outo.in.length > 0) context.send("out:\n" + outo.in)
+                    }
+                    break
+                case "/req-get":
+                    if (okv.length !== 2) context.send("args size less 2") else {
+                        var out = utils.requestGet(okv[1])
+                        context.send("out :\n" + out)
+                    }
+                    break
+                case "/eval":
+                    eval(msg.substring(5).trim())
+                    break
+                case "/repeat":
+                    if (okv.length !== 2) context.send("args size less 2")
+                    context.send(okv[1])
+                    break
+                case "/sql":
+                    context.send(utils.executeSql(msg.substring(4)))
+                    break
+                case "/sqls":
+                    sendToText(utils.executeSelectList(msg.substring(5)))
+                    break
+                case "/sqlso":
+                    sendToText(utils.executeSelectOne(msg.substring(6)))
+                    break
+                case "/test":
+                    break
+            }
         }
     }
 }
@@ -217,17 +212,21 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 } else context.send(result.desc + "\n视频直链: " + result.video)
             } else context.send("解析失败!\ncode:" + result.code)
         } else context.send("未发现链接")
-    } else if (msg.startsWith("语音合成")) {
+    }
+    else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
         var json1 = utils.requestGet("https://api.pearktrue.cn/api/genshinimpactaudio/?text=" + okv[2] + "&speaker=" + okv[1])
         var d0 = JSON.parse(json1)
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
         //context.send("<audio:" + d0.audiourl + ">")
-    } else if (msg.startsWith("ai:")) {
-        sendToText(utils.requestGet(getAiUrl() +"?req=" + msg.substring(3) + "&id=3474006766"))
-    } else if (msg.startsWith("AI:")) {
-        sendToText(utils.requestGet(getAiUrl() +"?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
-    } else if (msg.startsWith("翻译")) {
+    }
+    else if (msg.startsWith("ai:")) {
+        sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
+    }
+    else if (msg.startsWith("AI:")) {
+        sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
+    }
+    else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.trim().substring(2) + "&type=text&end="))
     } else if (msg.startsWith("捅")) {
         var aid = getAtId(msg)
@@ -298,4 +297,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/14-18.29
+//23/10/14-18.32
