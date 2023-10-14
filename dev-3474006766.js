@@ -59,7 +59,7 @@ function sendToText(out) {
         if (out.length > 0) builder.add(context.getBot().getId(), "AI", context.newPlainText(out.trim()))
         context.send(builder.build())
     } else {
-        context.send(out)
+        context.send(context.newPlainText(out))
     }
 }
 
@@ -154,7 +154,7 @@ if (context.getType() == "group") {
                 sendToText(utils.executeSelectList(msg.substring(7)))
                 break
             case "/selectOne":
-                context.send(context.newPlainText(utils.executeSelectOne(msg.substring(10))))
+                sendToText(utils.executeSelectOne(msg.substring(10)))
                 break
             case "/test":
                 break
