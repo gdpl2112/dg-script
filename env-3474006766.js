@@ -23,9 +23,9 @@ var url = urls[index0]
 
 if (context.getType() === "group") {
     if (msg === "update") {
-        index0=index0+1
-        utils.set("index0",index0)
+        index0 = index0 + 1
         if (index0 >= urls.length) index0 = 0
+        utils.set("index0", index0)
         var jsAll = utils.requestGet(url)
         utils.clear()
         utils.set("jsAll", jsAll)
