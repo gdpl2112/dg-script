@@ -1,3 +1,56 @@
+//功能性admin用法
+if (context.getType() == "group" || context.getType() == "friend") {
+    if (context.getSender().getId() == context.getBot().getId() || context.getSender().getId() == 2898304046 || context.getSender().getId() == 2663615631) {
+        var okv = msg.split(" ")
+        switch (okv[0]) {
+            case "开启杂项":
+                if (get_group_state() == "false" || get_group_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=group_state&value=true")
+                    utils.set("group_state", "true")
+                    context.send("正在开启...")
+                } else {
+                    context.send("已开启")
+                }
+                break
+
+            case "关闭杂项":
+                if (get_group_state() == "true" || get_group_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=group_state&value=false")
+                    utils.set("group_state", "false")
+                    context.send("正在关闭...")
+                } else {
+                    context.send("已关闭")
+                }
+                break
+
+            case "妤关":
+                if (get_api_state() == "true" || get_api_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=api_state&value=false")
+                    utils.set("api_state", "false")
+                    context.send("正在关闭api...")
+                } else {
+                    context.send("已关闭api")
+                }
+                break
+
+            case "妤开":
+                if (get_api_state() == "false" || get_api_state() == null) {
+                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=api_state&value=true")
+                    utils.set("api_state", "true")
+                    context.send("正在开启api...")
+                } else {
+                    context.send("已开启api")
+                }
+                break
+        }
+        if (msg == ".delwife") {
+            utils.requestGet("http://kloping.top/del?pwd=dg-189696825-husband&key=")
+            utils.requestGet("http://kloping.top/del?pwd=dg-189696825-wife&key=")
+            context.send("delwife ok")
+        }
+    }
+}
+
 //检测API开关状态
 function get_api_state() {
     var get_api = utils.get("api_state")
@@ -8,6 +61,93 @@ function get_api_state() {
         return get_api1
     } else {
         return get_api
+    }
+}
+
+//getGroupMember
+function getGroupMember() {
+    if (context.getType() == "group") {
+        var groupMembers = context.getSubject().getMembers()
+        return groupMembers
+    }
+}
+
+//杂项开关
+function get_group_state() {
+    var get_group = utils.get("group_state")
+    if (get_group == null) {
+        var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-189696825&key=group_state")
+        utils.set("group_state", group_state)
+        var get_group_state = utils.get("group_state")
+        return get_group_state
+    } else {
+        return get_group
+    }
+}
+
+//获取时间
+function getTime() {
+    var timestamp = Date.now()
+    var time = new Date(timestamp)
+    var year = time.getFullYear()
+    var month = time.getMonth() + 1
+    var date = time.getDate()
+    var hours = time.getHours()
+    var minutes = time.getMinutes()
+    var seconds = time.getSeconds()
+    return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+}
+
+//object of api
+function getApiObject(str) {
+    var id = msg.substring(str)
+    var at = getAtId(msg)
+    if (at !== null) {
+        return at
+    } else if (id !== null) {
+        return id
+    } else {
+        return -1
+    }
+}
+
+//获取指定格式值 目前仅支持获取第一个出现的格式元素
+function getFormatValue(fk, inStr) {
+    var i1 = inStr.indexOf("<")
+    var i2 = inStr.indexOf(">")
+    if (i1 < 0 || i2 <= 0) return null
+    var format0 = inStr.substring(i1 + 1, i2)
+    var args = format0.split(":")
+    if (args[0] !== fk) {
+        if (i2 <= inStr.length) {
+            return getFormatValue(fk, inStr.substring(i2 + 1))
+        } else {
+            return null
+        }
+    } else {
+        return args[1]
+    }
+}
+
+//获取at格式值并返回Number 或 null
+function getAtId(inStr) {
+    var end = getFormatValue("at", inStr)
+    if (end !== null) return Number(end)
+    else return null
+}
+
+//getRandomNumber
+function getRandomNumber(minNum, maxNum) {
+    switch (arguments.length) {
+        case 1:
+            return parseInt(Math.random() * minNum + 1, 10);
+            break;
+        case 2:
+            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+            break;
+        default:
+            return 0;
+            break;
     }
 }
 
@@ -168,128 +308,24 @@ if (context.getType() === "group") {
     }
 }
 
-
-
-
-//杂项开关
-function get_group_state() {
-    var get_group = utils.get("group_state")
-    if (get_group == null) {
-        var group_state = utils.requestGet("http://kloping.top/get?pwd=dg-189696825&key=group_state")
-        utils.set("group_state", group_state)
-        var get_group_state = utils.get("group_state")
-        return get_group_state
-    } else {
-        return get_group
-    }
-}
-
-//获取时间
-function getTime() {
-    var timestamp = Date.now()
-    var time = new Date(timestamp)
-    var year = time.getFullYear()
-    var month = time.getMonth() + 1
-    var date = time.getDate()
-    var hours = time.getHours()
-    var minutes = time.getMinutes()
-    var seconds = time.getSeconds()
-    return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
-}
-
-//object of api
-function getApiObject(str) {
-    var id = msg.substring(str)
-    var at = getAtId(msg)
-    if (at !== null) {
-        return at
-    } else if (id !== null) {
-        return id
-    } else {
-        return -1
-    }
-}
-
-//获取指定格式值 目前仅支持获取第一个出现的格式元素
-function getFormatValue(fk, inStr) {
-    var i1 = inStr.indexOf("<")
-    var i2 = inStr.indexOf(">")
-    if (i1 < 0 || i2 <= 0) return null
-    var format0 = inStr.substring(i1 + 1, i2)
-    var args = format0.split(":")
-    if (args[0] !== fk) {
-        if (i2 <= inStr.length) {
-            return getFormatValue(fk, inStr.substring(i2 + 1))
-        } else {
-            return null
-        }
-    } else {
-        return args[1]
-    }
-}
-
-//获取at格式值并返回Number 或 null
-function getAtId(inStr) {
-    var end = getFormatValue("at", inStr)
-    if (end !== null) return Number(end)
-    else return null
-}
-
-
-
-//功能性admin用法
-if (context.getType() == "group" || context.getType() == "friend") {
-    if (context.getSender().getId() == context.getBot().getId() || context.getSender().getId() == 2898304046) {
-        var okv = msg.split(" ")
-        switch (okv[0]) {
-            case "开启杂项":
-                if (get_group_state() == "false" || get_group_state() == null) {
-                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=group_state&value=true")
-                    utils.set("group_state", "true")
-                    context.send("正在开启...")
-                } else {
-                    context.send("已开启")
-                }
+if (context.getType() == "NudgeEvent") {
+    if (event.getFrom().getId() !== event.getBot().getId() && event.getTarget().getId() == event.getBot().getId()) {
+        var randomReply = getRandomNumber(1, 2)
+        switch (randomReply) {
+            case 1:
+                event.getSubject().sendMessage(context.newPlainText("粗来惹，粗来惹⸝⸝ ᷇࿀ ᷆⸝⸝不要再戳了"))
                 break
-
-            case "关闭杂项":
-                if (get_group_state() == "true" || get_group_state() == null) {
-                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=group_state&value=false")
-                    utils.set("group_state", "false")
-                    context.send("正在关闭...")
-                } else {
-                    context.send("已关闭")
-                }
-                break
-
-            case "妤关":
-                if (get_api_state() == "true" || get_api_state() == null) {
-                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=api_state&value=false")
-                    utils.set("api_state", "false")
-                    context.send("正在关闭api...")
-                } else {
-                    context.send("已关闭api")
-                }
-                break
-
-            case "妤开":
-                if (get_api_state() == "false" || get_api_state() == null) {
-                    utils.requestGet("http://kloping.top/put?pwd=dg-189696825&key=api_state&value=true")
-                    utils.set("api_state", "true")
-                    context.send("正在开启api...")
-                } else {
-                    context.send("已开启api")
-                }
-                break
-        }
-        if (msg == ".delwife") {
-            utils.requestGet("http://kloping.top/del?pwd=dg-189696825-husband&key=")
-            utils.requestGet("http://kloping.top/del?pwd=dg-189696825-wife&key=")
-            context.send("delwife ok")
+            case 2:
+                event.getSubject().sendMessage(context.newPlainText(" 反击 𓂃 ꙳ ⋆ "))
+                event.getFrom().nudge().sendTo(event.getSubject())
         }
     }
 }
 
+if (msg == "妤菜单") {
+    context.send("<at:" + context.getSender().getId() + ">"
+        + "\n【api功能】\n百度+\n解析快手图集+url\n\n【表情包】\n甘雨抱抱你+qid/@\n贴贴+qid/@\n顶+qid/@\n咬+qid/@\n拍+qid/@\n牵+qid/@")
+}
 
 if (get_group_state() == "true") {
     //获取禁言事件
@@ -324,52 +360,5 @@ if (get_group_state() == "true") {
         group.sendMessage(context.newPlainText("Bot（" + context.getBot().getId() + "）在群“" + tg.getName() + "”（" + tg.getId() + "）中被"
             + sn + "（" + context.getSender().getId() + "）提到"))
         group.sendMessage(context.deSerialize(("该消息为:\n" + msg)))
-    }
-}
-
-
-
-//getRandomNumber
-function getRandomNumber(minNum, maxNum) {
-    switch (arguments.length) {
-        case 1:
-            return parseInt(Math.random() * minNum + 1, 10);
-            break;
-        case 2:
-            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
-            break;
-        default:
-            return 0;
-            break;
-    }
-}
-
-
-if (context.getType() == "NudgeEvent") {
-    if (event.getFrom().getId() !== event.getBot().getId() && event.getTarget().getId() == event.getBot().getId()) {
-        var randomReply = getRandomNumber(1, 2)
-        switch (randomReply) {
-            case 1:
-                event.getSubject().sendMessage(context.newPlainText("粗来惹，粗来惹⸝⸝ ᷇࿀ ᷆⸝⸝不要再戳了"))
-                break
-            case 2:
-                event.getSubject().sendMessage(context.newPlainText(" 反击 𓂃 ꙳ ⋆ "))
-                event.getFrom().nudge().sendTo(event.getSubject())
-        }
-    }
-}
-
-
-
-if (msg == "妤菜单") {
-    context.send("<at:" + context.getSender().getId() + ">"
-        + "\n【api功能】\n百度+\n解析快手图集+url\n\n【表情包】\n甘雨抱抱你+qid/@\n贴贴+qid/@\n顶+qid/@\n咬+qid/@\n拍+qid/@\n牵+qid/@")
-}
-
-//getGroupMember
-function getGroupMember() {
-    if (context.getType() == "group") {
-        var groupMembers = context.getSubject().getMembers()
-        return groupMembers
     }
 }
