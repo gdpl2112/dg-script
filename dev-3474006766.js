@@ -69,7 +69,7 @@ function getRandomInt(min, max) {
 }
 
 function getAiUrl() {
-    return "http://kloping.top/api/ai1"
+    return "http://kloping.top/api/ai"
 }
 
 if (context.getType() == "group") {
@@ -311,4 +311,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/14-18.48
+//23/10/15-10.15
