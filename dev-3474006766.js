@@ -229,7 +229,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     }
     else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
-        var json1 = utils.requestGet("https://api.pearktrue.cn/api/genshinimpactaudio/?text=" + okv[2] + "&speaker=" + okv[1])
+        var json1 = utils.requestGet("https://ovoa.cc/api/yuanshen.php?message=" + okv[2] + "&key=123456&figure=" + okv[1])
         var d0 = JSON.parse(json1)
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.audiourl + ">")
         //context.send("<audio:" + d0.audiourl + ">")
@@ -311,4 +311,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/15-21.40
+//23/10/16-23.13
