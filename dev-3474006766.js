@@ -232,8 +232,8 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var u0 = "http://ovoa.cc/api/yuanshen.php?message=" + okv[2] + "&key=123456&figure=" + okv[1];
         var json1 = utils.requestGet(u0)
         var d0 = JSON.parse(json1)
-        context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.url + ">")
-        //context.send("<audio:" + d0.audiourl + ">")
+        // context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.url + ">")
+        context.send("<audio:" + d0.url + ">")
     }
     else if (msg.startsWith("ai:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
@@ -312,4 +312,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/16-23.16
+//23/10/16-23.26
