@@ -231,14 +231,16 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var urls = msg.match(reg)
         if (urls !== null) {
             var url = urls[0];
-            var bvid = url.substring("https://www.bilibili.com/video/".length, url.indexOf("/?"))
+            var bvid = url.substring("https://www.bilibili.com/video/".length, url.indexOf("?"))
+            if (bvid.endsWith("/")) bvid = bvid.substring(0, bvid.length - 1)
             var result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/bilibili/parse.php?bvid=" + bvid))
             var builder = context.builder()
             builder.append(context.uploadImage(result.data.pic))
-                .append("\n").append(context.newPlainText("FROM: " + result.data.author + "||" + result.data.title))
+                .append(context.newPlainText("BVID: " + bvid + " FROM: " + result.data.author + "\n" + result.data.title))
                 .append("\n=================\n")
                 .append(context.newPlainText(result.data.desc))
-                .append("\n直链: ").append(result.data.videos[0].videourl)
+                .append("\nSOURCE: ").append("https://www.bilibili.com/video/" + bvid)
+                .append("\nLINK: ").append(result.data.videos[0].videourl)
             context.send(builder.build())
         }
     } else if (msg.startsWith("语音合成")) {
@@ -323,4 +325,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/17-14
+//23/10/17-14.10
