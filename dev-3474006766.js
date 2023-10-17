@@ -298,7 +298,7 @@ if (context.getType() === "group") {
             var ms = context.getSubject().getMembers()
             var list = utils.newObject("java.util.ArrayList")
             list.addAll(ms.delegate)
-            context.send(context.newPlainText(list.toString()))
+            sendToText(list.toString())
         }
     }
 }
@@ -329,4 +329,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/17-17.06
+//23/10/17-17.14
