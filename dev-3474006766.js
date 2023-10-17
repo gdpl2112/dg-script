@@ -253,7 +253,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var out = utils.requestGet("https://xiaoapi.cn/API/yy.php?type=qq&msg=" + name + "&n=1")
         var outs = out.split("\n")
         //data[0].media_name data[0].author_name http://47.100.93.243:34740/ data[0].imgUrl data[0].songUrl
-        context.send("<Music:QQMusic," + outs[1].substring(2) + "," + outs[2].substring(2) + ",http://47.100.93.243:34740/,"+outs[0].substring(2)+","+outs[3].substring(5)+">")
+        context.send("<Music:QQMusic," + outs[1].substring(3) + "," + outs[2].substring(3) + ",http://47.100.93.243:34740/,"+outs[0].substring(3)+","+outs[3].substring(5)+">")
     } else if (msg.startsWith("ai:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
     } else if (msg.startsWith("AI:")) {
@@ -329,4 +329,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/17-17.04
+//23/10/17-17.06
