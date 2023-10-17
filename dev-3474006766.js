@@ -64,10 +64,6 @@ function sendToText(out) {
     }
 }
 
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 function getAiUrl() {
     return "http://kloping.top/api/ai"
 }
@@ -181,7 +177,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 context.send("upload finish: " + out)
             } else context.send("未发现图片")
         }
-        //上传结束
         else if (isStartOrEndWith(msg, "query")) {
             var iurl = getImageUrlAll(msg)
             if (iurl != null)
@@ -189,7 +184,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
             else
                 context.send("未发现图片")
         }
-        //查询
         else if (isStartOrEndWith(msg, "识别")) {
             var iurl = getImageUrlAll(msg)
             if (iurl != null) {
@@ -200,7 +194,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 } else context.send("识别失败")
             } else context.send("未发现图片")
         }
-        //识别
         else if (msg === "aiclear") {
             context.send(utils.requestGet(getAiUrl() + "/clear?id=3474006766"))
         }
@@ -252,7 +245,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var name = msg.substring(2)
         var out = utils.requestGet("https://xiaoapi.cn/API/yy.php?type=qq&msg=" + name + "&n=1")
         var outs = out.split("\n")
-        //data[0].media_name data[0].author_name http://47.100.93.243:34740/ data[0].imgUrl data[0].songUrl
         context.send("<Music:QQMusic," + outs[1].substring(3) + "," + outs[2].substring(3) + ",http://47.100.93.243:34740/,"+outs[0].substring(3)+","+outs[3].substring(5)+">")
     } else if (msg.startsWith("ai:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
@@ -327,6 +319,10 @@ if (context.getType() == "NudgeEvent") {
         }
         utils.set("nc0", r0 + 1)
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
+    }
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
 //23/10/17-17.14
