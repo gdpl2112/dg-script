@@ -129,6 +129,12 @@ if (context.getType() == "group") {
                         context.send("del state : " + kdelOut + "! key:" + okv[1])
                     }
                     break
+                case "/tsm":
+                    var ms = context.getSubject().getMembers()
+                    var list = utils.newObject("java.util.ArrayList")
+                    list.addAll(ms.delegate)
+                    sendToText(list.toString())
+                    break
                 case "/exec":
                     if (msg.length > 5) {
                         var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line=" + msg.substring(5))
@@ -286,11 +292,6 @@ if (context.getType() === "group") {
                 var result1 = JSON.parse(utils.requestGet("https://api.wuxixindong.cn/api/qqrcode.php?qrsig=" + qrsig))
                 context.send(result1.text + "\n" + JSON.stringify(result1.data))
             }
-        } else if (msg == "/tsm") {
-            var ms = context.getSubject().getMembers()
-            var list = utils.newObject("java.util.ArrayList")
-            list.addAll(ms.delegate)
-            sendToText(list.toString())
         }
     }
 }
@@ -325,4 +326,4 @@ if (context.getType() == "NudgeEvent") {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
-//23/10/17-17.14
+//23/10/17-17.17
