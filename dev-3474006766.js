@@ -171,7 +171,6 @@ if (context.getType() == "group") {
         }
     }
 }
-//【免费【数据结构】4小时期末考试速成课】 https://www.bilibili.com/video/BV1TF411o7C1/?share_source=copy_web&vd_source=9565ab33202c749375565c3a967c6d40
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() == context.getBot().getId() || context.getSender().getId() == 2898304046) {
         if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
@@ -249,6 +248,12 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var d0 = JSON.parse(json1)
         // context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.url + ">")
         context.send("<audio:" + d0.url + ">")
+    } else if (msg.startsWith("点歌")) {
+        var name = msg.substring(2)
+        var out = utils.requestGet("https://xiaoapi.cn/API/yy.php?type=qq&msg=" + name + "&n=1")
+        var outs = out.split("\n")
+        //data[0].media_name data[0].author_name http://47.100.93.243:34740/ data[0].imgUrl data[0].songUrl
+        context.send("<Music:QQMusic," + outs[1].substring(2) + "," + outs[2].substring(2) + ",http://47.100.93.243:34740/,"+outs[0].substring(2)+","+outs[3].substring(5)+">")
     } else if (msg.startsWith("ai:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
     } else if (msg.startsWith("AI:")) {
@@ -324,4 +329,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/17-14.27
+//23/10/17-17.04
