@@ -226,7 +226,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 } else context.send(result.desc + "\n视频直链: " + result.video)
             } else context.send("解析失败!\ncode:" + result.code)
         } else context.send("未发现链接")
-    } else if (msg.indexOf("https://www.bilibili.com/video/") > 0) {
+    } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
@@ -239,6 +239,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 .append("\n=================")
                 .append(context.newPlainText(result.data.desc))
                 .append("\n直链: ").append(result.data.videos[0].videourl)
+            context.send(builder.build())
         }
     } else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
@@ -322,4 +323,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/17-13.53
+//23/10/17-13.56
