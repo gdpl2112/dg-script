@@ -231,16 +231,15 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var urls = msg.match(reg)
         if (urls !== null) {
             var url = urls[0];
-            var bvid = url.substring("https://www.bilibili.com/video/".length, url.indexOf("?"))
-            if (bvid.endsWith("/")) bvid = bvid.substring(0, bvid.length - 1)
-            var result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/bilibili/parse.php?bvid=" + bvid))
+            url = "https://api.xingzhige.com/API/b_parse/?url=" + url.substring(0, url.indexOf("?"));
+            var result = JSON.parse(utils.requestGet(url))
             var builder = context.builder()
-            builder.append(context.uploadImage(result.data.pic))
-                .append(context.newPlainText("BVID: " + bvid + " FROM: " + result.data.author + "\n" + result.data.title))
+            builder.append(context.uploadImage(result.data.video.fm))
+                .append(context.newPlainText("BVID: " + result.data.bvid + " FROM: " + result.data.owner.name + "\n" + result.data.video.title))
                 .append("\n=================\n")
-                .append(context.newPlainText(result.data.desc))
-                .append("\nSOURCE: ").append("https://www.bilibili.com/video/" + bvid)
-                .append("\nLINK: ").append(result.data.videos[0].videourl)
+                .append(context.newPlainText(result.data.video.desc))
+                .append("\nSOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid)
+                .append("\nLINK: ").append(result.data.video.url)
             context.send(builder.build())
         }
     } else if (msg.startsWith("语音合成")) {
@@ -325,4 +324,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/17-14.10
+//23/10/17-14.27
