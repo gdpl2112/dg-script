@@ -171,7 +171,7 @@ if (context.getType() == "group") {
         }
     }
 }
-
+//【免费【数据结构】4小时期末考试速成课】 https://www.bilibili.com/video/BV1TF411o7C1/?share_source=copy_web&vd_source=9565ab33202c749375565c3a967c6d40
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() == context.getBot().getId() || context.getSender().getId() == 2898304046) {
         if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
@@ -226,22 +226,32 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 } else context.send(result.desc + "\n视频直链: " + result.video)
             } else context.send("解析失败!\ncode:" + result.code)
         } else context.send("未发现链接")
-    }
-    else if (msg.startsWith("语音合成")) {
+    } else if (msg.indexOf("https://www.bilibili.com/video/") > 0) {
+        var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+        var urls = msg.match(reg)
+        if (urls !== null) {
+            var url = urls[0];
+            var bvid = url.substring("https://www.bilibili.com/video/".length, url.indexOf("/?"))
+            var result = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/bilibili/parse.php?bvid=" + bvid))
+            var builder = context.builder()
+            builder.append(context.uploadImage(result.data.pic))
+                .append("\n").append(context.newPlainText("FROM: " + result.data.author + " " + result.data.title))
+                .append("\n=================")
+                .append(context.newPlainText(result.data.desc))
+                .append("\n直链: ").append(result.data.videos[0].videourl)
+        }
+    } else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
         var u0 = "http://ovoa.cc/api/yuanshen.php?message=" + okv[2] + "&key=123456&figure=" + okv[1];
         var json1 = utils.requestGet(u0)
         var d0 = JSON.parse(json1)
         // context.send("<audio:http://kloping.top/api/mp32amr?url=" + d0.url + ">")
         context.send("<audio:" + d0.url + ">")
-    }
-    else if (msg.startsWith("ai:")) {
+    } else if (msg.startsWith("ai:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
-    }
-    else if (msg.startsWith("AI:")) {
+    } else if (msg.startsWith("AI:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
-    }
-    else if (msg.startsWith("翻译")) {
+    } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.trim().substring(2) + "&type=text&end="))
     } else if (msg.startsWith("捅")) {
         var aid = getAtId(msg)
@@ -312,4 +322,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/16-23.26
+//23/10/17-13.53
