@@ -229,7 +229,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var urls = msg.match(reg)
         if (urls !== null) {
             var url = urls[0];
-            url = "https://api.xingzhige.com/API/b_parse/?url=" + url.substring(0, url.indexOf("?"));
+            var e0 = url.indexOf("?");
+            e0 = e0 > 0 ? e0 : url.length
+            url = "https://api.xingzhige.com/API/b_parse/?url=" + url.substring(0, e0);
             var result = JSON.parse(utils.requestGet(url))
             var builder = context.builder()
             builder.append(context.uploadImage(result.data.video.fm))
@@ -326,4 +328,4 @@ if (context.getType() == "NudgeEvent") {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
-//23/10/17-17.17
+//23/10/17-21.35
