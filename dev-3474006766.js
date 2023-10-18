@@ -129,24 +129,30 @@ if (context.getType() == "group") {
                         context.send("del state : " + kdelOut + "! key:" + okv[1])
                     }
                     break
-                case "/tsm":
-                    var ms = context.getSubject().getMembers()
-                    var list = utils.newObject("java.util.ArrayList")
-                    list.addAll(ms.delegate)
-                    sendToText(list.toString())
+                // case "/tsm":
+                //     var ms = context.getSubject().getMembers()
+                //     var list = utils.newObject("java.util.ArrayList")
+                //     list.addAll(ms.delegate)
+                //     sendToText(list.toString())
+                //     break
+                // case "/exec":
+                //     if (msg.length > 5) {
+                //         var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line=" + msg.substring(5))
+                //         var outo = JSON.parse(out)
+                //         if (outo.err.length > 0) context.send("err:\n" + outo.err)
+                //         if (outo.in.length > 0) context.send("out:\n" + outo.in)
+                //     }
+                //     break
+                case "/open":
+                    context.send(utils.executeSql("UPDATE 'mk' SET 'k'=0 WHERE `tid`=" + context.getSubject().getId()))
                     break
-                case "/exec":
-                    if (msg.length > 5) {
-                        var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line=" + msg.substring(5))
-                        var outo = JSON.parse(out)
-                        if (outo.err.length > 0) context.send("err:\n" + outo.err)
-                        if (outo.in.length > 0) context.send("out:\n" + outo.in)
-                    }
+                case "/close":
+                    context.send(utils.executeSql("UPDATE 'mk' SET 'k'=1 WHERE `tid`=" + context.getSubject().getId()))
                     break
                 case "/req-get":
                     if (okv.length !== 2) {
                         context.send("args size less 2")
-                    }else {
+                    } else {
                         var out = utils.requestGet(okv[1])
                         context.send("out :\n" + out)
                     }
@@ -199,11 +205,16 @@ if (context.getType() === "group" || context.getType() === "friend") {
                     context.send(out)
                 } else context.send("识别失败")
             } else context.send("未发现图片")
-        }
-        else if (msg === "aiclear") {
+        } else if (msg === "aiclear") {
             context.send(utils.requestGet(getAiUrl() + "/clear?id=3474006766"))
         }
     }
+    var tid = context.getSubject().getId();
+    var k = utils.executeSelectOne("SELECT k FROM `mk` WHERE `tid`=" + tid).k
+    if (k == null) {
+        utils.executeSql("INSERT INTO `mk` (`tid`) VALUES (" + tid + ");")
+    }
+    if (k !== 0) throw SyntaxError("end")
     if (msg.indexOf("douyin") > 0 || msg.indexOf("kuaishou") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
@@ -257,7 +268,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var name = msg.substring(2)
         var out = utils.requestGet("https://xiaoapi.cn/API/yy.php?type=qq&msg=" + name + "&n=1")
         var outs = out.split("\n")
-        context.send("<Music:QQMusic," + outs[1].substring(3) + "," + outs[2].substring(3) + ",http://47.100.93.243:34740/,"+outs[0].substring(3)+","+outs[3].substring(5)+">")
+        context.send("<Music:QQMusic," + outs[1].substring(3) + "," + outs[2].substring(3) + ",http://47.100.93.243:34740/," + outs[0].substring(3) + "," + outs[3].substring(5) + ">")
     } else if (msg.startsWith("ai:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
     } else if (msg.startsWith("AI:")) {
@@ -301,10 +312,17 @@ if (context.getType() === "group") {
         }
     }
 }
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 if (context.getType() == "NudgeEvent") {
+
     var bid = event.getBot().getId()
-    utils.executeSql("CREATE TABLE IF NOT EXISTS  `nlist` (\n" + "\t`qid` BIGINT NOT NULL,\n" + "\t`sid` BIGINT NOT NULL,\n" + "\t`time` VARCHAR(50) NOT NULL,\n" + "\t`tips` VARCHAR(50) NOT NULL\n" + ");")
-    utils.executeSql("INSERT INTO `nlist` (`qid`, `sid`, `time`, `tips`) VALUES (" + event.getFrom().getId() + ", " + event.getTarget().getId() + ", '" + new Date() + "', '暂无说明');")
+    // utils.executeSql("CREATE TABLE IF NOT EXISTS  `nlist` (\n" + "\t`qid` BIGINT NOT NULL,\n" + "\t`sid` BIGINT NOT NULL,\n" + "\t`time` VARCHAR(50) NOT NULL,\n" + "\t`tips` VARCHAR(50) NOT NULL\n" + ");")
+    // utils.executeSql("INSERT INTO `nlist` (`qid`, `sid`, `time`, `tips`) VALUES (" + event.getFrom().getId() + ", " + event.getTarget().getId() + ", '" + new Date() + "', '暂无说明');")
+
     if (event.getFrom() == event.getBot()) {
         //主动戳出 不做处理
     } else if (event.getTarget().getId() == bid) {
@@ -326,10 +344,6 @@ if (context.getType() == "NudgeEvent") {
         }
         utils.set("nc0", r0 + 1)
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
-    }
-
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
 //23/10/18-20.23
