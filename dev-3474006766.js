@@ -223,7 +223,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                     context.send(builder.build())
                 } else {
                     context.send("作者: " + result.name + "\n" + result.desc)
-                    context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", +"视频直链: " + result.video).build())
+                    context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", context.newPlainText("视频直链: " + result.video)).build())
                 }
             } else context.send("解析失败!\ncode:" + result.code)
         } else context.send("未发现链接")
@@ -244,7 +244,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 .append("\n=================\n")
                 .append("\nSOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid)
             context.send(builder.build())
-            context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", "视频直链:" + result.data.video.url).build())
+            context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", context.newPlainText("视频直链:" + result.data.video.url)).build())
         }
     } else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
@@ -332,4 +332,4 @@ if (context.getType() == "NudgeEvent") {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
-//23/10/18-19.45
+//23/10/18-20.19
