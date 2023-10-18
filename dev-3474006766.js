@@ -242,7 +242,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 .append(context.uploadImage(result.data.video.fm))
                 .append(context.newPlainText("BVID: " + result.data.bvid + " FROM: " + result.data.owner.name + "\n" + result.data.video.title))
                 .append("\n=================\n")
-                .append("\nSOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid)
+                .append("SOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid)
             context.send(builder.build())
             context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", context.newPlainText("视频直链:" + result.data.video.url)).build())
         }
