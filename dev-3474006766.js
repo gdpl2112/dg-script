@@ -210,7 +210,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         }
     }
     var tid = context.getSubject().getId();
-    utils.executeSql("CREATE TABLE `mk` IF NOT EX(`tid` BIGINT NOT NULL,  `k` TINYINT NOT NULL DEFAULT '0')")
+    utils.executeSql("CREATE TABLE IF NOT EXISTS `mk` (`tid` BIGINT NOT NULL,  `k` TINYINT NOT NULL DEFAULT '0')")
     var k = utils.executeSelectOne("SELECT k FROM `mk` WHERE `tid`=" + tid).k
     if (k == null) utils.executeSql("INSERT INTO `mk` (`tid`) VALUES (" + tid + ");")
     if (k !== 0) throw SyntaxError("end")
