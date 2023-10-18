@@ -221,7 +221,10 @@ if (context.getType() === "group" || context.getType() === "friend") {
                         builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
                     }
                     context.send(builder.build())
-                } else context.send(result.desc + "\n视频直链: " + result.video)
+                } else {
+                    context.send("作者: " + result.name + "\n" + result.desc)
+                    context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", +"视频直链: " + result.video).build())
+                }
             } else context.send("解析失败!\ncode:" + result.code)
         } else context.send("未发现链接")
     } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
@@ -234,13 +237,14 @@ if (context.getType() === "group" || context.getType() === "friend") {
             url = "https://api.xingzhige.com/API/b_parse/?url=" + url.substring(0, e0);
             var result = JSON.parse(utils.requestGet(url))
             var builder = context.builder()
-            builder.append(context.uploadImage(result.data.video.fm))
+            builder
+                .append(context.newPlainText(result.data.video.desc))
+                .append(context.uploadImage(result.data.video.fm))
                 .append(context.newPlainText("BVID: " + result.data.bvid + " FROM: " + result.data.owner.name + "\n" + result.data.video.title))
                 .append("\n=================\n")
-                .append(context.newPlainText(result.data.video.desc))
                 .append("\nSOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid)
-                .append("\nLINK: ").append(result.data.video.url)
             context.send(builder.build())
+            context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", "视频直链:" + result.data.video.url).build())
         }
     } else if (msg.startsWith("语音合成")) {
         var okv = msg.split(" ");
@@ -328,4 +332,4 @@ if (context.getType() == "NudgeEvent") {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
-//23/10/17-21.35
+//23/10/18-19.45
