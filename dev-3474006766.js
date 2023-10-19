@@ -64,12 +64,30 @@ function sendToText(out) {
     }
 }
 
-function getAiUrl() {
-    return "http://kloping.top/api/ai"
+function debugLog(msg) {
+    context.getBot().getGroup(696516964).sendMessage(context.newPlainText(msg))
 }
 
 if (context.getType() == "group") {
-    if (context.getSender().getId() == 3474006766) {
+    var sid = context.getSender().getId();
+    var tid = context.getSubject().getId();
+    utils.executeSql("INSERT INTO `msg_list` (`sid`, `tid`, `msg`, `time`) VALUES (" + tid + ", " + tid + ", '" + msg + "', '" + new Date().getTime() + "');")
+    if (tid == 868060057 || tid == 696516964) {
+        if (msg == "扫码帮助") {
+            context.send("不填就是群的可选，1为qun.qq.com，2为vip.qq.com，3为qzone.qq.com，4为huifu.qq.com，5为id.qq.com，6为docs.qq.com，7为connect.qq.com")
+        } else if (msg.startsWith("扫码登录")) {
+            var result0 = JSON.parse(utils.requestGet("http://api.wuxixindong.cn/api/qqrcode.php?type=" + msg.substring(4)))
+            utils.set(sid, result0.qrsig)
+            context.send("<pic:" + result0.url + ">")
+        } else if (msg == "完成" || msg == "ok") {
+            var qrsig = utils.get(sid)
+            if (qrsig != null) {
+                var result1 = JSON.parse(utils.requestGet("https://api.wuxixindong.cn/api/qqrcode.php?qrsig=" + qrsig))
+                context.send(result1.text + "\n" + JSON.stringify(result1.data))
+            }
+        }
+    }
+    if (sid == 3474006766) {
         if (msg.trim().startsWith("/")) {
             var okv = msg.split(" ");
             switch (okv[0]) {
@@ -130,10 +148,10 @@ if (context.getType() == "group") {
                     }
                     break
                 case "/open":
-                    context.send(utils.executeSql("UPDATE 'mk' SET 'k'=0 WHERE `tid`=" + context.getSubject().getId()))
+                    context.send(utils.executeSql("UPDATE 'mk' SET 'k'=0 WHERE `tid`=" + tid))
                     break
                 case "/close":
-                    context.send(utils.executeSql("UPDATE 'mk' SET 'k'=1 WHERE `tid`=" + context.getSubject().getId()))
+                    context.send(utils.executeSql("UPDATE 'mk' SET 'k'=1 WHERE `tid`=" + tid))
                     break
                 case "/req-get":
                     if (okv.length !== 2) {
@@ -166,8 +184,12 @@ if (context.getType() == "group") {
     }
 }
 
-function debugLog(msg) {
-    context.getBot().getGroup(696516964).sendMessage(context.newPlainText(msg))
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getAiUrl() {
+    return "http://kloping.top/api/ai"
 }
 
 if (context.getType() === "group" || context.getType() === "friend") {
@@ -201,7 +223,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         }
     }
     var tid = context.getSubject().getId();
-    utils.executeSql("CREATE TABLE IF NOT EXISTS `mk` (`tid` BIGINT NOT NULL,  `k` TINYINT NOT NULL DEFAULT '0')")
+    // utils.executeSql("CREATE TABLE IF NOT EXISTS `mk` (`tid` BIGINT NOT NULL,  `k` TINYINT NOT NULL DEFAULT '0')")
     var k = utils.executeSelectOne("SELECT k FROM `mk` WHERE `tid`=" + tid)
     // debugLog(tid + " out: " + k)
     if (k === null) {
@@ -288,35 +310,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.send(context.uploadImage(imageUrl));
     }
 }
-if (context.getType() === "group") {
-    var sid = context.getSender().getId();
-    if (context.getSubject().getId() == 868060057 || context.getSubject().getId() == 696516964) {
-        if (msg == "扫码帮助") {
-            context.send("不填就是群的可选，1为qun.qq.com，2为vip.qq.com，3为qzone.qq.com，4为huifu.qq.com，5为id.qq.com，6为docs.qq.com，7为connect.qq.com")
-        } else if (msg.startsWith("扫码登录")) {
-            var result0 = JSON.parse(utils.requestGet("http://api.wuxixindong.cn/api/qqrcode.php?type=" + msg.substring(4)))
-            utils.set(sid, result0.qrsig)
-            context.send("<pic:" + result0.url + ">")
-        } else if (msg == "完成" || msg == "ok") {
-            var qrsig = utils.get(sid)
-            if (qrsig != null) {
-                var result1 = JSON.parse(utils.requestGet("https://api.wuxixindong.cn/api/qqrcode.php?qrsig=" + qrsig))
-                context.send(result1.text + "\n" + JSON.stringify(result1.data))
-            }
-        }
-    }
-}
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 if (context.getType() == "NudgeEvent") {
-
     var bid = event.getBot().getId()
-    // utils.executeSql("CREATE TABLE IF NOT EXISTS  `nlist` (\n" + "\t`qid` BIGINT NOT NULL,\n" + "\t`sid` BIGINT NOT NULL,\n" + "\t`time` VARCHAR(50) NOT NULL,\n" + "\t`tips` VARCHAR(50) NOT NULL\n" + ");")
-    // utils.executeSql("INSERT INTO `nlist` (`qid`, `sid`, `time`, `tips`) VALUES (" + event.getFrom().getId() + ", " + event.getTarget().getId() + ", '" + new Date() + "', '暂无说明');")
-
     if (event.getFrom() == event.getBot()) {
         //主动戳出 不做处理
     } else if (event.getTarget().getId() == bid) {
@@ -340,4 +336,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/19-9.36
+//23/10/19-18.40
