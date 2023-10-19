@@ -291,6 +291,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg.startsWith("gsai:")) {
         var jo = JSON.parse(utils.requestGet("https://api.lolimi.cn/API/AI/ys3.5.php?msg=" + msg.substring(3) + "&speaker=纳西妲"))
         context.send("<audio:http://kloping.top/api/mp32amr?url=" + jo.music + ">")
+        sendToText(jo.msg)
     } else if (msg.startsWith("AI:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
     } else if (msg.startsWith("翻译")) {
@@ -340,4 +341,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/19-21.46
+//23/10/19-21.48
