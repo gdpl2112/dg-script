@@ -71,7 +71,7 @@ function debugLog(msg) {
 if (context.getType() == "group") {
     var sid = context.getSender().getId();
     var tid = context.getSubject().getId();
-    utils.executeSql("INSERT INTO `msg_list` (`sid`, `tid`, `msg`, `time`) VALUES (" + tid + ", " + tid + ", '" + msg + "', '" + new Date().getTime() + "');")
+    utils.executeSql("INSERT INTO `msg_list` (`sid`, `tid`, `msg`, `time`) VALUES (" + sid + ", " + tid + ", '" + msg + "', '" + new Date().getTime() + "');")
     if (tid == 868060057 || tid == 696516964) {
         if (msg == "扫码帮助") {
             context.send("不填就是群的可选，1为qun.qq.com，2为vip.qq.com，3为qzone.qq.com，4为huifu.qq.com，5为id.qq.com，6为docs.qq.com，7为connect.qq.com")
@@ -336,4 +336,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/19-18.40
+//23/10/19-18.43
