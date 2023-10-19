@@ -323,6 +323,15 @@ if (context.getType() === "group" || context.getType() === "friend") {
             .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/chaiq/c.php"))
             .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/chaiq/c.php"))
             .build())
+    } else if (msg == "原神壁纸") {
+        context.send(context.forwardBuilder()
+            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
+            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
+            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
+            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
+            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
+            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
+            .build())
     }
 }
 
@@ -351,4 +360,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/19-23.25
+//23/10/19-23.34
