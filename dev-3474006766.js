@@ -313,6 +313,10 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var senderId = context.getSender().getId();
         var imageUrl = "https://api.xingzhige.com/API/FortuneCat/?qq=" + senderId;
         context.send(context.uploadImage(imageUrl));
+    } else if (msg.trim().endsWith("发病")) {
+        var out = utils.requestGet("https://api.lolimi.cn/API/fabing/fb.php?name=" + msg.replace("发病", ""));
+        var jo = JSON.parse(out)
+        context.send(jo.data)
     }
 }
 
@@ -341,4 +345,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/19-21.48
+//23/10/19-23.16
