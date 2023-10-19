@@ -203,7 +203,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     var tid = context.getSubject().getId();
     utils.executeSql("CREATE TABLE IF NOT EXISTS `mk` (`tid` BIGINT NOT NULL,  `k` TINYINT NOT NULL DEFAULT '0')")
     var k = utils.executeSelectOne("SELECT k FROM `mk` WHERE `tid`=" + tid)
-    debugLog(tid + " out: " + k)
+    // debugLog(tid + " out: " + k)
     if (k === null) {
         utils.executeSql("INSERT INTO `mk` (`tid`) VALUES (" + tid + ");")
         k.k = 0;
