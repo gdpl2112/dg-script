@@ -71,6 +71,7 @@ function debugLog(msg) {
 if (context.getType() == "group") {
     var sid = context.getSender().getId();
     var tid = context.getSubject().getId();
+    // utils.executeSql("CREATE TABLE IF NOT EXISTS `msg_list` (`sid` BIGINT NOT NULL,`tid` BIGINT NOT NULL,`msg` VARCHAR(1024) NOT NULL,`time` VARCHAR(255) NOT NULL)")
     utils.executeSql("INSERT INTO `msg_list` (`sid`, `tid`, `msg`, `time`) VALUES (" + sid + ", " + tid + ", '" + msg + "', '" + new Date().getTime() + "');")
     if (tid == 868060057 || tid == 696516964) {
         if (msg == "扫码帮助") {
