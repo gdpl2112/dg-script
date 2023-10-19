@@ -211,9 +211,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
     }
     var tid = context.getSubject().getId();
     utils.executeSql("CREATE TABLE IF NOT EXISTS `mk` (`tid` BIGINT NOT NULL,  `k` TINYINT NOT NULL DEFAULT '0')")
-    var k = utils.executeSelectOne("SELECT k FROM `mk` WHERE `tid`=" + tid).k
+    var k = utils.executeSelectOne("SELECT k FROM `mk` WHERE `tid`=" + tid)
     if (k == null) utils.executeSql("INSERT INTO `mk` (`tid`) VALUES (" + tid + ");")
-    if (k !== 0) throw SyntaxError("end")
+    if (k.k !== 0) throw SyntaxError("end")
     if (msg.indexOf("douyin") > 0 || msg.indexOf("kuaishou") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
@@ -345,4 +345,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/18-20.23
+//23/10/19.9.15
