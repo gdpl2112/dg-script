@@ -206,7 +206,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     // debugLog(tid + " out: " + k)
     if (k === null) {
         utils.executeSql("INSERT INTO `mk` (`tid`) VALUES (" + tid + ");")
-        k.k = 0;
+        k = {"k": 0}
     }
     if (k.k !== 0) throw SyntaxError("end")
     if (msg.indexOf("douyin") > 0 || msg.indexOf("kuaishou") > 0) {
@@ -340,4 +340,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/19-9.30
+//23/10/19-9.36
