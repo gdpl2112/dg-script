@@ -129,20 +129,6 @@ if (context.getType() == "group") {
                         context.send("del state : " + kdelOut + "! key:" + okv[1])
                     }
                     break
-                // case "/tsm":
-                //     var ms = context.getSubject().getMembers()
-                //     var list = utils.newObject("java.util.ArrayList")
-                //     list.addAll(ms.delegate)
-                //     sendToText(list.toString())
-                //     break
-                // case "/exec":
-                //     if (msg.length > 5) {
-                //         var out = utils.requestGet("http://kloping.top/exec?pwd=4432120&line=" + msg.substring(5))
-                //         var outo = JSON.parse(out)
-                //         if (outo.err.length > 0) context.send("err:\n" + outo.err)
-                //         if (outo.in.length > 0) context.send("out:\n" + outo.in)
-                //     }
-                //     break
                 case "/open":
                     context.send(utils.executeSql("UPDATE 'mk' SET 'k'=0 WHERE `tid`=" + context.getSubject().getId()))
                     break
@@ -179,6 +165,11 @@ if (context.getType() == "group") {
         }
     }
 }
+
+function debugLog(msg) {
+    context.getBot().getGroup(696516964).sendMessage(context.newPlainText(msg))
+}
+
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() == context.getBot().getId() || context.getSender().getId() == 2898304046) {
         if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
@@ -212,7 +203,11 @@ if (context.getType() === "group" || context.getType() === "friend") {
     var tid = context.getSubject().getId();
     utils.executeSql("CREATE TABLE IF NOT EXISTS `mk` (`tid` BIGINT NOT NULL,  `k` TINYINT NOT NULL DEFAULT '0')")
     var k = utils.executeSelectOne("SELECT k FROM `mk` WHERE `tid`=" + tid)
-    if (k == null) utils.executeSql("INSERT INTO `mk` (`tid`) VALUES (" + tid + ");")
+    debugLog(tid + " out: " + k)
+    if (k === null) {
+        utils.executeSql("INSERT INTO `mk` (`tid`) VALUES (" + tid + ");")
+        k.k = 0;
+    }
     if (k.k !== 0) throw SyntaxError("end")
     if (msg.indexOf("douyin") > 0 || msg.indexOf("kuaishou") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
@@ -345,4 +340,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/19.9.15
+//23/10/19-9.19
