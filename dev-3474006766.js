@@ -1,3 +1,4 @@
+if (context.getType() === "group") msg = msg.trim()
 //完善
 function getFormatValue(fk, inStr) {
     var i1 = inStr.indexOf("<")
@@ -89,7 +90,7 @@ if (context.getType() == "group") {
         }
     }
     if (sid == 3474006766) {
-        if (msg.trim().startsWith("/")) {
+        if (msg.startsWith("/")) {
             var okv = msg.split(" ");
             switch (okv[0]) {
                 case "/set":
@@ -202,15 +203,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 var out = utils.requestGet("http://kloping.top/transImg?type=url&url=" + iurl)
                 context.send("upload finish: " + out)
             } else context.send("未发现图片")
-        }
-        else if (isStartOrEndWith(msg, "query")) {
+        } else if (isStartOrEndWith(msg, "query")) {
             var iurl = getImageUrlAll(msg)
             if (iurl != null)
                 context.send(iurl)
             else
                 context.send("未发现图片")
-        }
-        else if (isStartOrEndWith(msg, "识别")) {
+        } else if (isStartOrEndWith(msg, "识别")) {
             var iurl = getImageUrlAll(msg)
             if (iurl != null) {
                 iurl = encodeURI(iurl)
@@ -295,28 +294,30 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg.startsWith("AI:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
     } else if (msg.startsWith("翻译")) {
-        context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.trim().substring(2) + "&type=text&end="))
+        context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.substring(2) + "&type=text&end="))
     } else if (msg.startsWith("捅")) {
         var aid = getAtId(msg)
         if (aid != null) context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
     } else if (msg.startsWith("摇")) {
         context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/yao2yao?qid=" + context.getSender().getId() + ">"))
-    } else if (msg.trim() === ("锤") || msg.trim() === ("捶")) {
+    } else if (msg === ("锤") || msg === ("捶")) {
         context.send("<pic:https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
-    } else if (msg.trim() === ("趴")) {
+    } else if (msg === ("趴")) {
         context.send("<pic:https://api.xingzhige.com/API/grab/?qq=" + context.getSender().getId() + ">")
-    } else if (msg.trim() === ("贴")) {
+    } else if (msg === ("贴")) {
         context.send("<pic:https://api.xingzhige.com/API/baororo/?qq=" + context.getSender().getId() + ">")
-    } else if (msg.trim() === ("打")) {
+    } else if (msg === ("打")) {
         context.send("<pic:https://api.xingzhige.com/API/pound/?qq=" + context.getSender().getId() + ">")
-    } else if (msg.trim() === "喵") {
+    } else if (msg === "喵") {
         var senderId = context.getSender().getId();
         var imageUrl = "https://api.xingzhige.com/API/FortuneCat/?qq=" + senderId;
         context.send(context.uploadImage(imageUrl));
-    } else if (msg.trim().endsWith("发病")) {
+    } else if (msg.endsWith("发病")) {
         var out = utils.requestGet("https://api.lolimi.cn/API/fabing/fb.php?name=" + msg.replace("发病", ""));
         var jo = JSON.parse(out)
         context.send(jo.data)
+    } else if (msg == "柴郡") {
+        context.send("<pic:https://api.lolimi.cn/API/chaiq/c.php>")
     }
 }
 
@@ -345,4 +346,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/19-23.16
+//23/10/19-23.23
