@@ -317,7 +317,12 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var jo = JSON.parse(out)
         context.send(jo.data)
     } else if (msg == "柴郡") {
-        context.send("<pic:https://api.lolimi.cn/API/chaiq/c.php>")
+        context.send(context.forwardBuilder()
+            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/chaiq/c.php"))
+            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/chaiq/c.php"))
+            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/chaiq/c.php"))
+            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/chaiq/c.php"))
+            .build())
     }
 }
 
@@ -346,4 +351,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/19-23.23
+//23/10/19-23.25
