@@ -342,14 +342,12 @@ if (context.getType() === "group" || context.getType() === "friend") {
             utils.set("r18-u0", JSON.parse(u0).data.Message)
         }
         var con0 = utils.newObject("org.jsoup.helper.HttpConnection")
-        debugLog(con0.toString())
         con0.url(u0).ignoreContentType(true).ignoreHttpErrors(true)
             .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
             .header("Accept-Encoding", "gzip, deflate, br")
             .header("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6")
             .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67");
         var doc0 = con0.get()
-        debugLog(doc0.toString())
         var u1 = doc0.location();
         context.getSender().sendMessage(context.forwardBuilder()
             .add(context.getBot().getId(), "AI:", context.uploadImage(u1))
