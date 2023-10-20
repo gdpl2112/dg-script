@@ -341,7 +341,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
             u0 = utils.requestGet("https://api.lolimi.cn/API/sho_u/?msg=呜啊啊呜啊呜呜～啊～啊呜～呜呜～～～～嗷～呜呜呜～啊～嗷嗷嗷～啊呜啊～啊啊嗷嗷啊啊啊啊啊啊嗷呜呜～啊嗷～嗷嗷呜嗷嗷～嗷呜呜呜嗷啊呜～呜啊呜嗷嗷呜啊～啊呜～嗷呜啊～～啊呜～嗷啊啊嗷～～～嗷呜嗷嗷嗷～啊呜&format=1")
             utils.set("r18-u0", JSON.parse(u0).data.Message)
         }
-        context.getSender().sendMessage(context.uploadImage(u0))
+        context.getSender().sendMessage(context.forwardBuilder()
+            .add(context.getBot().getId(), "AI:", utils.requestGet("http://kloping.top/transImg?type=url&url=" + u0))
+            .build())
     }
 }
 
