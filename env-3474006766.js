@@ -42,6 +42,10 @@ function work() {
         utils.set("jsAll", jsAll)
     }
     if (jsAll != null && jsAll !== "") {
-        eval(jsAll);
+        try {
+            eval(jsAll);
+        } catch (e) {
+            console.send(e.toString())
+        }
     }
 }

@@ -337,6 +337,14 @@ if (context.getType() === "group" || context.getType() === "friend") {
             .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu"))
             .build())
     } else if (msg == "涩图r18") {
+        utils.executeSql("CREATE TABLE IF NOT EXISTS `auths`(`tid` BIGINT NOT NULL,`p` VARCHAR(20))")
+        var sid = context.getSender().getId();
+        var sql0 = "SELECT * FROM `auths` WHERE `tid`=" + sid + " AND p='r18'";
+        var k = utils.executeSelectOne(sql0)
+        if (k == null) {
+            debugLog(sid + " req r18 refuse")
+            throw new SyntaxError("stop")
+        }
         //未成年不许看
         var u0 = utils.get("r18-u0")
         if (u0 === null) {
@@ -384,4 +392,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/20-12.56
+//23/10/20-14.03
