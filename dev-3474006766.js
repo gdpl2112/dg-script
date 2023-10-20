@@ -341,9 +341,20 @@ if (context.getType() === "group" || context.getType() === "friend") {
             u0 = utils.requestGet("https://api.lolimi.cn/API/sho_u/?msg=呜啊啊呜啊呜呜～啊～啊呜～呜呜～～～～嗷～呜呜呜～啊～嗷嗷嗷～啊呜啊～啊啊嗷嗷啊啊啊啊啊啊嗷呜呜～啊嗷～嗷嗷呜嗷嗷～嗷呜呜呜嗷啊呜～呜啊呜嗷嗷呜啊～啊呜～嗷呜啊～～啊呜～嗷啊啊嗷～～～嗷呜嗷嗷嗷～啊呜&format=1")
             utils.set("r18-u0", JSON.parse(u0).data.Message)
         }
+        var con0 = utils.newObject("org.jsoup.helper.HttpConnection")
+        debugLog(con0.toString())
+        con0.url(u0).ignoreContentType(true).ignoreHttpErrors(true)
+            .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+            .header("Accept-Encoding", "gzip, deflate, br")
+            .header("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6")
+            .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67");
+        var doc0 = con0.get()
+        debugLog(doc0.toString())
+        var u1 = doc0.location();
         context.getSender().sendMessage(context.forwardBuilder()
-            .add(context.getBot().getId(), "AI:", utils.requestGet("http://kloping.top/transImg?type=url&url=" + u0))
+            .add(context.getBot().getId(), "AI:", context.uploadImage(u1))
             .build())
+        debugLog("finish ")
     }
 }
 
@@ -372,4 +383,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/20-12.02
+//23/10/20-12.45

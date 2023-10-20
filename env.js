@@ -60,6 +60,8 @@ class Utils {
     clear();
     //列出内存在所有变量
     list();
+
+    newObject(name, args);
     //执行一句sql
     executeSql(sql);
     //执行一句查询sql返回list
