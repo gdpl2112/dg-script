@@ -45,7 +45,17 @@ function work() {
         try {
             eval(jsAll);
         } catch (e) {
-            console.send(e.toString())
+            if (e instanceof SyntaxError) {
+
+            } else {
+                if (context.getType() === "group") {
+                    if (context.getSubject().getId() === 696516964) {
+                        context.send(e.toString())
+                    } else {
+                        context.getBot().getGroup(868060057).sendMessage(context.newPlainText(e.toString()))
+                    }
+                }
+            }
         }
     }
 }
