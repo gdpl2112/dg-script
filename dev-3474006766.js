@@ -332,6 +332,10 @@ if (context.getType() === "group" || context.getType() === "friend") {
             .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
             .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
             .build())
+    } else if (msg == "涩图" || msg == "来点涩图") {
+        context.send("<pic:https://api.anosu.top/img?sort=setu>")
+    } else if (msg == "涩图r18") {
+        context.send("<pic:https://moe.jitsu.top/r18>")
     }
 }
 
@@ -360,4 +364,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/19-23.34
+//23/10/20-11.53
