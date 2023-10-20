@@ -352,7 +352,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         context.getSender().sendMessage(context.forwardBuilder()
             .add(context.getBot().getId(), "AI:", context.uploadImage(u1))
             .build())
-        debugLog("finish ")
+        debugLog("发送成功!")
     }
 }
 
@@ -381,4 +381,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/20-12.45
+//23/10/20-12.48
