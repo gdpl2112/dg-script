@@ -335,7 +335,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg == "涩图" || msg == "来点涩图") {
         context.send("<pic:https://api.anosu.top/img?sort=setu>")
     } else if (msg == "涩图r18") {
-        context.send("<pic:https://moe.jitsu.top/r18>")
+        //未成年不许看
+        var u0 = utils.get("r18-u0")
+        if (u0 == null) {
+            u0 = utils.requestGet("https://api.lolimi.cn/API/sho_u/?msg=呜啊啊呜啊呜呜～啊～啊呜～呜呜～～～～嗷～呜呜呜～啊～嗷嗷嗷～啊呜啊～啊啊嗷嗷啊啊啊啊啊啊嗷呜呜～啊嗷～嗷嗷呜嗷嗷～嗷呜呜呜嗷啊呜～呜啊呜嗷嗷呜啊～啊呜～嗷呜啊～～啊呜～嗷啊啊嗷～～～嗷呜嗷嗷嗷～啊呜&format=1")
+            utils.set("r18-u0", u0)
+        }
+        context.getSender().sendMessage(context.uploadImage(u0))
     }
 }
 
@@ -364,4 +370,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/20-11.53
+//23/10/20-12.00
