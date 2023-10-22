@@ -232,6 +232,16 @@ function sendToText(out) {
     }
 }
 
+
+//list遍历
+function listFor(list, f0) {
+    var it0 = list.iterator()
+    while (it0.hasNext()) {
+        var e = it0.next();
+        f0(e)
+    }
+}
+
 //功能性admin用法
 if (context.getType() == "group" || context.getType() == "friend") {
     if (get_admin() == "true") {
@@ -354,19 +364,16 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
             case ".log":
                 var log = "";
-                var list = utils.executeSelectList("select * from logs")
-                var iter0 = list.iterator()
-                while (iter0.hasNext()) {
-                    var e = iter0.next()
+                var list = utils.executeSelectList("select * from logs order by id desc;")
+                listFor(list, function (e) {
                     log = e.msg + "\n" + log
-                }
-                context.send("更新日志:\n" + log)
+                })
+                context.send("更新日志:\n" + log.trim())
                 break
             case ".clear":
                 var number = utils.clear()
                 context.send("clear all" + "\nclear number:" + number)
                 break
-
             case ".list":
                 var listA = utils.list()
                 context.send(context.newPlainText(listA.toString()))
@@ -387,56 +394,62 @@ if (context.getType() == "group" || context.getType() == "friend") {
 
 //异步&Bot专用===================================================================================================================================
 if (context.getType() == "group" || context.getType() == "friend") {
-    if (context.getSender().getId() == context.getBot().getId()) {
-        //更新日志
-        var update_state = utils.get("update_state")
-        var time = getTime()
-        if (update_state == true) {
-            var qid2 = utils.get("qid1")
-            var qid = context.getSubject().getId()
-            if (qid == qid2) {
-                var log = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=update_log")
-                var newLog = msg
-                if (log !== null) {
-                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + log + "\n" + time + " " + newLog)
-                    context.send("更新成功")
-                    utils.set("update_state", false)
-                } else {
-                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + time + " " + newLog)
-                    context.send("更新成功")
-                    utils.set("update_state", false)
-                }
-            }
-        } else if (msg == ".update") {
-            context.send("启动更新日志 请输入")
-            var qid1 = context.getSubject().getId()
-            utils.set("qid1", qid1)
-            utils.set("update_state", true)
+    if (context.getSender().getId() == context.getBot().getId() || context.getSender().getId()==3474006766) {
+        if (msg.startsWith("添加更新日志")) {
+            var e = msg.substring(6);
+            var data = getTime() + ": " + e;
+            utils.executeSql(" insert into logs(msg) values (\"" + data + "\");")
+            context.send("更新日志数: " + utils.executeSelectOne("SELECT count(*) as c FROM logs").c)
         }
+        //更新日志
+        // var update_state = utils.get("update_state")
+        // var time = getTime()
+        // if (update_state == true) {
+        //     var qid2 = utils.get("qid1")
+        //     var qid = context.getSubject().getId()
+        //     if (qid == qid2) {
+        //         var log = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=update_log")
+        //         var newLog = msg
+        //         if (log !== null) {
+        //             utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + log + "\n" + time + " " + newLog)
+        //             context.send("更新成功")
+        //             utils.set("update_state", false)
+        //         } else {
+        //             utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + time + " " + newLog)
+        //             context.send("更新成功")
+        //             utils.set("update_state", false)
+        //         }
+        //     }
+        // } else if (msg == ".update") {
+        //     context.send("启动更新日志 请输入")
+        //     var qid1 = context.getSubject().getId()
+        //     utils.set("qid1", qid1)
+        //     utils.set("update_state", true)
+        // }
 
         //setLog
-        var setLog_state = utils.get("setLog_state")
-        if (setLog_state == true) {
-            var qid2 = utils.get("qid1")
-            var qid = context.getSubject().getId()
-            if (qid == qid2) {
-                var newLog = msg
-                if (newLog == "null") {
-                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=")
-                    context.send("已清空更新日志")
-                    utils.set("setLog_state", false)
-                } else {
-                    utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + newLog)
-                    context.send("修改成功")
-                    utils.set("setLog_state", false)
-                }
-            }
-        } else if (msg == ".setLog") {
-            context.send("开始修改更新日志 请输入")
-            var qid1 = context.getSubject().getId()
-            utils.set("qid1", qid1)
-            utils.set("setLog_state", true)
-        }
+        // var setLog_state = utils.get("setLog_state")
+        // if (setLog_state == true) {
+        //     var qid2 = utils.get("qid1")
+        //     var qid = context.getSubject().getId()
+        //     if (qid == qid2) {
+        //         var newLog = msg
+        //         if (newLog == "null") {
+        //             utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=")
+        //             context.send("已清空更新日志")
+        //             utils.set("setLog_state", false)
+        //         } else {
+        //             utils.requestGet("http://kloping.top/put?pwd=dg-2898304046&key=update_log&value=" + newLog)
+        //             context.send("修改成功")
+        //             utils.set("setLog_state", false)
+        //         }
+        //     }
+        // } else if (msg == ".setLog") {
+        //     context.send("开始修改更新日志 请输入")
+        //     var qid1 = context.getSubject().getId()
+        //     utils.set("qid1", qid1)
+        //     utils.set("setLog_state", true)
+        // }
 
         //setAdmin
         if (msg.startsWith(".setAdmin")) {

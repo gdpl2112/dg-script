@@ -91,3 +91,12 @@ if (context.getType() == "group") {
             break
     }
 }
+
+//list遍历
+function listFor(list, f0) {
+    var it0 = list.iterator()
+    while (it0.hasNext()) {
+        var e = it0.next();
+        f0(e)
+    }
+}
