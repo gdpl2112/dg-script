@@ -214,6 +214,24 @@ if (context.getType() == "group" || context.getType() == "friend") {
     }
 }
 
+
+function sendToText(out) {
+    var max = 600
+    out = out.toString()
+    if (out.length >= max) {
+        var builder = context.forwardBuilder()
+        while (out.length >= max) {
+            var e = out.substring(0, max)
+            out = out.substring(max)
+            builder.add(context.getBot().getId(), "AI", context.newPlainText(e.trim()))
+        }
+        if (out.length > 0) builder.add(context.getBot().getId(), "AI", context.newPlainText(out.trim()))
+        context.send(builder.build())
+    } else {
+        context.send(context.newPlainText(out))
+    }
+}
+
 //功能性admin用法
 if (context.getType() == "group" || context.getType() == "friend") {
     if (get_admin() == "true") {
@@ -347,6 +365,15 @@ if (context.getType() == "group" || context.getType() == "friend") {
             case ".list":
                 var listA = utils.list()
                 context.send(context.newPlainText(listA.toString()))
+                break
+            case ".sql":
+                context.send(utils.executeSql(msg.substring(4)))
+                break
+            case ".sqls":
+                sendToText(utils.executeSelectList(msg.substring(5)))
+                break
+            case ".sqlso":
+                sendToText(utils.executeSelectOne(msg.substring(6)))
                 break
         }
     }
