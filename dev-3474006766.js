@@ -366,4 +366,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         debugLog("发送成功! to " + context.getSender().getId())
     }
 }
-//23/10/20-14.29
+//23/10/22-22.49
