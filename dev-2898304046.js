@@ -353,10 +353,15 @@ if (context.getType() == "group" || context.getType() == "friend") {
                 break
 
             case ".log":
-                var log = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=update_log")
+                var log = "";
+                var list = utils.executeSelectList("select * from logs")
+                var iter0 = list.iterator()
+                while (iter0.hasNext()) {
+                    var e = iter0.next()
+                    log = e.msg + "\n" + log
+                }
                 context.send("更新日志:\n" + log)
                 break
-
             case ".clear":
                 var number = utils.clear()
                 context.send("clear all" + "\nclear number:" + number)
