@@ -28,9 +28,11 @@ if (context.getType() === "group") {
         utils.set("jsAll", jsAll)
         var ss = jsAll.split("\n")
         context.send(context.newPlainText(ss[ss.length - 1]))
-    } else {
-        work()
-    }
+    } else if (msg == "version") {
+        var jsAll = utils.get("jsAll")
+        var ss = jsAll.split("\n")
+        context.send(context.newPlainText(ss[ss.length - 1]))
+    } else work()
 } else {
     work()
 }

@@ -333,9 +333,16 @@ if (context.getType() === "group" || context.getType() === "friend") {
             .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
             .build())
     } else if (msg == "涩图" || msg == "来点涩图") {
-        context.send(context.forwardBuilder()
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu"))
-            .build())
+        if (getRandomInt(1, 2) == 1) {
+            context.send(context.forwardBuilder()
+                .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu"))
+                .build())
+        }else{
+            context.getSubject().sendMessage(context.forwardBuilder()
+                .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu"))
+                .build())
+            context.send("偷偷发给你了!")
+        }
     } else if (msg == "涩图r18") {
         utils.executeSql("CREATE TABLE IF NOT EXISTS `auths`(`tid` BIGINT NOT NULL,`p` VARCHAR(20))")
         var sid = context.getSender().getId();
@@ -366,4 +373,4 @@ if (context.getType() === "group" || context.getType() === "friend") {
         debugLog("发送成功! to " + context.getSender().getId())
     }
 }
-//23/10/22-22.49
+//23/10/23-16
