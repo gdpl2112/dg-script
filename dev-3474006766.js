@@ -163,6 +163,16 @@ if (context.getType() == "group") {
                         context.send("out :\n" + out)
                     }
                     break
+                case "/adds":
+                    if (okv.length !== 2) {
+                        context.send("args size less 2")
+                    } else {
+                        var out = utils.requestGet("http://kloping.top/get?pwd=r&key=songs")
+                        var arr = JSON.parse(out)
+                        arr.push(okv[1])
+                        context.send("out :\n" + arr)
+                    }
+                    break
                 case "/eval":
                     eval(msg.substring(5).trim())
                     break
@@ -399,4 +409,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/27
+//23/10/31
