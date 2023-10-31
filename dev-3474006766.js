@@ -170,7 +170,9 @@ if (context.getType() == "group") {
                         var out = utils.requestGet("http://kloping.top/get?pwd=r&key=songs")
                         var arr = JSON.parse(out)
                         arr.push(okv[1])
-                        context.send("out :\n" + arr)
+                        var out = JSON.stringify(arr);
+                        utils.requestGet("http://kloping.top/put?pwd=r&key=songs&value=" + out)
+                        context.send("out :\n" + out)
                     }
                     break
                 case "/eval":
@@ -409,4 +411,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/31
+//23/10/31-fix
