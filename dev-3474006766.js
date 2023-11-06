@@ -206,6 +206,37 @@ function getAiUrl() {
     return "http://kloping.top/api/ai"
 }
 
+function ParseVideoOrGallery(result) {
+    if (result.code == 200) {
+        var data = result.data
+        if (result.msg.indexOf("图集") >= 0) {
+            var builder = context.builder();
+            builder.append(context.uploadImage(data.cover))
+                .append("\n作者: ").append(data.author).append("\n")
+                .append(data.title).append("\n图集数量:" + data.count + "/正在发送,请稍等..");
+            context.send(builder.build())
+            var arr = result.image
+            var builder = context.forwardBuilder();
+            builder.add(context.getBot().getId(), "AI:", context.newPlainText("音频直链: " + result.music.musicBgm))
+            for (var i = 0; i < arr.length; i++) {
+                var e = arr[i];
+                builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
+            }
+            context.send(builder.build())
+        } else {
+            var builder = context.builder();
+            builder.append(context.uploadImage(data.cover))
+                .append("作者: ").append(data.author).append("\n")
+                .append(data.title);
+            context.send(builder.build())
+            context.send(context.forwardBuilder()
+                .add(context.getBot().getId(), "AI:", context.newPlainText("视频直链: " + result.data.url))
+                .add(context.getBot().getId(), "AI:", context.newPlainText("音频直链: " + result.music.musicBgm))
+                .build())
+        }
+    } else context.send("解析失败!\ncode:" + result.code)
+}
+
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() == context.getBot().getId() || context.getSender().getId() == 2898304046) {
         if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
@@ -243,28 +274,21 @@ if (context.getType() === "group" || context.getType() === "friend") {
         k = {"k": 0}
     }
     if (k.k !== 0) throw SyntaxError("end")
-    if (msg.indexOf("douyin") > 0 || msg.indexOf("kuaishou") > 0) {
+    if (msg.indexOf("kuaishou") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
             var url = urls[0];
-            var result = JSON.parse(utils.requestGet("https://api.xtaoa.com/api/video_v1.php?url=" + url))
-            if (result.code == 200) {
-                if (result.type == "图集") {
-                    context.send("解析成功!\n数量:" + result.images.length + "\n正在发送,请稍等..")
-                    var arr = result.images
-                    var builder = context.forwardBuilder();
-                    for (var i = 0; i < arr.length; i++) {
-                        var e = arr[i];
-                        if (e.endsWith(".webp")) e = e.replace(".webp", ".jpg")
-                        builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
-                    }
-                    context.send(builder.build())
-                } else {
-                    context.send("作者: " + result.name + "\n" + result.desc)
-                    context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", context.newPlainText("视频直链: " + result.video)).build())
-                }
-            } else context.send("解析失败!\ncode:" + result.code)
+            var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/kuaishou.php?url=" + url))
+            ParseVideoOrGallery(result)
+        } else context.send("未发现链接")
+    } else if (msg.indexOf("douyin") > 0) {
+        var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+        var urls = msg.match(reg)
+        if (urls !== null) {
+            var url = urls[0];
+            var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/douyin.php?url=" + url))
+            ParseVideoOrGallery(result)
         } else context.send("未发现链接")
     } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
@@ -307,43 +331,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.substring(2) + "&type=text&end="))
-    } else if (msg.startsWith("捅")) {
-        var aid = getAtId(msg)
-        if (aid != null) context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + aid) + ">")
-    } else if (msg.startsWith("摇")) {
-        context.send("<pic:" + utils.requestGet("http://kloping.top/api/image/yao2yao?qid=" + context.getSender().getId() + ">"))
-    } else if (msg === ("锤") || msg === ("捶")) {
-        context.send("<pic:https://api.andeer.top/API/gif_thump.php?qq=" + context.getSender().getId() + ">")
-    } else if (msg === ("趴")) {
-        context.send("<pic:https://api.xingzhige.com/API/grab/?qq=" + context.getSender().getId() + ">")
-    } else if (msg === ("贴")) {
-        context.send("<pic:https://api.xingzhige.com/API/baororo/?qq=" + context.getSender().getId() + ">")
-    } else if (msg === ("打")) {
-        context.send("<pic:https://api.xingzhige.com/API/pound/?qq=" + context.getSender().getId() + ">")
-    } else if (msg === "喵") {
-        var senderId = context.getSender().getId();
-        var imageUrl = "https://api.xingzhige.com/API/FortuneCat/?qq=" + senderId;
-        context.send(context.uploadImage(imageUrl));
-    } else if (msg.endsWith("发病")) {
-        var out = utils.requestGet("https://api.lolimi.cn/API/fabing/fb.php?name=" + msg.replace("发病", ""));
-        var jo = JSON.parse(out)
-        context.send(jo.data)
-    } else if (msg == "柴郡") {
-        context.send(context.forwardBuilder()
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/chaiq/c.php"))
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/chaiq/c.php"))
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/chaiq/c.php"))
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/chaiq/c.php"))
-            .build())
-    } else if (msg == "原神壁纸") {
-        context.send(context.forwardBuilder()
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
-            .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.lolimi.cn/API/yuan/?type=image"))
-            .build())
     } else if (msg == "涩图" || msg == "来点涩图") {
         if (getRandomInt(1, 2) == 1) {
             context.send(context.forwardBuilder()
@@ -355,34 +342,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 .build())
             context.send("偷偷发给你了!")
         }
-    } else if (msg == "涩图r18") {
-        utils.executeSql("CREATE TABLE IF NOT EXISTS `auths`(`tid` BIGINT NOT NULL,`p` VARCHAR(20))")
-        var sid = context.getSender().getId();
-        var sql0 = "SELECT * FROM `auths` WHERE `tid`=" + sid + " AND p='r18'";
-        var k = utils.executeSelectOne(sql0)
-        if (k == null) {
-            debugLog(sid + " req r18 refuse")
-            throw new SyntaxError("stop")
-        }
-        //未成年不许看
-        var u0 = utils.get("r18-u0")
-        if (u0 === null) {
-            debugLog("reget r18-u0")
-            u0 = utils.requestGet("https://api.lolimi.cn/API/sho_u/?msg=呜啊啊呜啊呜呜～啊～啊呜～呜呜～～～～嗷～呜呜呜～啊～嗷嗷嗷～啊呜啊～啊啊嗷嗷啊啊啊啊啊啊嗷呜呜～啊嗷～嗷嗷呜嗷嗷～嗷呜呜呜嗷啊呜～呜啊呜嗷嗷呜啊～啊呜～嗷呜啊～～啊呜～嗷啊啊嗷～～～嗷呜嗷嗷嗷～啊呜&format=1")
-            utils.set("r18-u0", JSON.parse(u0).data.Message)
-        }
-        var con0 = utils.newObject("org.jsoup.helper.HttpConnection")
-        con0.url(u0).ignoreContentType(true).ignoreHttpErrors(true)
-            .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-            .header("Accept-Encoding", "gzip, deflate, br")
-            .header("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6")
-            .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67");
-        var doc0 = con0.get()
-        var u1 = doc0.location();
-        context.getSender().sendMessage(context.forwardBuilder()
-            .add(context.getBot().getId(), "AI:", context.uploadImage(u1))
-            .build())
-        debugLog("发送成功! to " + context.getSender().getId())
     }
 }
 
@@ -411,4 +370,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/10/31-fix
+//23/11
