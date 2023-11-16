@@ -10,17 +10,8 @@
 //!!! https://github.moeyy.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js
 //!!! https://ghps.cc/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js
 
-var u1 = "https://ghproxy.com/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js"
 var u2 = "https://gh.api.99988866.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-3474006766.js"
-var url = utils.get("url0")
-if (url == null) {
-    url = u1
-} else if (url === u1) {
-    url = u2
-} else if (url === u2) {
-    url = u1
-}
-utils.set("url0", url)
+var url = u2
 if (context.getType() === "group") {
     if (msg === "update") {
         var jsAll = utils.requestGet(url)

@@ -51,6 +51,7 @@ function getImageUrlAll(msg) {
 function sendToText(out) {
     var max = 600
     out = out.toString()
+    debugLog("length: " + out.length)
     if (out.length >= max) {
         var builder = context.forwardBuilder()
         while (out.length >= max) {
