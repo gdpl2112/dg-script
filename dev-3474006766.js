@@ -106,7 +106,7 @@ if (context.getType() == "group") {
                         context.send("args size less 2")
                     } else {
                         var v0 = utils.get(okv[1])
-                        context.send("key: " + okv[1] + "\nvalue: " + v0)
+                        sendToText("key: " + okv[1] + "\nvalue: " + v0)
                     }
                     break;
                 case "/del":
@@ -130,7 +130,7 @@ if (context.getType() == "group") {
                         context.send("args size less 3")
                     } else {
                         var ksetOut = utils.requestGet("http://kloping.top/put?pwd=dg-3474006766&key=" + okv[1] + "&value=" + okv[2])
-                        context.send("set success : " + ksetOut)
+                        sendToText("set success : " + ksetOut)
                     }
                     break
                 case "/kget":
@@ -138,7 +138,7 @@ if (context.getType() == "group") {
                         context.send("args size less 2")
                     } else {
                         var kgetOut = utils.requestGet("http://kloping.top/get?pwd=dg-3474006766&key=" + okv[1])
-                        context.send("get success : " + kgetOut)
+                        sendToText("get success : " + kgetOut)
                     }
                     break
                 case "/kdel":
@@ -370,4 +370,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/11
+//23/11/16
