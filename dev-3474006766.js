@@ -276,13 +276,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
     }
     if (k.k !== 0) throw SyntaxError("end")
     if (msg.indexOf("kuaishou") > 0) {
-        // var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-        // var urls = msg.match(reg)
-        // if (urls !== null) {
-        //     var url = urls[0];
-        //     var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/kuaishou.php?url=" + url))
-        //     ParseVideoOrGallery(result)
-        // } else context.send("未发现链接")
+        var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+        var urls = msg.match(reg)
+        if (urls !== null) {
+            var url = urls[0];
+            var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/kuaishou.php?url=" + url))
+            ParseVideoOrGallery(result)
+        } else context.send("未发现链接")
     } else if (msg.indexOf("douyin") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
@@ -371,4 +371,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/11/18
+//23/11/19
