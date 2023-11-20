@@ -39,15 +39,8 @@ function work() {
             eval(jsAll);
         } catch (e) {
             if (e instanceof SyntaxError) {
-
             } else {
-                if (context.getType() === "group") {
-                    if (context.getSubject().getId() === 696516964) {
-                        context.send(e.toString())
-                    } else {
-                        context.getBot().getGroup(868060057).sendMessage(context.newPlainText(e.toString()))
-                    }
-                }
+                context.getBot().getGroup(696516964).sendMessage(context.newPlainText(e.toString()))
             }
         }
     }
