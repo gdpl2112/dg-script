@@ -64,4 +64,4 @@ allFuns.getRandomInt = function (min, max) {
 allFuns.getAiUrl = function () {
     return "http://localhost/api/ai"
 }
-//fun-23/11/27-2
+//fun-23/11/27-final
