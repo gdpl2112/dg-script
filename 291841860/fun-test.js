@@ -63,7 +63,7 @@ allTestFun.parseKuaishou = function (url) {
     builder.append(context.uploadImage(result.photo.coverUrls[0].url))
         .append(result.shareInfo.shareTitle)
         .append("作者").append(result.photo.userName).append("/").append(result.photo.userSex)
-        .append("\n粉丝:").append(result.counts.fanCount)
+        .append("\n粉丝:").append(result.counts.fanCount.toString())
         .append("\n💗 ").append(result.photo.likeCount.toString())
         .append("\n👁︎︎ ").append(result.photo.viewCount.toString())
         .append("\n✉️ ").append(result.photo.commentCount.toString())
@@ -115,4 +115,4 @@ allTestFun.parseKuaishou = function (url) {
 
     }
 }
-//test-fun-23/11/27-13
+//test-fun-23/11/27-14
