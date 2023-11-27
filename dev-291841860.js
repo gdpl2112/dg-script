@@ -14,7 +14,7 @@ function loadFun() {
     return allFuns
 }
 
-function loadTestFun() {
+function loadFunParseKuaishou() {
     loadFun()
     var cjs = utils.get("FunParseKuaishou")
     if (cjs == null || cjs.length == 0) {
@@ -132,10 +132,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg.indexOf("kuaishou") > 0) {
         var urls = msg.match(urlReg)
         if (urls !== null) {
-            var url = urls[0];
-            // var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/kuaishou.php?url=" + url))
-            // loadFun().parseVideoOrGallery(result)
-            loadTestFun().parseKuaishou(url);
+            loadFunParseKuaishou().parseKuaishou(urls[0]);
         } else context.send("未发现链接")
     } else if (msg.indexOf("douyin") > 0) {
         var urls = msg.match(urlReg)
@@ -217,4 +214,4 @@ if (context.getType() === "NudgeEvent") {
         if (loadFun().getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/27-5
+//dev-23/11/27-6
