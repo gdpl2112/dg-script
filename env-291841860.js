@@ -12,12 +12,12 @@
 
 if (context.getType() === "group") {
     if (msg === "update") {
-        var jsAll = utils.requestGet("https://github.moeyy.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-291841860.js")
+        var jsAll = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/dev-291841860.js")
         utils.clear()
         utils.set("jsAll", jsAll)
         var ss = jsAll.split("\n")
         context.send(context.newPlainText(ss[ss.length - 1]))
-        var fun_all = utils.requestGet("https://github.moeyy.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/291841860/funcs.js")
+        var fun_all = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
         utils.set("fun_all", fun_all)
         ss = fun_all.split("\n")
         context.send(context.newPlainText(ss[ss.length - 1]))
