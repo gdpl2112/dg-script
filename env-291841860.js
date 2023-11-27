@@ -10,14 +10,16 @@
 //!!! https://github.moeyy.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-291841860.js
 //!!! https://ghps.cc/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-291841860.js
 
-var u2 = "https://gh.api.99988866.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-291841860.js"
-var url = u2
 if (context.getType() === "group") {
     if (msg === "update") {
-        var jsAll = utils.requestGet(url)
+        var jsAll = utils.requestGet("https://github.moeyy.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-291841860.js")
         utils.clear()
         utils.set("jsAll", jsAll)
         var ss = jsAll.split("\n")
+        context.send(context.newPlainText(ss[ss.length - 1]))
+        var fun_all = utils.requestGet("https://github.moeyy.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/291841860/funcs.js")
+        utils.set("fun_all", fun_all)
+        ss = fun_all.split("\n")
         context.send(context.newPlainText(ss[ss.length - 1]))
     } else if (msg === "version") {
         var jsAll = utils.get("jsAll")

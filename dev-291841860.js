@@ -1,35 +1,13 @@
 if (context.getType() === "group") msg = msg.trim()
 
-function getTextFromOcr(url) {
-    var json = utils.requestGet("http://localhost/api/ocr?url=" + url)
-    var jo = JSON.parse(json)
-    return jo.data.ParsedText
-}
-
-function isStartOrEndWith(msg, key) {
-    return (msg.startsWith(key) || msg.endsWith(key))
-}
-
-function sendToText(out) {
-    var max = 600
-    out = out.toString()
-    debugLog("length: " + out.length)
-    if (out.length >= max) {
-        var builder = context.forwardBuilder()
-        while (out.length >= max) {
-            var e = out.substring(0, max)
-            out = out.substring(max)
-            builder.add(context.getBot().getId(), "AI", context.newPlainText(e.trim()))
-        }
-        if (out.length > 0) builder.add(context.getBot().getId(), "AI", context.newPlainText(out.trim()))
-        context.send(builder.build())
-    } else {
-        context.send(context.newPlainText(out))
+function load() {
+    var fun_all = utils.get("fun_all")
+    if (fun_all == null || fun_all.length == 0) {
+        fun_all = utils.requestGet("https://github.moeyy.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/291841860/funcs.js")
+        utils.set("fun_all", fun_all)
     }
-}
-
-function debugLog(msg) {
-    context.getBot().getGroup(759590727).sendMessage(context.newPlainText(msg))
+    eval(fun_all)
+    return new Funcs()
 }
 
 if (context.getType() == "group") {
@@ -52,7 +30,7 @@ if (context.getType() == "group") {
                         context.send("args size less 2")
                     } else {
                         var v0 = utils.get(okv[1])
-                        sendToText("key: " + okv[1] + "\nvalue: " + v0)
+                        load().sendToText("key: " + okv[1] + "\nvalue: " + v0)
                     }
                     break;
                 case "/del":
@@ -129,45 +107,6 @@ if (context.getType() == "group") {
     }
 }
 
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getAiUrl() {
-    return "http://localhost/api/ai"
-}
-
-function ParseVideoOrGallery(result) {
-    if (result.code === 200) {
-        var data = result.data
-        if (result.msg.indexOf("图集") >= 0) {
-            var builder = context.builder();
-            builder.append(context.uploadImage(data.cover))
-                .append("\n作者: ").append(data.author).append("\n")
-                .append(data.title).append("\n图集数量:" + data.count + "/正在发送,请稍等..");
-            context.send(builder.build())
-            var arr = result.image
-            var builder = context.forwardBuilder();
-            builder.add(context.getBot().getId(), "AI:", context.newPlainText("音频直链: " + result.music.musicBgm))
-            for (var i = 0; i < arr.length; i++) {
-                var e = arr[i];
-                builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
-            }
-            context.send(builder.build())
-        } else {
-            var builder = context.builder();
-            builder.append(context.uploadImage(data.cover))
-                .append("作者: ").append(data.author).append("\n")
-                .append(data.title);
-            context.send(builder.build())
-            context.send(context.forwardBuilder()
-                .add(context.getBot().getId(), "AI:", context.newPlainText("视频直链: " + result.data.url))
-                .add(context.getBot().getId(), "AI:", context.newPlainText("音频直链: " + result.music.musicBgm))
-                .build())
-        }
-    } else context.send("解析失败!\ncode:" + result.code)
-}
-
 if (context.getType() === "group" || context.getType() === "friend") {
     if (context.getSender().getId() === 3474006766 || context.getSender().getId() === 2898304046) {
         if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
@@ -189,7 +128,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var url = urls[0];
             context.send("正在解析\n" + url)
             var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/kuaishou.php?url=" + url))
-            ParseVideoOrGallery(result)
+            parseVideoOrGallery(result)
         } else context.send("未发现链接")
     } else if (msg.indexOf("douyin") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
@@ -198,7 +137,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var url = urls[0];
             context.send("正在解析\n" + url)
             var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/douyin.php?url=" + url))
-            ParseVideoOrGallery(result)
+            parseVideoOrGallery(result)
         } else context.send("未发现链接")
     } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
@@ -210,8 +149,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             url = "https://api.xingzhige.com/API/b_parse/?url=" + url.substring(0, e0);
             var result = JSON.parse(utils.requestGet(url))
             var builder = context.builder()
-            builder
-                .append(context.newPlainText(result.data.video.desc))
+            builder.append(context.newPlainText(result.data.video.desc))
                 .append(context.uploadImage(result.data.video.fm))
                 .append(context.newPlainText("BVID: " + result.data.bvid + " FROM: " + result.data.owner.name + "\n" + result.data.video.title))
                 .append("\n=================\n")
@@ -248,11 +186,11 @@ if (context.getType() === "group" || context.getType() === "friend") {
     }
 }
 
-if (context.getType() == "NudgeEvent") {
+if (context.getType() === "NudgeEvent") {
     var bid = event.getBot().getId()
-    if (event.getFrom() == event.getBot()) {
+    if (event.getFrom() === event.getBot()) {
         //主动戳出 不做处理
-    } else if (event.getTarget().getId() == bid) {
+    } else if (event.getTarget().getId() === bid) {
         var r0 = utils.get("nc0")
         if (r0 == null) r0 = 1; else if (r0 > 4) r0 = 1;
         switch (r0) {
@@ -273,4 +211,4 @@ if (context.getType() == "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//23/11/27
+//23/11/27-13
