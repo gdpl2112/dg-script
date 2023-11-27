@@ -63,6 +63,7 @@ allTestFun.parseKuaishou = function (url) {
     builder.append(context.uploadImage(result.photo.coverUrls[0].url))
         .append(result.shareInfo.shareTitle)
         .append("作者").append(result.photo.userName).append("/").append(result.photo.userSex)
+        .append("\n粉丝:").append(result.counts.fanCount)
         .append("\n💗 ").append(result.photo.likeCount.toString())
         .append("\n👁︎︎ ").append(result.photo.viewCount.toString())
         .append("\n✉️ ").append(result.photo.commentCount.toString())
@@ -72,17 +73,18 @@ allTestFun.parseKuaishou = function (url) {
         .append("/").append(result.shareUserPhotos[0].kwaiId)
         .append("/").append(result.shareUserPhotos[0].userSex).append(context.uploadImage(result.shareUserPhotos[0].headUrl)).build())
 
-    var l0 = result.shareUserPhotos.length
-    for (var i = 0; i < l0; i++) {
+    for (var i = 0; i < result.shareUserPhotos.length; i++) {
         try {
             var data0 = result.shareUserPhotos[i]
-            author.add(context.getBot().getId(), "AI:",
+            var b0 =
                 context.builder().append(context.uploadImage(data0.coverUrls[0].url))
                     .append(data0.caption).append("作者").append(data0.userName).append("/").append(data0.userSex)
                     .append("\n💗 ").append(data0.likeCount.toString())
                     .append("\n👁︎ ").append(data0.viewCount.toString())
-                    .append("\n✉️ ").append(data0.commentCount.toString())
-                    .append("\n直链: ").append(data0.mainMvUrls[0].url).build())
+                    .append("\n✉️ ").append(data0.commentCount.toString());
+            if (data0.mainMvUrls.length > 0) b0.append("\n直链: ").append(data0.mainMvUrls[0].url)
+            else b0.append("[图集]")
+            author.add(context.getBot().getId(), "AI:", b0.build())
         } catch (e) {
            debugLog(e.toString())
         }
@@ -97,7 +99,7 @@ allTestFun.parseKuaishou = function (url) {
             .add(context.getBot().getId(), "AI:", author.build())
             .build())
     } else {
-        builder.append("\n图集数量:" + result.atlas.list.length + "/正在发送,请稍等..");
+        builder.append("\n图集数量:" + result.atlas.list.length + "/正在发送,请稍等...");
         context.send(builder.build())
 
         var fbuilder = context.forwardBuilder();
@@ -113,4 +115,4 @@ allTestFun.parseKuaishou = function (url) {
 
     }
 }
-//test-fun-23/11/27-12
+//test-fun-23/11/27-13
