@@ -30,7 +30,7 @@ if (context.getType() == "group") {
                         context.send("args size less 2")
                     } else {
                         var v0 = utils.get(okv[1])
-                        load().sendToText("key: " + okv[1] + "\nvalue: " + v0)
+                        load().load().sendToText("key: " + okv[1] + "\nvalue: " + v0)
                     }
                     break;
                 case "/del":
@@ -54,7 +54,7 @@ if (context.getType() == "group") {
                         context.send("args size less 3")
                     } else {
                         var ksetOut = utils.requestGet("http://localhost/put?pwd=dg-3474006766&key=" + okv[1] + "&value=" + okv[2])
-                        sendToText("set success : " + ksetOut)
+                        load().sendToText("set success : " + ksetOut)
                     }
                     break
                 case "/kget":
@@ -62,7 +62,7 @@ if (context.getType() == "group") {
                         context.send("args size less 2")
                     } else {
                         var kgetOut = utils.requestGet("http://localhost/get?pwd=dg-3474006766&key=" + okv[1])
-                        sendToText("get success : " + kgetOut)
+                        load().sendToText("get success : " + kgetOut)
                     }
                     break
                 case "/kdel":
@@ -108,27 +108,17 @@ if (context.getType() == "group") {
 }
 
 if (context.getType() === "group" || context.getType() === "friend") {
-    if (context.getSender().getId() === 3474006766 || context.getSender().getId() === 2898304046) {
-        if (isStartOrEndWith(msg, "上传") || isStartOrEndWith(msg, "upload")) {
-            var iurl = getImageUrlAll(msg)
-            if (iurl != null) {
-                iurl = encodeURI(iurl)
-                var out = utils.requestGet("http://localhost/transImg?type=url&url=" + iurl)
-                context.send("upload finish: " + out)
-            } else context.send("未发现图片")
-        } else if (msg === "aiclear") {
-            context.send(utils.requestGet(getAiUrl() + "/clear?id=3474006766"))
-        }
-    }
     var tid = context.getSubject().getId();
-    if (msg.indexOf("kuaishou") > 0) {
+    if (msg === "aiclear") {
+        context.send(utils.requestGet(getAiUrl() + "/clear?id=3474006766"))
+    } else if (msg.indexOf("kuaishou") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
         if (urls !== null) {
             var url = urls[0];
             context.send("正在解析\n" + url)
             var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/kuaishou.php?url=" + url))
-            parseVideoOrGallery(result)
+            load().parseVideoOrGallery(result)
         } else context.send("未发现链接")
     } else if (msg.indexOf("douyin") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
@@ -137,7 +127,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var url = urls[0];
             context.send("正在解析\n" + url)
             var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/douyin.php?url=" + url))
-            parseVideoOrGallery(result)
+            load().parseVideoOrGallery(result)
         } else context.send("未发现链接")
     } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
@@ -163,17 +153,17 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var outs = out.split("\n")
         context.send("<music:QQMusic," + outs[1].substring(3) + "," + outs[2].substring(3) + ",http://47.100.93.243:34740/," + outs[0].substring(3) + "," + outs[3].substring(5) + ">")
     } else if (msg.startsWith("ai:")) {
-        sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
+        load().sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
     } else if (msg.startsWith("gsai:")) {
         var jo = JSON.parse(utils.requestGet("https://api.lolimi.cn/API/AI/ys3.5.php?msg=" + msg.substring(3) + "&speaker=纳西妲"))
         context.send("<audio:http://localhost/api/mp32amr?url=" + jo.music + ">")
-        sendToText(jo.msg)
+        load().sendToText(jo.msg)
     } else if (msg.startsWith("AI:")) {
-        sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
+        load().sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.substring(2) + "&type=text&end="))
     } else if (msg == "涩图" || msg == "来点涩图") {
-        if (getRandomInt(1, 2) == 1) {
+        if (load().getRandomInt(1, 2) == 1) {
             context.send(context.forwardBuilder()
                 .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu"))
                 .build())
@@ -208,7 +198,7 @@ if (context.getType() === "NudgeEvent") {
                 break;
         }
         utils.set("nc0", r0 + 1)
-        if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
+        if (load().getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/27-13
+//dev-23/11/27-1
