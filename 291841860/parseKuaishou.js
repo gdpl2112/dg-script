@@ -1,6 +1,4 @@
-var allTestFun = {};
-
-allTestFun.parseKuaishou = function (url) {
+allFuns.parseKuaishou = function (url) {
     context.send("正在解析\n" + url)
 
     function urlParamToJson(url) {
@@ -69,7 +67,7 @@ allTestFun.parseKuaishou = function (url) {
         .append("\n✉️ ").append(result.photo.commentCount.toString())
 
     var author = context.forwardBuilder()
-    author.add(context.getBot().getId(), "AI:", context.builder().append("分享者: ").append(result.shareUserPhotos[0].userName)
+    author.add(context.getBot().getId(), "AI", context.builder().append("分享者: ").append(result.shareUserPhotos[0].userName)
         .append("/").append(result.shareUserPhotos[0].kwaiId)
         .append("/").append(result.shareUserPhotos[0].userSex).append(context.uploadImage(result.shareUserPhotos[0].headUrl)).build())
 
@@ -84,7 +82,7 @@ allTestFun.parseKuaishou = function (url) {
                     .append("\n✉️ ").append(data0.commentCount.toString());
             if (data0.mainMvUrls.length > 0) b0.append("\n直链: ").append(data0.mainMvUrls[0].url)
             else b0.append("[图集]")
-            author.add(context.getBot().getId(), "AI:", b0.build())
+            author.add(context.getBot().getId(), "AI", b0.build())
         } catch (e) {
            debugLog(e.toString())
         }
@@ -95,16 +93,16 @@ allTestFun.parseKuaishou = function (url) {
         context.send(builder.build())
 
         context.send(context.forwardBuilder()
-            .add(context.getBot().getId(), "AI:", context.newPlainText("视频直链: " + result.mp4Url))
-            .add(context.getBot().getId(), "AI:", author.build())
+            .add(context.getBot().getId(), "AI", context.newPlainText("视频直链: " + result.mp4Url))
+            .add(context.getBot().getId(), "AI", author.build())
             .build())
     } else {
         builder.append("\n图集数量:" + result.atlas.list.length + "/正在发送,请稍等...");
         context.send(builder.build())
 
         var fbuilder = context.forwardBuilder();
-        fbuilder.add(context.getBot().getId(), "AI:", author.build())
-        fbuilder.add(context.getBot().getId(), "AI:", context.newPlainText("音频直链: https://" + result.atlas.musicCdnList[0].cdn + result.atlas.music))
+        fbuilder.add(context.getBot().getId(), "AI", author.build())
+        fbuilder.add(context.getBot().getId(), "AI", context.newPlainText("音频直链: https://" + result.atlas.musicCdnList[0].cdn + result.atlas.music))
         var arr = result.atlas.list
         var host = "https://" + result.atlas.cdn[0]
         for (var i = 0; i < arr.length; i++) {

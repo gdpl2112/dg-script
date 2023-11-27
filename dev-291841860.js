@@ -15,15 +15,16 @@ function loadFun() {
 }
 
 function loadTestFun() {
-    var fun_all = utils.get("fun_test_all")
-    if (fun_all == null || fun_all.length == 0) {
-        fun_all = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/fun-test.js")
-        var ss = fun_all.split("\n")
-        context.send(context.newPlainText(ss[ss.length - 1]))
-        utils.set("fun_test_all", fun_all)
+    loadFun()
+    var cjs = utils.get("FunParseKuaishou")
+    if (cjs == null || cjs.length == 0) {
+        cjs = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/parseKuaishou.js")
+        var ss = cjs.split("\n")
+        debugLog(context.newPlainText(ss[ss.length - 1]))
+        utils.set("FunParseKuaishou", cjs)
     }
-    eval(fun_all)
-    return allTestFun
+    eval(cjs)
+    return allFuns
 }
 
 if (context.getType() == "group") {
@@ -216,4 +217,4 @@ if (context.getType() === "NudgeEvent") {
         if (loadFun().getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/27-4
+//dev-23/11/27-5
