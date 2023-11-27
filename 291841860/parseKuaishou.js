@@ -107,10 +107,14 @@ allFuns.parseKuaishou = function (url) {
         var host = "https://" + result.atlas.cdn[0]
         for (var i = 0; i < arr.length; i++) {
             var e = arr[i];
-            fbuilder.add(context.getBot().getId(), "AI", context.uploadImage(host + e))
+            try {
+                fbuilder.add(context.getBot().getId(), "AI", context.uploadImage(host + e))
+            } catch (ex) {
+                fbuilder.add(context.getBot().getId(), "AI", context.newPlainText("[图片加载失败;" + host + e + "]"))
+            }
         }
         context.send(fbuilder.build())
 
     }
 }
-//parseKuaishou-fun-23/11/27-14
+//parseKuaishou-fun-23/11/27-final
