@@ -14,6 +14,16 @@ function loadFun() {
     return allFuns
 }
 
+function loadTestFun() {
+    var fun_all = utils.get("fun_test_all")
+    if (fun_all == null || fun_all.length == 0) {
+        fun_all = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/fun-test.js")
+        utils.set("fun_test_all", fun_all)
+    }
+    eval(fun_all)
+    return allTestFun
+}
+
 if (context.getType() == "group") {
     if (msg.startsWith("/")) {
         debugLog("command start")
@@ -110,22 +120,22 @@ if (context.getType() == "group") {
     }
 }
 
+var urlReg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+
 if (context.getType() === "group" || context.getType() === "friend") {
     var tid = context.getSubject().getId();
     if (msg === "aiclear") {
         context.send(utils.requestGet(loadFun().getAiUrl() + "/clear?id=3474006766"))
     } else if (msg.indexOf("kuaishou") > 0) {
-        var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-        var urls = msg.match(reg)
+        var urls = msg.match(urlReg)
         if (urls !== null) {
             var url = urls[0];
-            context.send("正在解析\n" + url)
-            var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/kuaishou.php?url=" + url))
-            loadFun().parseVideoOrGallery(result)
+            // var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/kuaishou.php?url=" + url))
+            // loadFun().parseVideoOrGallery(result)
+            loadTestFun().parseKuaishou(url);
         } else context.send("未发现链接")
     } else if (msg.indexOf("douyin") > 0) {
-        var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-        var urls = msg.match(reg)
+        var urls = msg.match(urlReg)
         if (urls !== null) {
             var url = urls[0];
             context.send("正在解析\n" + url)

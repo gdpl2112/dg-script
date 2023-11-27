@@ -38,7 +38,7 @@ allFuns.isStartOrEndWith = function (msg, key) {
 allFuns.sendToText = function (out) {
     var max = 600
     out = out.toString()
-    debugLog("length: " + out.length)
+    debugLog("will send text of length: " + out.length)
     if (out.length >= max) {
         var builder = context.forwardBuilder()
         while (out.length >= max) {
