@@ -18,6 +18,8 @@ function loadTestFun() {
     var fun_all = utils.get("fun_test_all")
     if (fun_all == null || fun_all.length == 0) {
         fun_all = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/fun-test.js")
+        var ss = fun_all.split("\n")
+        context.send(context.newPlainText(ss[ss.length - 1]))
         utils.set("fun_test_all", fun_all)
     }
     eval(fun_all)
