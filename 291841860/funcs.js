@@ -1,5 +1,4 @@
-class Funcs {
-    parseVideoOrGallery(result) {
+    function parseVideoOrGallery(result) {
         if (result.code === 200) {
             var data = result.data
             if (result.msg.indexOf("图集") >= 0) {
@@ -30,11 +29,11 @@ class Funcs {
         } else context.send("解析失败!\ncode:" + result.code)
     }
 
-    isStartOrEndWith(msg, key) {
+    function isStartOrEndWith(msg, key) {
         return (msg.startsWith(key) || msg.endsWith(key))
     }
 
-    sendToText(out) {
+    function sendToText(out) {
         var max = 600
         out = out.toString()
         debugLog("length: " + out.length)
@@ -52,17 +51,15 @@ class Funcs {
         }
     }
 
-    debugLog(msg) {
-        context.getBot().getGroup(759590727).sendMessage(context.newPlainText(msg))
+    function debugLog(msg) {
+        context.getBot().getGroup(589925182).sendMessage(context.newPlainText(msg))
     }
 
-    getRandomInt(min, max) {
+    function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    getAiUrl() {
+    function getAiUrl() {
         return "http://localhost/api/ai"
     }
-
-}
-//fun-23/11/27-13
+//fun-23/11/27-1

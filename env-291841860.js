@@ -53,7 +53,7 @@ function work() {
         } catch (e) {
             if (e instanceof SyntaxError) {
             } else {
-                context.getBot().getGroup(570700910).sendMessage(context.newPlainText(e.toString()))
+                context.getBot().getGroup(589925182).sendMessage(context.newPlainText(e.toString()))
             }
         }
     }
