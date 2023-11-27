@@ -183,9 +183,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu"))
                 .build())
         } else {
-            context.getSubject().sendMessage(context.forwardBuilder()
-                .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu"))
-                .build())
+            context.getSender().sendMessage(
+                context.forwardBuilder()
+                    .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu")).build())
             context.send("偷偷发给你了!")
         }
     }
@@ -216,4 +216,4 @@ if (context.getType() === "NudgeEvent") {
         if (loadFun().getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/27-3
+//dev-23/11/27-4
