@@ -74,14 +74,18 @@ allTestFun.parseKuaishou = function (url) {
 
     var l0 = result.shareUserPhotos.length
     for (var i = 0; i < l0; i++) {
-        var data0 = result.shareUserPhotos[i]
-        author.add(context.getBot().getId(), "AI:",
-            context.builder().append(context.uploadImage(data0.coverUrls[0].url))
-                .append(data0.caption).append("作者").append(data0.userName).append("/").append(data0.userSex)
-                .append("\n💗 ").append(data0.likeCount.toString())
-                .append("\n👁︎ ").append(data0.viewCount.toString())
-                .append("\n✉️ ").append(data0.commentCount.toString())
-                .append("\n直链: ").append(data0.mainMvUrls[0].url).build())
+        try {
+            var data0 = result.shareUserPhotos[i]
+            author.add(context.getBot().getId(), "AI:",
+                context.builder().append(context.uploadImage(data0.coverUrls[0].url))
+                    .append(data0.caption).append("作者").append(data0.userName).append("/").append(data0.userSex)
+                    .append("\n💗 ").append(data0.likeCount.toString())
+                    .append("\n👁︎ ").append(data0.viewCount.toString())
+                    .append("\n✉️ ").append(data0.commentCount.toString())
+                    .append("\n直链: ").append(data0.mainMvUrls[0].url).build())
+        } catch (e) {
+           debugLog(e.toString())
+        }
     }
 
     if (result.atlas == null) {
@@ -109,4 +113,4 @@ allTestFun.parseKuaishou = function (url) {
 
     }
 }
-//test-fun-23/11/27-11
+//test-fun-23/11/27-12
