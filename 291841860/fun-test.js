@@ -63,9 +63,9 @@ allTestFun.parseKuaishou = function (url) {
     builder.append(context.uploadImage(result.photo.coverUrls[0].url))
         .append(result.shareInfo.shareTitle)
         .append("作者").append(result.photo.userName).append("/").append(result.photo.userSex)
-        .append("❤ ").append(result.photo.likeCount)
-        .append("\n👁︎ ").append(result.photo.viewCount)
-        .append("\n↩️ ").append(result.photo.forwardCount)
+        .append("❤ ").append(result.photo.likeCount.toString())
+        .append("\n👁︎ ").append(result.photo.viewCount.toString())
+        .append("\n↩️ ").append(result.photo.forwardCount.toString())
 
     var author = context.forwardBuilder()
     author.add(context.getBot().getId(), "AI:", context.builder().append("分享者: ").append(result.shareUserPhotos[0].userName)
@@ -79,9 +79,9 @@ allTestFun.parseKuaishou = function (url) {
             context.builder().append(context.uploadImage(data0.coverUrls[1].url))
                 .append(data0.caption)
                 .append("作者").append(data0.userName).append("/").append(data0.userSex)
-                .append("❤ ").append(data0.likeCount)
-                .append("\n👁︎ ").append(data0.viewCount)
-                .append("\n↩️ ").append(data0.forwardCount)
+                .append("❤ ").append(data0.likeCount.toString())
+                .append("\n👁︎ ").append(data0.viewCount.toString())
+                .append("\n↩️ ").append(data0.forwardCount.toString())
                 .append("\n直链: ").append(data0.mainMvUrls[0].url))
     }
 
@@ -110,4 +110,4 @@ allTestFun.parseKuaishou = function (url) {
 
     }
 }
-//test-fun-23/11/27-7
+//test-fun-23/11/27-8
