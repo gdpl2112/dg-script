@@ -11,10 +11,8 @@ function load() {
 }
 
 if (context.getType() == "group") {
-    var sid = context.getSender().getId();
-    var tid = context.getSubject().getId();
-    if (sid == 3474006766) {
-        if (msg.startsWith("/")) {
+    if (msg.startsWith("/")) {
+        if (context.getSender().getId() === 3474006766) {
             var okv = msg.split(" ");
             switch (okv[0]) {
                 case "/set":
@@ -105,12 +103,13 @@ if (context.getType() == "group") {
             }
         }
     }
+
 }
 
 if (context.getType() === "group" || context.getType() === "friend") {
     var tid = context.getSubject().getId();
     if (msg === "aiclear") {
-        context.send(utils.requestGet(getAiUrl() + "/clear?id=3474006766"))
+        context.send(utils.requestGet(load().getAiUrl() + "/clear?id=3474006766"))
     } else if (msg.indexOf("kuaishou") > 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         var urls = msg.match(reg)
