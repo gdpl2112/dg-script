@@ -60,7 +60,7 @@ allTestFun.parseKuaishou = function (url) {
 
 
     var builder = context.builder();
-    builder.append(context.uploadImage(result.photo.coverUrls[1].url))
+    builder.append(context.uploadImage(result.photo.coverUrls[0].url))
         .append(result.shareInfo.shareTitle)
         .append("作者").append(result.photo.userName).append("/").append(result.photo.userSex)
         .append("❤ ").append(result.photo.likeCount)
@@ -89,7 +89,6 @@ allTestFun.parseKuaishou = function (url) {
         builder.append("\n视频时长:" + (result.photo.duration / 1000));
         context.send(builder.build())
 
-
         context.send(context.forwardBuilder()
             .add(context.getBot().getId(), "AI:", context.newPlainText("视频直链: " + result.mp4Url))
             .add(context.getBot().getId(), "AI:", author.build())
@@ -111,4 +110,4 @@ allTestFun.parseKuaishou = function (url) {
 
     }
 }
-//test-fun-23/11/27-6
+//test-fun-23/11/27-7
