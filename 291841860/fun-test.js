@@ -76,7 +76,7 @@ allTestFun.parseKuaishou = function (url) {
     for (var i = 0; i < l0; i++) {
         var data0 = result.shareUserPhotos[i]
         author.add(context.getBot().getId(), "AI:",
-            context.builder().append(context.uploadImage(data0.coverUrls[1].url))
+            context.builder().append(context.uploadImage(data0.coverUrls[0].url))
                 .append(data0.caption).append("作者").append(data0.userName).append("/").append(data0.userSex)
                 .append("\n💗 ").append(data0.likeCount.toString())
                 .append("\n👁︎ ").append(data0.viewCount.toString())
@@ -109,4 +109,4 @@ allTestFun.parseKuaishou = function (url) {
 
     }
 }
-//test-fun-23/11/27-10
+//test-fun-23/11/27-11
