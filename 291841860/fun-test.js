@@ -57,21 +57,32 @@ allTestFun.parseKuaishou = function (url) {
         .post();
 
     var result = JSON.parse(response.body().text())
+
+
     var builder = context.builder();
     builder.append(context.uploadImage(result.photo.coverUrls[1].url))
-        .append(result.shareInfo.shareTitle).append("\n图集数量:" + result.atlas.list.length + "/正在发送,请稍等..");
-    context.send(builder.build())
+        .append(result.shareInfo.shareTitle)
+    if (result.atlas == null) {
+        builder.append("\n视频时长:" + (result.photo.duration / 1000));
+        context.send(builder.build())
 
-    var fbuilder = context.forwardBuilder();
-    fbuilder.add(context.getBot().getId(), "AI:",
-        context.newPlainText("音频直链: https://" + result.atlas.musicCdnList[0].cdn + result.atlas.music)
-    )
-    var arr = result.atlas.list
-    var host = "https://" + result.atlas.cdn[0]
-    for (var i = 0; i < arr.length; i++) {
-        var e = arr[i];
-        fbuilder.add(context.getBot().getId(), "AI", context.uploadImage(host + e))
+        context.send(context.forwardBuilder()
+            .add(context.getBot().getId(), "AI:", context.newPlainText("视频直链: " + result.mp4Url))
+            .build())
+    } else {
+        builder.append("\n图集数量:" + result.atlas.list.length + "/正在发送,请稍等..");
+        context.send(builder.build())
+
+        var fbuilder = context.forwardBuilder();
+        fbuilder.add(context.getBot().getId(), "AI:", context.newPlainText("音频直链: https://" + result.atlas.musicCdnList[0].cdn + result.atlas.music))
+        var arr = result.atlas.list
+        var host = "https://" + result.atlas.cdn[0]
+        for (var i = 0; i < arr.length; i++) {
+            var e = arr[i];
+            fbuilder.add(context.getBot().getId(), "AI", context.uploadImage(host + e))
+        }
+        context.send(fbuilder.build())
+
     }
-    context.send(fbuilder.build())
 }
-//test-fun-23/11/27-4
+//test-fun-23/11/27-5
