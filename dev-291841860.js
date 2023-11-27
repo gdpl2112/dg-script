@@ -3,7 +3,7 @@ if (context.getType() === "group") msg = msg.trim()
 function load() {
     var fun_all = utils.get("fun_all")
     if (fun_all == null || fun_all.length == 0) {
-        fun_all = utils.requestGet("https://github.moeyy.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/291841860/funcs.js")
+        fun_all = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
         utils.set("fun_all", fun_all)
     }
     eval(fun_all)
@@ -201,4 +201,4 @@ if (context.getType() === "NudgeEvent") {
         if (load().getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/27-1
+//dev-23/11/27-2
