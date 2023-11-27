@@ -54,7 +54,7 @@ allFuns.sendToText = function (out) {
 }
 
 allFuns.debugLog = function (msg) {
-    context.getBot().getGroup(589925182).sendMessage(context.newPlainText(msg))
+    context.getBot().getGroup(470084160).sendMessage(context.newPlainText(msg))
 }
 
 allFuns.getRandomInt = function (min, max) {

@@ -1,7 +1,7 @@
 if (context.getType() === "group") msg = msg.trim()
 
 function debugLog(msg) {
-    context.getBot().getGroup(589925182).sendMessage(context.newPlainText(msg))
+    context.getBot().getGroup(470084160).sendMessage(context.newPlainText(msg))
 }
 
 function loadFun() {
@@ -214,4 +214,4 @@ if (context.getType() === "NudgeEvent") {
         if (loadFun().getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/27-7
+//dev-23/11/27-final
