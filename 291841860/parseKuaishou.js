@@ -113,4 +113,4 @@ allFuns.parseKuaishou = function (url) {
 
     }
 }
-//test-fun-23/11/27-14
+//parseKuaishou-fun-23/11/27-14

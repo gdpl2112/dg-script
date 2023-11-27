@@ -15,7 +15,7 @@ function loadFun() {
 }
 
 function loadFunParseKuaishou() {
-    loadFun()
+    var allFuns = loadFun()
     var cjs = utils.get("FunParseKuaishou")
     if (cjs == null || cjs.length == 0) {
         cjs = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/parseKuaishou.js")
@@ -214,4 +214,4 @@ if (context.getType() === "NudgeEvent") {
         if (loadFun().getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/27-6
+//dev-23/11/27-7
