@@ -4,6 +4,16 @@ function debugLog(msg) {
     context.getBot().getGroup(589925182).sendMessage(context.newPlainText(msg))
 }
 
+function loadFun() {
+    var fun_all = utils.get("fun_all")
+    if (fun_all == null || fun_all.length == 0) {
+        fun_all = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
+        utils.set("fun_all", fun_all)
+    }
+    eval(fun_all)
+    return allFuns
+}
+
 if (context.getType() == "group") {
     if (msg.startsWith("/")) {
         debugLog("command start")
@@ -98,16 +108,6 @@ if (context.getType() == "group") {
             }
         }
     }
-}
-
-function loadFun() {
-    var fun_all = utils.get("fun_all")
-    if (fun_all == null || fun_all.length == 0) {
-        fun_all = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
-        utils.set("fun_all", fun_all)
-    }
-    eval(fun_all)
-    return new Funcs()
 }
 
 if (context.getType() === "group" || context.getType() === "friend") {
