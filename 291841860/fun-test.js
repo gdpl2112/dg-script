@@ -62,18 +62,44 @@ allTestFun.parseKuaishou = function (url) {
     var builder = context.builder();
     builder.append(context.uploadImage(result.photo.coverUrls[1].url))
         .append(result.shareInfo.shareTitle)
+        .append("作者").append(result.photo.userName).append("/").append(result.photo.userSex)
+        .append("❤ ").append(result.photo.likeCount)
+        .append("\n👁︎ ").append(result.photo.viewCount)
+        .append("\n↩️ ").append(result.photo.forwardCount)
+
+    var author = context.forwardBuilder()
+    author.add(context.getBot().getId(), "AI:", context.builder().append("分享者: ").append(result.shareUserPhotos[0].userName)
+        .append("/").append(result.shareUserPhotos[0].kwaiId)
+        .append("/").append(result.shareUserPhotos[0].userSex).append(context.uploadImage(result.shareUserPhotos[0].headUrl)).build())
+
+    var l0 = result.shareUserPhotos.length
+    for (var i = 0; i < l0; i++) {
+        var data0 = result.shareUserPhotos[i]
+        author.add(context.getBot().getId(), "AI:",
+            context.builder().append(context.uploadImage(data0.coverUrls[1].url))
+                .append(data0.caption)
+                .append("作者").append(data0.userName).append("/").append(data0.userSex)
+                .append("❤ ").append(data0.likeCount)
+                .append("\n👁︎ ").append(data0.viewCount)
+                .append("\n↩️ ").append(data0.forwardCount)
+                .append("\n直链: ").append(data0.mainMvUrls[0].url))
+    }
+
     if (result.atlas == null) {
         builder.append("\n视频时长:" + (result.photo.duration / 1000));
         context.send(builder.build())
 
+
         context.send(context.forwardBuilder()
             .add(context.getBot().getId(), "AI:", context.newPlainText("视频直链: " + result.mp4Url))
+            .add(context.getBot().getId(), "AI:", author.build())
             .build())
     } else {
         builder.append("\n图集数量:" + result.atlas.list.length + "/正在发送,请稍等..");
         context.send(builder.build())
 
         var fbuilder = context.forwardBuilder();
+        fbuilder.add(context.getBot().getId(), "AI:", author.build())
         fbuilder.add(context.getBot().getId(), "AI:", context.newPlainText("音频直链: https://" + result.atlas.musicCdnList[0].cdn + result.atlas.music))
         var arr = result.atlas.list
         var host = "https://" + result.atlas.cdn[0]
@@ -85,4 +111,4 @@ allTestFun.parseKuaishou = function (url) {
 
     }
 }
-//test-fun-23/11/27-5
+//test-fun-23/11/27-6
