@@ -70,7 +70,7 @@ function urlParamToJson(url) {
     var arr0 = url.substring(url.indexOf('?') + 1)
         .trim()
         .split('&');
-    var map = java.util.LinkedHashMap()
+    var map = new java.util.LinkedHashMap()
     for (e in arr0) {
         var kv = arr0[e].split("=")
         map.put(kv[0], kv[1])
@@ -96,7 +96,7 @@ function parseKuaishou(url, context, utils) {
         data.put(key, value.toString());
     }
 
-    var cookies = utils.newObject("java.lang.StringBuilder")
+    var cookies = new java.lang.StringBuilder()
 
     var iterator = doc0.connection().response().cookies().entrySet().iterator();
     while (iterator.hasNext()) {
@@ -184,4 +184,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/11/28-3"
+version.fun = "23/11/28-4"

@@ -24,7 +24,7 @@ if (context.getType() === "group") {
 function updateJsAll() {
     load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
     var UrlUtils = Java.type("io.github.kloping.url.UrlUtils")
-    var jsAll = UrlUtils.getStringFromHttpUrl("https://raw.njuu.cf/gdpl2112/dg-script/master/dev-291841860.js")
+    var jsAll = UrlUtils.getStringFromHttpUrl("https://raw.njuu.cf/gdpl2112/dg-script/master/dev-291841860.js").trim()
     utils.set("jsAll", jsAll)
     var lins = jsAll.split("\n")
     context.send(lins[lins.length - 1])
