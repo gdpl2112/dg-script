@@ -30,7 +30,7 @@ else {
     context.send("未查询到绑定的id")
     throw new SyntaxError("id未绑定")
 }
-debugLog("开始执行金铲铲.")
+context.send("绑定id查询成功;正在绘图请稍等")
 var c = Jsoup.connect("https://mlol.qt.qq.com/go/jgame/get_battle_list")
     .userAgent("QTL/10.4.5.11065 Channel/3  Mozilla/5.0 (Linux; Android 7.1.2; PEGT10 Build/N2G47H; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/81.0.4044.117 Mobile Safari/537.36")
     .header("Cookie", cookie)
