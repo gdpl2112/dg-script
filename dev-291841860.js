@@ -158,10 +158,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu"))
                 .build())
         } else {
-            context.getSender().sendMessage(
-                context.forwardBuilder()
-                    .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu")).build())
             context.send("偷偷发给你了!")
+            context.getSender().sendMessage(context.forwardBuilder().add(context.getBot().getId(),
+                "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu")).build())
         }
     }
 }
