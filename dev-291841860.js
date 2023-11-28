@@ -129,15 +129,15 @@ if (context.getType() === "group" || context.getType() === "friend") {
             e0 = e0 > 0 ? e0 : url.length
             url = "https://api.xingzhige.com/API/b_parse/?url=" + url.substring(0, e0);
             var result = JSON.parse(utils.requestGet(url))
-            var builder = context.builder()
-            builder
-                .append(context.newPlainText(result.data.video.desc))
-                .append(context.uploadImage(result.data.video.fm))
+            // var builder = context.builder()
+            // builder
+            //     .append(context.newPlainText(result.data.video.desc))
+            //     .append(context.uploadImage(result.data.video.fm))
                 // .append(context.newPlainText("BVID: " + result.data.bvid + " FROM: " + result.data.owner.name + "\n" + result.data.video.title))
                 // .append("\n=================\n")
                 // .append("SOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid)
-            context.send(builder.build())
-            // context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", context.newPlainText("视频直链:" + result.data.video.url)).build())
+            // context.send(builder.build())
+            context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", context.newPlainText("视频直链:" + result.data.video.url)).build())
         }
     } else if (msg.startsWith("点歌")) {
         var name = msg.substring(2)
@@ -193,4 +193,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/11/28-12"
+version.dev = "23/11/28-13"
