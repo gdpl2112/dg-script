@@ -137,6 +137,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 .append("SOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid)
             context.send(builder.build())
             context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", context.newPlainText("视频直链:" + result.data.video.url)).build())
+
         }
     } else if (msg.startsWith("点歌")) {
         var name = msg.substring(2)
