@@ -10,6 +10,8 @@
 //!!! https://github.moeyy.xyz/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-291841860.js
 //!!! https://ghps.cc/https://raw.githubusercontent.com/gdpl2112/dg-script/master/dev-291841860.js
 
+var url = "https://raw.njuu.cf/gdpl2112/dg-script/master/dev-291841860.js"
+
 if (context.getType() === "group") {
     if (msg === "update") {
         updateEnv()
@@ -28,7 +30,7 @@ if (context.getType() === "group") {
 }
 
 function updateEnv() {
-    var jsAll = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/dev-291841860.js")
+    var jsAll = utils.requestGet(url)
     utils.set("jsAll", jsAll)
     var ss = jsAll.split("\n")
     context.send(context.newPlainText(ss[ss.length - 1]))
