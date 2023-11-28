@@ -12,7 +12,9 @@
 
 if (context.getType() === "group") {
     if (msg === "update") {
-        updateJsAll()
+        updateJsAll(true)
+    } else if (msg === "update0") {
+        updateJsAll(false)
     } else if (msg === "newEnv") {
         utils.newGlobal()
         context.send("OK!")
@@ -21,8 +23,8 @@ if (context.getType() === "group") {
     work()
 }
 
-function updateJsAll() {
-    load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
+function updateJsAll(k) {
+    if (k) load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
     var UrlUtils = Java.type("io.github.kloping.url.UrlUtils")
     var jsAll = UrlUtils.getStringFromHttpUrl("https://raw.njuu.cf/gdpl2112/dg-script/master/dev-291841860.js").trim()
     utils.set("jsAll", jsAll)
@@ -34,7 +36,7 @@ function updateJsAll() {
 function work() {
     var jsAll = utils.get("jsAll")
     if (jsAll == null) {
-        jsAll = updateJsAll()
+        jsAll = updateJsAll(true)
     }
     if (jsAll != null && jsAll !== "") {
         try {
