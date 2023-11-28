@@ -102,18 +102,14 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg.indexOf("kuaishou") > 0) {
         var urls = msg.match(urlReg)
         if (urls !== null) {
-            var k0 = utils.get("pks0")
-            if (k0 == null || k0) {
-                utils.set("pks0", false)
-                try {
-                    parseKuaishou(urls[0], context, utils);
-                } catch (e) {
-                    context.send("解析异常:" + e.toString())
-                }
-                utils.set("pks0", true)
-            } else {
-                context.send("解析进行中...\n请等待解析结束后重试")
-            }
+            parseKuaishou(urls[0], context, utils);
+            // var k0 = utils.get("pks0")
+            // if (k0 == null || k0) {
+                // utils.set("pks0", false)
+                // utils.set("pks0", true)
+            // } else {
+            //     context.send("解析进行中...\n请等待解析结束后重试")
+            // }
         } else context.send("未发现链接")
     } else if (msg.indexOf("douyin") > 0) {
         var urls = msg.match(urlReg)
@@ -199,4 +195,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/11/28-ap4"
+version.dev = "23/11/28-ap5"
