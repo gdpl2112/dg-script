@@ -162,6 +162,8 @@ if (context.getType() === "group" || context.getType() === "friend") {
             context.getSender().sendMessage(context.forwardBuilder().add(context.getBot().getId(),
                 "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu")).build())
         }
+    } else if (msg == "查铲铲" || msg == "查金铲铲" || msg == "查金铲") {
+        eval(utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/select0.js"))
     }
 }
 
