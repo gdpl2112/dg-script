@@ -90,7 +90,7 @@ if (context.getType() == "group") {
                     context.send(okv[1])
                     break
                 case "/version":
-
+                    context.send(JSON.stringify(version))
                     break
             }
         }
@@ -195,4 +195,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/28-3
+//dev-23/11/28-4
