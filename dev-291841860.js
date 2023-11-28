@@ -80,7 +80,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                         var out = utils.requestGet("http://localhost/get?pwd=r&key=songs")
                         var arr = JSON.parse(out)
                         arr.push(okv[1])
-                        var out = JSON.toString(arr);
+                        var out = JSON.toJSONString(arr);
                         utils.requestGet("http://localhost/put?pwd=r&key=songs&value=" + out)
                         context.send("out :\n" + out)
                     }
@@ -93,7 +93,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                     context.send(okv[1])
                     break
                 case "/version":
-                    context.send(JSON.toString(version))
+                    context.send(JSON.toJSONString(version))
                     break
             }
         }
@@ -199,4 +199,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/11/28-ap3"
+version.dev = "23/11/28-ap4"
