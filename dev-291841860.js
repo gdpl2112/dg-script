@@ -130,12 +130,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
         var urls = msg.match(urlReg)
         if (urls !== null) {
-            debugLog("解析bili: " + urls.toString())
             var url = urls[0];
             var e0 = url.indexOf("?");
             e0 = e0 > 0 ? e0 : url.length
             url = "https://api.xingzhige.com/API/b_parse/?url=" + url.substring(0, e0);
+            debugLog("out:" + url)
             var result = JSON.parse(utils.requestGet(url))
+            debugLog("out:" + result)
             var builder = context.builder()
             builder.append(context.newPlainText(result.data.video.desc))
                 .append(context.uploadImage(result.data.video.fm))
