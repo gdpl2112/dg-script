@@ -20,7 +20,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                         context.send("args size less 2")
                     } else {
                         var v0 = utils.get(okv[1])
-                        sendToText("key: " + okv[1] + "\nvalue: " + v0)
+                        sendToText("key: " + okv[1] + "\nvalue: " + v0, context)
                     }
                     break;
                 case "/del":
@@ -44,7 +44,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                         context.send("args size less 3")
                     } else {
                         var ksetOut = utils.requestGet("http://localhost/put?pwd=dg-3474006766&key=" + okv[1] + "&value=" + okv[2])
-                        sendToText("set success : " + ksetOut)
+                        sendToText("set success : " + ksetOut, context)
                     }
                     break
                 case "/kget":
@@ -52,7 +52,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                         context.send("args size less 2")
                     } else {
                         var kgetOut = utils.requestGet("http://localhost/get?pwd=dg-3474006766&key=" + okv[1])
-                        sendToText("get success : " + kgetOut)
+                        sendToText("get success : " + kgetOut, context)
                     }
                     break
                 case "/kdel":
@@ -129,16 +129,11 @@ if (context.getType() === "group" || context.getType() === "friend") {
             e0 = e0 > 0 ? e0 : url.length
             url = "https://api.xingzhige.com/API/b_parse/?url=" + url.substring(0, e0);
             var result = JSON.parse(utils.requestGet(url))
-            sendToText(JSON.stringify(result), context)
-            // var builder = context.builder()
-            // builder
-            //     .append(context.newPlainText(result.data.video.desc))
-            //     .append(context.uploadImage(result.data.video.fm))
-                // .append(context.newPlainText("BVID: " + result.data.bvid + " FROM: " + result.data.owner.name + "\n" + result.data.video.title))
-                // .append("\n=================\n")
-                // .append("SOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid)
-            // context.send(builder.build())
             context.send(context.forwardBuilder().add(context.getBot().getId(), "AI:", context.newPlainText("视频直链:" + result.data.video.url)).build())
+            context.send(context.builder()
+                .append(result.data.video.desc).append(context.uploadImage(result.data.video.fm))
+                .append(context.newPlainText("BVID: " + result.data.bvid + " FROM: " + result.data.owner.name + "\n" + result.data.video.title))
+                .append("\n=================\n").append("SOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid).build())
         }
     } else if (msg.startsWith("点歌")) {
         var name = msg.substring(2)
@@ -146,13 +141,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var outs = out.split("\n")
         context.send("<music:QQMusic," + outs[1].substring(3) + "," + outs[2].substring(3) + ",http://kloping.top/," + outs[0].substring(3) + "," + outs[3].substring(5) + ">")
     } else if (msg.startsWith("ai:")) {
-        sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
+        sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"), context)
     } else if (msg.startsWith("gsai:")) {
         var jo = JSON.parse(utils.requestGet("https://api.lolimi.cn/API/AI/ys3.5.php?msg=" + msg.substring(3) + "&speaker=纳西妲"))
         context.send("<audio:" + jo.music + ">")
-        sendToText(jo.msg)
+        sendToText(jo.msg, context)
     } else if (msg.startsWith("AI:")) {
-        sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
+        sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"), context)
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.substring(2) + "&type=text&end="))
     } else if (msg == "涩图" || msg == "来点涩图") {
@@ -194,4 +189,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/11/28-15"
+version.dev = "23/11/28-20"

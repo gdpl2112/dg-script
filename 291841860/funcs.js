@@ -47,7 +47,7 @@ function sendToText(out, context) {
         if (out.length > 0) builder.add(context.getBot().getId(), "AI", context.newPlainText(out.trim()))
         context.send(builder.build())
     } else {
-        context.send(context.newPlainText(out))
+        context.send(out)
     }
 }
 
