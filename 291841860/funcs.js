@@ -120,7 +120,7 @@ function parseKuaishou(url, context, utils) {
         .requestBody(data.toString())
         .post();
 
-    var result = JSON.parse(response.body().text())
+    var result = JSON.parseObject(response.body().text())
 
 
     var builder = context.builder();
@@ -184,4 +184,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/11/28-7"
+version.fun = "23/11/28-8"
