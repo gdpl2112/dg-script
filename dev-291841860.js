@@ -109,7 +109,11 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var k0 = utils.get("pks0")
             if (k0 == null || k0) {
                 utils.set("pks0", false)
-                parseKuaishou(urls[0], context, utils);
+                try {
+                    parseKuaishou(urls[0], context, utils);
+                } catch (e) {
+                    context.send("解析异常:" + e.toString())
+                }
                 utils.set("pks0", true)
             } else {
                 context.send("解析进行中...\n请等待解析结束后重试")
@@ -194,5 +198,5 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/11/28-6"
-//dev-23/11/28-5
+version.dev = "23/11/28-7"
+//dev-23/11/28-6
