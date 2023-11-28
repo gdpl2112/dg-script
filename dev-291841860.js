@@ -109,7 +109,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var k0 = utils.get("pks0")
             if (k0 == null || k0) {
                 utils.set("pks0", false)
-                parseKuaishou(urls[0]);
+                parseKuaishou(urls[0], context, utils);
                 utils.set("pks0", true)
             } else {
                 context.send("解析进行中...\n请等待解析结束后重试")
@@ -121,11 +121,10 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var url = urls[0];
             context.send("正在解析\n" + url)
             var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/douyin.php?url=" + url))
-            parseVideoOrGallery(result)
+            parseVideoOrGallery(result, context, utils)
         } else context.send("未发现链接")
     } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
-        var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-        var urls = msg.match(reg)
+        var urls = msg.match(urlReg)
         if (urls !== null) {
             var url = urls[0];
             var e0 = url.indexOf("?");
@@ -195,4 +194,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/28-4
+//dev-23/11/28-5

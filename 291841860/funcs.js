@@ -1,4 +1,4 @@
-function parseVideoOrGallery(result) {
+function parseVideoOrGallery(result, context, utils) {
     if (result.code === 200) {
         var data = result.data
         if (result.msg.indexOf("图集") >= 0) {
@@ -33,7 +33,7 @@ function isStartOrEndWith(msg, key) {
     return (msg.startsWith(key) || msg.endsWith(key))
 }
 
-function sendToText(out) {
+function sendToText(out, context) {
     var max = 600
     out = out.toString()
     debugLog("will send text of length: " + out.length)
@@ -70,7 +70,7 @@ function urlParamToJson(url) {
     var arr0 = url.substring(url.indexOf('?') + 1)
         .trim()
         .split('&');
-    var map = utils.newObject("java.util.LinkedHashMap")
+    var map = java.util.LinkedHashMap()
     for (e in arr0) {
         var kv = arr0[e].split("=")
         map.put(kv[0], kv[1])
@@ -78,13 +78,11 @@ function urlParamToJson(url) {
     return map;
 }
 
-function parseKuaishou(url) {
+function parseKuaishou(url, context, utils) {
     context.send("正在解析\n" + url)
 
     var doc0 = utils.newObject("org.jsoup.helper.HttpConnection").url(url)
         .userAgent("AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67").get();
-
-    debugLog("step0")
 
     url = doc0.location();
     var argsMap = urlParamToJson(url)
@@ -99,7 +97,6 @@ function parseKuaishou(url) {
     }
 
     var cookies = utils.newObject("java.lang.StringBuilder")
-    debugLog("step1")
 
     var iterator = doc0.connection().response().cookies().entrySet().iterator();
     while (iterator.hasNext()) {
@@ -187,4 +184,4 @@ function parseKuaishou(url) {
     }
 }
 var version = {}
-version.fun = "23/11/28-2"
+version.fun = "23/11/28-3"
