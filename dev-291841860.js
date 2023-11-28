@@ -1,8 +1,6 @@
 if (context.getType() === "group") msg = msg.trim()
 
-if (fun_versioin == null) {
-    load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
-}
+// load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
 
 if (context.getType() == "group") {
     if (msg.startsWith("/")) {
@@ -198,4 +196,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/28
+//dev-23/11/28-1

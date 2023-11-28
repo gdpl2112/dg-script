@@ -176,4 +176,4 @@ parseKuaishou = function (url) {
 
     }
 }
-var fun_versioin = "23/11/28-0"
+
