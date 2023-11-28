@@ -1,3 +1,5 @@
+importJ("com.alibaba.fastjson.JSON");
+
 var urlReg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
 
 if (context.getType() === "group" || context.getType() === "friend") {
@@ -78,7 +80,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                         var out = utils.requestGet("http://localhost/get?pwd=r&key=songs")
                         var arr = JSON.parse(out)
                         arr.push(okv[1])
-                        var out = JSON.stringify(arr);
+                        var out = JSON.toString(arr);
                         utils.requestGet("http://localhost/put?pwd=r&key=songs&value=" + out)
                         context.send("out :\n" + out)
                     }
@@ -91,7 +93,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                     context.send(okv[1])
                     break
                 case "/version":
-                    context.send(JSON.stringify(version))
+                    context.send(JSON.toString(version))
                     break
             }
         }
