@@ -13,6 +13,9 @@
 if (context.getType() === "group") {
     if (msg === "update") {
         updateEnv()
+    } else if (msg === "newEnv") {
+        utils.newGlobal()
+        context.send("OK!")
     } else work()
 } else {
     work()
@@ -23,7 +26,6 @@ function updateEnv() {
     utils.set("jsAll", jsAll)
     var ss = jsAll.split("\n")
     context.send(context.newPlainText(ss[ss.length - 1]))
-    utils.newGlobal()
     load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
     return jsAll
 }
