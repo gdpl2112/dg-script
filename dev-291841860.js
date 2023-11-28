@@ -129,6 +129,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             e0 = e0 > 0 ? e0 : url.length
             url = "https://api.xingzhige.com/API/b_parse/?url=" + url.substring(0, e0);
             var result = JSON.parse(utils.requestGet(url))
+            sendToText(JSON.stringify(result))
             // var builder = context.builder()
             // builder
             //     .append(context.newPlainText(result.data.video.desc))
@@ -193,4 +194,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/11/28-13"
+version.dev = "23/11/28-14"
