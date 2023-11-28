@@ -1,7 +1,7 @@
 if (context.getType() === "group") msg = msg.trim()
 
 if (fun_versioin == null) {
-    load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funs.js")
+    load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
 }
 
 if (context.getType() == "group") {
