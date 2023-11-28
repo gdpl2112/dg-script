@@ -24,13 +24,14 @@ function updateEnv() {
     var ss = jsAll.split("\n")
     context.send(context.newPlainText(ss[ss.length - 1]))
     utils.newGlobal()
+    load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
+    return jsAll
 }
 
 function work() {
     var jsAll = utils.get("jsAll")
     if (jsAll == null) {
-        jsAll = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/dev-291841860.js")
-        utils.set("jsAll", jsAll)
+        jsAll = updateEnv()
     }
     if (jsAll != null && jsAll !== "") {
         try {

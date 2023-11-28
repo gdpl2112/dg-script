@@ -1,7 +1,5 @@
 if (context.getType() === "group") msg = msg.trim()
 
-// load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
-
 if (context.getType() == "group") {
     if (msg.startsWith("/")) {
         debugLog("command start")
@@ -91,7 +89,8 @@ if (context.getType() == "group") {
                     if (okv.length !== 2) context.send("args size less 2")
                     context.send(okv[1])
                     break
-                case "/test":
+                case "/version":
+
                     break
             }
         }
@@ -196,4 +195,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-//dev-23/11/28-1
+//dev-23/11/28-3
