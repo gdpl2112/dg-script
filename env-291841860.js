@@ -12,7 +12,7 @@
 
 if (context.getType() === "group") {
     if (msg === "update") {
-        updateEnv()
+        updateJsAll()
     } else if (msg === "newEnv") {
         utils.newGlobal()
         context.send("OK!")
@@ -21,7 +21,7 @@ if (context.getType() === "group") {
     work()
 }
 
-function updateEnv() {
+function updateJsAll() {
     var jsAll = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/dev-291841860.js")
     utils.set("jsAll", jsAll)
     var ss = jsAll.split("\n")
@@ -33,7 +33,7 @@ function updateEnv() {
 function work() {
     var jsAll = utils.get("jsAll")
     if (jsAll == null) {
-        jsAll = updateEnv()
+        jsAll = updateJsAll()
     }
     if (jsAll != null && jsAll !== "") {
         try {

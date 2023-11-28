@@ -83,6 +83,9 @@ function parseKuaishou(url) {
 
     var doc0 = utils.newObject("org.jsoup.helper.HttpConnection").url(url)
         .userAgent("AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67").get();
+
+    debugLog("step0")
+
     url = doc0.location();
     var argsMap = urlParamToJson(url)
     var reference = JSON.parse("{\"fid\": \"1594993299\",\"shareToken\": \"X-3GwNT63firZ17y\",\"shareObjectId\": \"5188991314621742263\",\"shareMethod\": \"TOKEN\",\"shareId\": \"17695659181273\",\"shareResourceType\": \"PHOTO_OTHER\",\"shareChannel\": \"share_copylink\",\"kpn\": \"NEBULA\",\"subBiz\": \"BROWSE_SLIDE_PHOTO\",\"env\": \"SHARE_VIEWER_ENV_TX_TRICK\",\"h5Domain\": \"kphm5nf3.m.chenzhongtech.com\",\"photoId\": \"3xa7scwmmezphd2\",\"isLongVideo\": false}");
@@ -96,6 +99,7 @@ function parseKuaishou(url) {
     }
 
     var cookies = utils.newObject("java.lang.StringBuilder")
+    debugLog("step1")
 
     var iterator = doc0.connection().response().cookies().entrySet().iterator();
     while (iterator.hasNext()) {
@@ -183,4 +187,4 @@ function parseKuaishou(url) {
     }
 }
 var version = {}
-version.fun = "23/11/28-1"
+version.fun = "23/11/28-2"
