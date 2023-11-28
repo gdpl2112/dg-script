@@ -18,7 +18,17 @@ importJ("io.github.kloping.qqbot.entities.ex.Image")
 importJ("org.jsoup.Jsoup")
 
 var cookie = "clientType=9; uin=o3474006766; openid=2CD620FEB4A9D3E49E7D9B5C64C389C8; appid=100543809; acctype=qc; access_token=55858D1029271CA050EA80418194CB5C; userId=1751cccc-88fc-4baa-9171-9f99fcfabecb; accountType=5; tid=15B8852373854285A2AE055B8D2E667373F7DF1B82B8E44FC8EC189CA5574963DCE487DF8AF215C42B008516D53F8A55ED891BF2245DA68C84FEB53132E17EABB7E2C7702B7701C451A26829E76CBC79634034DE88217B23C06B03FE9BF18CA951161BBF924FD4C6105BE5DD52E395C61B054C1453FF0C5071B3993C6D8CDD74A957A6B58921F3FD6A73D1D7A5E4421A91758C01456B5FF215AC3777852AF615376AAEEFEED5D90A5189E2D8BF2A3530;";
-var acc = "v3_L2oLQSUhifayFgyV3KiPKPuD6cjLWgQ6amKI2cT8u4ynJ4fZaeqcoPeh3vngzy0XbmSV7H1WqdJFFqdmbwq6X2X1be08kcLl29Tbk5vTRAwkXoL21jkaGu2nl-3Wc8vK";
+
+var acc = null
+if (context.getSender().getId() == 3474006766)
+    acc = "v3_L2oLQSUhifayFgyV3KiPKPuD6cjLWgQ6amKI2cT8u4ynJ4fZaeqcoPeh3vngzy0XbmSV7H1WqdJFFqdmbwq6X2X1be08kcLl29Tbk5vTRAwkXoL21jkaGu2nl-3Wc8vK";
+else if (context.getSender().getId() == 352864150)
+    acc = "v3_V_UPY2Eu3LohOExdaW-ITh12DCQ_MOBxpLu2EhJfHUDYhKK44te7YH6sAbdXDkjdVA04C9_XrH6tOTvl7UuHAQ2NigukP8MnJGEaDdRYTAWZR6BLjalyXuS7qix9lM2q"
+else {
+    context.send("未查询到绑定的id")
+    throw new SyntaxError("id未绑定")
+}
+debugLog("开始执行金铲铲.")
 var c = Jsoup.connect("https://mlol.qt.qq.com/go/jgame/get_battle_list")
     .userAgent("QTL/10.4.5.11065 Channel/3  Mozilla/5.0 (Linux; Android 7.1.2; PEGT10 Build/N2G47H; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/81.0.4044.117 Mobile Safari/537.36")
     .header("Cookie", cookie)
