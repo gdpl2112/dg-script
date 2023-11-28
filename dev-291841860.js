@@ -1,30 +1,7 @@
 if (context.getType() === "group") msg = msg.trim()
 
-function debugLog(msg) {
-    context.getBot().getGroup(470084160).sendMessage(context.newPlainText(msg))
-}
-
-function loadFun() {
-    var fun_all = utils.get("fun_all")
-    if (fun_all == null || fun_all.length == 0) {
-        fun_all = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
-        utils.set("fun_all", fun_all)
-    }
-    eval(fun_all)
-    return allFuns
-}
-
-function loadFunParseKuaishou() {
-    var allFuns = loadFun()
-    var cjs = utils.get("FunParseKuaishou")
-    if (cjs == null || cjs.length == 0) {
-        cjs = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/parseKuaishou.js")
-        var ss = cjs.split("\n")
-        debugLog(context.newPlainText(ss[ss.length - 1]))
-        utils.set("FunParseKuaishou", cjs)
-    }
-    eval(cjs)
-    return allFuns
+if (fun_versioin == null) {
+    load("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funs.js")
 }
 
 if (context.getType() == "group") {
@@ -46,7 +23,7 @@ if (context.getType() == "group") {
                         context.send("args size less 2")
                     } else {
                         var v0 = utils.get(okv[1])
-                        loadFun().sendToText("key: " + okv[1] + "\nvalue: " + v0)
+                        sendToText("key: " + okv[1] + "\nvalue: " + v0)
                     }
                     break;
                 case "/del":
@@ -70,7 +47,7 @@ if (context.getType() == "group") {
                         context.send("args size less 3")
                     } else {
                         var ksetOut = utils.requestGet("http://localhost/put?pwd=dg-3474006766&key=" + okv[1] + "&value=" + okv[2])
-                        loadFun().sendToText("set success : " + ksetOut)
+                        sendToText("set success : " + ksetOut)
                     }
                     break
                 case "/kget":
@@ -78,7 +55,7 @@ if (context.getType() == "group") {
                         context.send("args size less 2")
                     } else {
                         var kgetOut = utils.requestGet("http://localhost/get?pwd=dg-3474006766&key=" + okv[1])
-                        loadFun().sendToText("get success : " + kgetOut)
+                        sendToText("get success : " + kgetOut)
                     }
                     break
                 case "/kdel":
@@ -128,14 +105,14 @@ var urlReg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-
 if (context.getType() === "group" || context.getType() === "friend") {
     var tid = context.getSubject().getId();
     if (msg === "aiclear") {
-        context.send(utils.requestGet(loadFun().getAiUrl() + "/clear?id=3474006766"))
+        context.send(utils.requestGet(getAiUrl() + "/clear?id=3474006766"))
     } else if (msg.indexOf("kuaishou") > 0) {
         var urls = msg.match(urlReg)
         if (urls !== null) {
             var k0 = utils.get("pks0")
             if (k0 == null || k0) {
                 utils.set("pks0", false)
-                loadFunParseKuaishou().parseKuaishou(urls[0]);
+                parseKuaishou(urls[0]);
                 utils.set("pks0", true)
             } else {
                 context.send("解析进行中...\n请等待解析结束后重试")
@@ -147,7 +124,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var url = urls[0];
             context.send("正在解析\n" + url)
             var result = JSON.parse(utils.requestGet("http://ovoa.cc/api/douyin.php?url=" + url))
-            loadFun().parseVideoOrGallery(result)
+            parseVideoOrGallery(result)
         } else context.send("未发现链接")
     } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
         var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
@@ -173,17 +150,17 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var outs = out.split("\n")
         context.send("<music:QQMusic," + outs[1].substring(3) + "," + outs[2].substring(3) + ",http://47.100.93.243:34740/," + outs[0].substring(3) + "," + outs[3].substring(5) + ">")
     } else if (msg.startsWith("ai:")) {
-        loadFun().sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
+        sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
     } else if (msg.startsWith("gsai:")) {
         var jo = JSON.parse(utils.requestGet("https://api.lolimi.cn/API/AI/ys3.5.php?msg=" + msg.substring(3) + "&speaker=纳西妲"))
         context.send("<audio:http://localhost/api/mp32amr?url=" + jo.music + ">")
-        loadFun().sendToText(jo.msg)
+        sendToText(jo.msg)
     } else if (msg.startsWith("AI:")) {
-        loadFun().sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
+        sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.substring(2) + "&type=text&end="))
     } else if (msg == "涩图" || msg == "来点涩图") {
-        if (loadFun().getRandomInt(1, 2) == 1) {
+        if (getRandomInt(1, 2) == 1) {
             context.send(context.forwardBuilder()
                 .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu"))
                 .build())
@@ -218,7 +195,7 @@ if (context.getType() === "NudgeEvent") {
                 break;
         }
         utils.set("nc0", r0 + 1)
-        if (loadFun().getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
+        if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
 //dev-23/11/27-final-controller1

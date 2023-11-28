@@ -15,15 +15,6 @@ var url = "https://raw.njuu.cf/gdpl2112/dg-script/master/dev-291841860.js"
 if (context.getType() === "group") {
     if (msg === "update") {
         updateEnv()
-        updateFunc()
-    } else if (msg === "update1") {
-        updateEnv()
-    } else if (msg === "update2") {
-        updateFunc()
-    } else if (msg === "version") {
-        var jsAll = utils.get("jsAll")
-        var ss = jsAll.split("\n")
-        context.send(context.newPlainText(ss[ss.length - 1]))
     } else work()
 } else {
     work()
@@ -34,13 +25,7 @@ function updateEnv() {
     utils.set("jsAll", jsAll)
     var ss = jsAll.split("\n")
     context.send(context.newPlainText(ss[ss.length - 1]))
-}
-
-function updateFunc() {
-    var fun_all = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/funcs.js")
-    utils.set("fun_all", fun_all)
-    var ss = fun_all.split("\n")
-    context.send(context.newPlainText(ss[ss.length - 1]))
+    utils.newGlobal()
 }
 
 function work() {
