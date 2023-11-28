@@ -39,10 +39,10 @@ function work() {
         jsAll = updateJsAll(true)
     }
     if (jsAll != null && jsAll !== "") {
-        // try {
+        try {
             eval(jsAll);
-        // } catch (e) {
-        //     context.getBot().getGroup(589925182).sendMessage(context.newPlainText(e.toString()))
-        // }
+        } catch (e) {
+            context.getBot().getGroup(589925182).sendMessage(context.newPlainText(e.toString()))
+        }
     }
 }
