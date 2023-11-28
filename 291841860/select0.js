@@ -22,7 +22,7 @@ var cookie = "clientType=9; uin=o3474006766; openid=2CD620FEB4A9D3E49E7D9B5C64C3
 var acc = null
 if (context.getSender().getId() == 3474006766)
     acc = "v3_L2oLQSUhifayFgyV3KiPKPuD6cjLWgQ6amKI2cT8u4ynJ4fZaeqcoPeh3vngzy0XbmSV7H1WqdJFFqdmbwq6X2X1be08kcLl29Tbk5vTRAwkXoL21jkaGu2nl-3Wc8vK";
-else if (context.getSender().getId() == 352864150)
+else if (context.getSender().getId() == 3528641250)
     acc = "v3_V_UPY2Eu3LohOExdaW-ITh12DCQ_MOBxpLu2EhJfHUDYhKK44te7YH6sAbdXDkjdVA04C9_XrH6tOTvl7UuHAQ2NigukP8MnJGEaDdRYTAWZR6BLjalyXuS7qix9lM2q"
 else if (context.getSender().getId() == 1379257977)
     acc = "v3_k7moq2VuRUTgS4zuDjRRv3mUlxMVug7PdTz9-h6UejvooYaK9AnA_xcl1nldZPq3v0AMYH_Xl7AiWCnz68bPBv5FMRZt4YKYLsFqHBtqCtnZ6ts_YpffYVWEa38xW7gC"
