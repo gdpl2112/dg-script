@@ -163,7 +163,12 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu")).build())
         }
     } else if (msg == "查铲铲" || msg == "查金铲铲" || msg == "查金铲") {
-        eval(utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/select0.js"))
+        var s0 = utils.get("select0")
+        if (s0 == null) {
+            s0 = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/select0.js")
+            utils.set("select0", s0)
+        }
+        eval(s0)
     }
 }
 
@@ -192,4 +197,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/11/28-ap0"
+version.dev = "23/11/28-ap1"
