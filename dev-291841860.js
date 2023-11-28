@@ -1,6 +1,7 @@
-if (context.getType() === "group") msg = msg.trim()
+var urlReg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
 
-if (context.getType() == "group") {
+if (context.getType() === "group" || context.getType() === "friend") {
+    var tid = context.getSubject().getId();
     if (msg.startsWith("/")) {
         debugLog("command start")
         if (context.getSender().getId() == 3474006766) {
@@ -94,14 +95,7 @@ if (context.getType() == "group") {
                     break
             }
         }
-    }
-}
-
-var urlReg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-
-if (context.getType() === "group" || context.getType() === "friend") {
-    var tid = context.getSubject().getId();
-    if (msg === "aiclear") {
+    } else if (msg === "aiclear") {
         context.send(utils.requestGet(getAiUrl() + "/clear?id=3474006766"))
     } else if (msg.indexOf("kuaishou") > 0) {
         var urls = msg.match(urlReg)
@@ -134,9 +128,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
             var e0 = url.indexOf("?");
             e0 = e0 > 0 ? e0 : url.length
             url = "https://api.xingzhige.com/API/b_parse/?url=" + url.substring(0, e0);
-            debugLog("out:" + url)
             var result = JSON.parse(utils.requestGet(url))
-            debugLog("out:" + result)
             var builder = context.builder()
             builder.append(context.newPlainText(result.data.video.desc))
                 .append(context.uploadImage(result.data.video.fm))
@@ -150,12 +142,12 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var name = msg.substring(2)
         var out = utils.requestGet("https://xiaoapi.cn/API/yy.php?type=qq&msg=" + name + "&n=1")
         var outs = out.split("\n")
-        context.send("<music:QQMusic," + outs[1].substring(3) + "," + outs[2].substring(3) + ",http://47.100.93.243:34740/," + outs[0].substring(3) + "," + outs[3].substring(5) + ">")
+        context.send("<music:QQMusic," + outs[1].substring(3) + "," + outs[2].substring(3) + ",http://kloping.top/," + outs[0].substring(3) + "," + outs[3].substring(5) + ">")
     } else if (msg.startsWith("ai:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"))
     } else if (msg.startsWith("gsai:")) {
         var jo = JSON.parse(utils.requestGet("https://api.lolimi.cn/API/AI/ys3.5.php?msg=" + msg.substring(3) + "&speaker=纳西妲"))
-        context.send("<audio:http://localhost/api/mp32amr?url=" + jo.music + ">")
+        context.send("<audio:" + jo.music + ">")
         sendToText(jo.msg)
     } else if (msg.startsWith("AI:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"))
@@ -200,4 +192,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/11/28-9"
+version.dev = "23/11/28-10"
