@@ -184,4 +184,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/11/28-6"
+version.fun = "23/11/28-7"
