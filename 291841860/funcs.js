@@ -89,9 +89,7 @@ function parseKuaishou(url, context, utils) {
     var reference = JSON.parseObject("{\"fid\": \"1594993299\",\"shareToken\": \"X-3GwNT63firZ17y\",\"shareObjectId\": \"5188991314621742263\",\"shareMethod\": \"TOKEN\",\"shareId\": \"17695659181273\",\"shareResourceType\": \"PHOTO_OTHER\",\"shareChannel\": \"share_copylink\",\"kpn\": \"NEBULA\",\"subBiz\": \"BROWSE_SLIDE_PHOTO\",\"env\": \"SHARE_VIEWER_ENV_TX_TRICK\",\"h5Domain\": \"kphm5nf3.m.chenzhongtech.com\",\"photoId\": \"3xa7scwmmezphd2\",\"isLongVideo\": false}");
     var data = utils.newObject("com.alibaba.fastjson.JSONObject")
 
-    var keys = Object.keys(reference);
-    for (var i = 0; i < keys.length; i++) {
-        var key = keys[i]
+    for each(var key in  reference.keySet()){
         var value = argsMap.getOrDefault(key, reference.getString(key))
         data.put(key, value.toString());
     }
@@ -184,4 +182,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/11/28-8"
+version.fun = "23/11/28-9"
