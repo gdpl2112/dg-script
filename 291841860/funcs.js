@@ -1,4 +1,4 @@
-parseVideoOrGallery = function (result) {
+function parseVideoOrGallery(result) {
     if (result.code === 200) {
         var data = result.data
         if (result.msg.indexOf("图集") >= 0) {
@@ -28,10 +28,12 @@ parseVideoOrGallery = function (result) {
         }
     } else context.send("解析失败!\ncode:" + result.code)
 }
-isStartOrEndWith = function (msg, key) {
+
+function isStartOrEndWith(msg, key) {
     return (msg.startsWith(key) || msg.endsWith(key))
 }
-sendToText = function (out) {
+
+function sendToText(out) {
     var max = 600
     out = out.toString()
     debugLog("will send text of length: " + out.length)
@@ -48,32 +50,36 @@ sendToText = function (out) {
         context.send(context.newPlainText(out))
     }
 }
-debugLog = function (msg) {
+
+function debugLog(msg) {
     context.getBot().getGroup(470084160).sendMessage(context.newPlainText(msg))
 }
-getRandomInt = function (min, max) {
+
+function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-getAiUrl = function () {
+
+function getAiUrl() {
     return "http://localhost/api/ai"
 }
-parseKuaishou = function (url) {
-    context.send("正在解析\n" + url)
 
-    function urlParamToJson(url) {
-        if (!url) {
-            return {};
-        }
-        var arr0 = url.substring(url.indexOf('?') + 1)
-            .trim()
-            .split('&');
-        var map = utils.newObject("java.util.LinkedHashMap")
-        for (e in arr0) {
-            var kv = arr0[e].split("=")
-            map.put(kv[0], kv[1])
-        }
-        return map;
+function urlParamToJson(url) {
+    if (!url) {
+        return {};
     }
+    var arr0 = url.substring(url.indexOf('?') + 1)
+        .trim()
+        .split('&');
+    var map = utils.newObject("java.util.LinkedHashMap")
+    for (e in arr0) {
+        var kv = arr0[e].split("=")
+        map.put(kv[0], kv[1])
+    }
+    return map;
+}
+
+function parseKuaishou(url) {
+    context.send("正在解析\n" + url)
 
     var doc0 = utils.newObject("org.jsoup.helper.HttpConnection").url(url)
         .userAgent("AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67").get();
@@ -177,4 +183,4 @@ parseKuaishou = function (url) {
     }
 }
 var version = {}
-version.fun = "23/11/28-0"
+version.fun = "23/11/28-1"
