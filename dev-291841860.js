@@ -130,6 +130,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
         var urls = msg.match(urlReg)
         if (urls !== null) {
+            debugLog("解析bili: " + urls.toString())
             var url = urls[0];
             var e0 = url.indexOf("?");
             e0 = e0 > 0 ? e0 : url.length
@@ -198,5 +199,5 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/11/28-7"
-//dev-23/11/28-7
+version.dev = "23/11/28-8"
+//dev-23/11/28-8
