@@ -116,7 +116,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         if (urls !== null) {
             var url = urls[0];
             context.send("正在解析\n" + url)
-            var result = JSON.parse(utils.requestGet("https://api.jixs.cc/api/douy-jx/douyjx.php?url=" + url))
+            var result = JSON.parse(utils.requestGet("https://api.mu-jie.cc/douyin?url=" + url))
             parseVideoOrGallery(result, context, utils)
         } else context.send("未发现链接")
     } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
@@ -195,4 +195,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/12/5-0"
+version.dev = "23/12/5-1"
