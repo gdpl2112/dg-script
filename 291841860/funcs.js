@@ -8,9 +8,9 @@ function parseVideoOrGallery(result, context, utils) {
                 .append("💟: ").append(data.like.toString()).append("\n")
                 .append(data.title).append("\n图集数量:" + data.images.length + "/正在发送,请稍等..");
             context.send(builder.build())
-            var arr = result.images
+            var arr = data.images
             var builder = context.forwardBuilder();
-            builder.add(context.getBot().getId(), "AI:", context.newPlainText("音频直链: " + result.music.url))
+            builder.add(context.getBot().getId(), "AI:", context.newPlainText("音频直链: " + data.music.url))
             for (var i = 0; i < arr.length; i++) {
                 var e = arr[i];
                 builder.add(context.getBot().getId(), "AI", context.uploadImage(e))
@@ -184,4 +184,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/12/5-0"
+version.fun = "23/12/5-1"
