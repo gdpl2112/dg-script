@@ -163,7 +163,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg == "查铲铲" || msg == "查金铲铲" || msg == "查金铲") {
         var s0 = utils.get("select0")
         if (s0 == null) {
-            s0 = utils.requestGet("https://raw.njuu.cf/gdpl2112/dg-script/master/291841860/select0.js")
+            s0 = utils.requestGet("https://mirror.ghproxy.com/https://raw.githubusercontent.com/gdpl2112/dg-script/master/291841860/select0.js")
             utils.set("select0", s0)
         }
         eval(s0)
