@@ -133,7 +133,8 @@ function parseKuaishou(url, context, utils) {
         .append("\n✉️ ").append(result.photo.commentCount.toString())
 
     var author = context.forwardBuilder()
-    author.add(context.getBot().getId(), "AI", context.builder().append("分享者: ").append(result.shareUserPhotos[0].userName)
+    author.add(context.getBot().getId(), "AI",
+        context.builder().append("分享者: ").append(result.shareUserPhotos[0].userName)
         .append("/").append(result.shareUserPhotos[0].kwaiId)
         .append("/").append(result.shareUserPhotos[0].userSex).append(context.uploadImage(result.shareUserPhotos[0].headUrl)).build())
 
@@ -184,4 +185,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/12/5-1"
+version.fun = "23/12/7-1"
