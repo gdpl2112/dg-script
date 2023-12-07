@@ -134,7 +134,7 @@ function parseKuaishou(url, context, utils) {
 
     var author = context.forwardBuilder()
     author.add(context.getBot().getId(), "AI",
-        context.builder().append("分享者: ")
+        context.builder().append(context.newPlainText("分享者: "))
             .append(result.shareUserPhotos[0].userName)
             .append("/").append(result.shareUserPhotos[0].kwaiId)
             .append("/").append(result.shareUserPhotos[0].userSex)
@@ -188,4 +188,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/12/7-2"
+version.fun = "23/12/7-3"
