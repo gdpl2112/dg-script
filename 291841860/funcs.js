@@ -132,9 +132,12 @@ function parseKuaishou(url, context, utils) {
         .append("\n👁︎︎ ").append(result.photo.viewCount.toString())
         .append("\n✉️ ").append(result.photo.commentCount.toString())
 
-    var author = context.forwardBuilder()
-    author.add(context.getBot().getId(), "AI", context.uploadImage(result.shareUserPhotos[0].headUrl))
-    author.add(context.getBot().getId(), "AI",context.newPlainText("sharer,"+result.shareUserPhotos[0].userName+"/"+result.shareUserPhotos[0].userSex))
+    var author = null;
+    if (result.shareUserPhotos.length > 0) {
+        author = context.forwardBuilder()
+        author.add(context.getBot().getId(), "AI", context.uploadImage(result.shareUserPhotos[0].headUrl))
+        author.add(context.getBot().getId(), "AI", context.newPlainText("sharer," + result.shareUserPhotos[0].userName + "/" + result.shareUserPhotos[0].userSex))
+    }
 
        // context.builder().append()
             // .append(result.shareUserPhotos[0].userName)
@@ -190,4 +193,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/12/8-2"
+version.fun = "23/12/8-3"
