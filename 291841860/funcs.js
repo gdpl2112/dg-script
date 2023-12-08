@@ -133,30 +133,32 @@ function parseKuaishou(url, context, utils) {
         .append("\n✉️ ").append(result.photo.commentCount.toString())
 
     var author = context.forwardBuilder()
-    author.add(context.getBot().getId(), "AI",
-        context.builder().append(context.newPlainText("sharer,"))
-            .append(result.shareUserPhotos[0].userName)
-            .append("/").append(result.shareUserPhotos[0].kwaiId)
-            .append("/").append(result.shareUserPhotos[0].userSex)
-            .append(context.uploadImage(result.shareUserPhotos[0].headUrl)).build()
-    )
+    author.add(context.getBot().getId(), "AI", context.uploadImage(result.shareUserPhotos[0].headUrl))
+    author.add(context.getBot().getId(), "AI",context.newPlainText("sharer,"+result.shareUserPhotos[0].userName+"/"+result.shareUserPhotos[0].userSex))
 
-    for (var i = 0; i < result.shareUserPhotos.length; i++) {
-        try {
-            var data0 = result.shareUserPhotos[i]
-            var b0 =
-                context.builder().append(context.uploadImage(data0.coverUrls[0].url))
-                    .append(data0.caption).append("作者").append(data0.userName).append("/").append(data0.userSex)
-                    .append("\n💗 ").append(data0.likeCount.toString())
-                    .append("\n👁︎ ").append(data0.viewCount.toString())
-                    .append("\n✉️ ").append(data0.commentCount.toString());
-            if (data0.mainMvUrls.length > 0) b0.append("\n直链: ").append(data0.mainMvUrls[0].url)
-            else b0.append("[图集]")
-            author.add(context.getBot().getId(), "AI", b0.build())
-        } catch (e) {
-            debugLog(e.toString())
-        }
-    }
+       // context.builder().append()
+            // .append(result.shareUserPhotos[0].userName)
+            // .append("/").append(result.shareUserPhotos[0].kwaiId)
+            // .append("/").append(result.shareUserPhotos[0].userSex)
+            // .append(context.uploadImage(result.shareUserPhotos[0].headUrl)).build()
+    // )
+
+    // for (var i = 0; i < result.shareUserPhotos.length; i++) {
+    //     try {
+    //         var data0 = result.shareUserPhotos[i]
+    //         var b0 =
+    //             context.builder().append(context.uploadImage(data0.coverUrls[0].url))
+    //                 .append(data0.caption).append("作者").append(data0.userName).append("/").append(data0.userSex)
+    //                 .append("\n💗 ").append(data0.likeCount.toString())
+    //                 .append("\n👁︎ ").append(data0.viewCount.toString())
+    //                 .append("\n✉️ ").append(data0.commentCount.toString());
+    //         if (data0.mainMvUrls.length > 0) b0.append("\n直链: ").append(data0.mainMvUrls[0].url)
+    //         else b0.append("[图集]")
+    //         author.add(context.getBot().getId(), "AI", b0.build())
+    //     } catch (e) {
+    //         debugLog(e.toString())
+    //     }
+    // }
 
     if (result.atlas == null) {
         builder.append("\n视频时长:" + (result.photo.duration / 1000));
@@ -188,4 +190,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/12/7-4"
+version.fun = "23/12/8-1"
