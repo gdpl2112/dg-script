@@ -165,7 +165,7 @@ function parseKuaishou(url, context, utils) {
         context.send(builder.build())
 
         context.send(context.forwardBuilder()
-            .add(context.getBot().getId(), "AI", context.newPlainText("视频直链: " + result.mp4Url))
+            .add(context.getBot().getId(), "AI", context.newPlainText("视频直链: " + result.photo.mainMvUrls[0].url))
             .add(context.getBot().getId(), "AI", author.build())
             .build())
     } else {
@@ -190,4 +190,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/12/8-1"
+version.fun = "23/12/8-2"
