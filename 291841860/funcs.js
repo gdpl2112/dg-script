@@ -169,7 +169,11 @@ function parseKuaishou(url, context, utils) {
 
         var de0 = context.forwardBuilder();
         de0.add(context.getBot().getId(), "AI", context.newPlainText("视频直链: " + result.photo.mainMvUrls[0].url))
-        de0.add(context.getBot().getId(), "AI", context.newPlainText("视频直链: " + result.photo.mainMvUrls[0].url)).build()
+        try {
+            de0.add(context.getBot().getId(), "AI", context.newPlainText("音频直链: " + result.photo.soundTrack.audioUrls[0].url))
+        } catch (e) {
+            context.getBot().getGroup(589925182).sendMessage(context.newPlainText(e.toString()))
+        }
         context.send(de0.build())
     } else {
         builder.append("\n图集数量:" + result.atlas.list.length + "/正在发送,请稍等...");
@@ -193,4 +197,4 @@ function parseKuaishou(url, context, utils) {
     }
 }
 var version = {}
-version.fun = "23/12/8-7"
+version.fun = "23/12/16-1"
