@@ -137,9 +137,10 @@ if (context.getType() === "group" || context.getType() === "friend") {
         }
     } else if (msg.startsWith("点歌")) {
         var name = msg.substring(2)
-        var out = utils.requestGet("https://xiaoapi.cn/API/yy.php?type=qq&msg=" + name + "&n=1")
-        var outs = out.split("\n")
-        context.send("<music:QQMusic," + outs[1].substring(3) + "," + outs[2].substring(3) + ",http://kloping.top/," + outs[0].substring(3) + "," + outs[3].substring(5) + ">")
+        var out = utils.requestGet("http://ovoa.cc/api/QQmusic.php?msg=" + encodeURI(name) + "&n=1&type=JSON")
+        var jo = JSON.parse(out)
+        if (jo.data != null)
+            context.send("<music:QQMusic," + jo.data.songname + "," + jo.data.name + ",http://kloping.top/," + jo.data.cover + "," + jo.data.src + ">")
     } else if (msg.startsWith("ai:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"), context)
     } else if (msg.startsWith("gsai:")) {
@@ -150,23 +151,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"), context)
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.substring(2) + "&type=text&end="))
-    } else if (msg == "涩图" || msg == "来点涩图") {
-        if (getRandomInt(1, 2) == 1) {
-            context.send(context.forwardBuilder()
-                .add(context.getBot().getId(), "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu"))
-                .build())
-        } else {
-            context.send("偷偷发给你了!")
-            context.getSender().sendMessage(context.forwardBuilder().add(context.getBot().getId(),
-                "AI:", context.uploadImage("https://api.anosu.top/img?sort=setu")).build())
-        }
-    } else if (msg == "查铲铲" || msg == "查金铲铲" || msg == "查金铲") {
-        var s0 = utils.get("select0")
-        if (s0 == null) {
-            s0 = utils.requestGet("https://mirror.ghproxy.com/https://raw.githubusercontent.com/gdpl2112/dg-script/master/291841860/select0.js")
-            utils.set("select0", s0)
-        }
-        eval(s0)
     }
 }
 
@@ -195,4 +179,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "23/12/5-1"
+version.dev = "24/1/29-0"
