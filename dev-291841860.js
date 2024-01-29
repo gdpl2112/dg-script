@@ -149,6 +149,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         var doc0 = utils.newObject("org.jsoup.helper.HttpConnection")
             .url("https://api.linhun.vip/api/qqyy?name=" + msg.substring(2) + "&y=1&n=1&apiKey=5ff26395f76d3e12b694e1875e37a40a")
             .userAgent("AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
+            .ignoreContentType(true).ignoreHttpErrors(true)
             .get();
         var jo = JSON.parse(doc0.body().text())
         context.send("<music:QQMusic," + jo.name + "," + jo.author + ",http://kloping.top/," + jo.img + "," + jo.mp3 + ">")
@@ -180,4 +181,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/1/29-3"
+version.dev = "24/1/29-4"
