@@ -146,12 +146,12 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("http://ovoa.cc/api/ydfy.php?msg=" + msg.substring(2) + "&type=text&end="))
     } else if (msg.startsWith("点歌")) {
-        var doc0 = utils.newObject("org.jsoup.helper.HttpConnection").url("http://ovoa.cc/api/QQmusic.php?msg=" + msg.substring(2) + "&n=1&type=JSON")
+        var doc0 = utils.newObject("org.jsoup.helper.HttpConnection")
+            .url("https://api.linhun.vip/api/qqyy?name=" + msg.substring(2) + "&y=1&n=1&apiKey=5ff26395f76d3e12b694e1875e37a40a")
             .userAgent("AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
-            .header("Cookie", "guardret=WgE=; PHPSESSID=j5477pm9pt32fgier8a9c17fa0; guard=b9feb71e2KmQUQw=")
             .get();
         var jo = JSON.parse(doc0.body().text())
-        context.send("<music:QQMusic," + jo.data.songname + "," + jo.data.name + ",http://kloping.top/," + jo.data.cover + "," + jo.src + ">")
+        context.send("<music:QQMusic," + jo.name + "," + jo.author + ",http://kloping.top/," + jo.img + "," + jo.mp3 + ">")
     }
 }
 
@@ -180,4 +180,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/1/29-2"
+version.dev = "24/1/29-3"
