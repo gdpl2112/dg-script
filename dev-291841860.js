@@ -135,12 +135,6 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 .append(context.newPlainText("BVID: " + result.data.bvid + " FROM: " + result.data.owner.name + "\n" + result.data.video.title))
                 .append("\n=================\n").append("SOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid).build())
         }
-    } else if (msg.startsWith("点歌")) {
-        var name = msg.substring(2)
-        var out = utils.requestGet("http://ovoa.cc/api/QQmusic.php?msg=" + encodeURI(name) + "&n=1&type=JSON")
-        var jo = JSON.parse(out)
-        if (jo.data != null)
-            context.send("<music:QQMusic," + jo.data.songname + "," + jo.data.name + ",http://kloping.top/," + jo.data.cover + "," + jo.data.src + ">")
     } else if (msg.startsWith("ai:")) {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + msg.substring(3) + "&id=3474006766"), context)
     } else if (msg.startsWith("gsai:")) {
@@ -179,4 +173,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/1/29-0"
+version.dev = "24/1/29-1"
