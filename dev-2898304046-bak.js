@@ -1,3 +1,23 @@
+//data name
+//pwd=dg-2898304046 key=api_state 储存本地"api_state"
+//pwd=dg-2898304046 key=update_log 储存本地异步"update_state"
+//pwd=dg-2898304046 key=group_state 储存本地"group_state"
+//pwd=dg-2898304046 key=manage_state 储存本地"manage_state"
+//pwd=dg-2898304046 key=nudge_state 储存本地"nudge_state"
+//pwd=dg-2898304046 key=fool_state 储存本地"fool_state""
+//pwd=dg-2898304046-bottle key=bottleId value=bottleMessage 储存本地"bottle_state"
+
+//本地异步"setLog_state"
+
+//pwd=dg-2898304046-admin key=adminId 储存本地"admin"+senderId
+
+
+if (msg == "date") {
+    context.send(getTime())
+}
+
+//function
+//获取指定格式值 目前仅支持获取第一个出现的格式元素
 function getFormatValue(fk, inStr) {
     var i1 = inStr.indexOf("<")
     var i2 = inStr.indexOf(">")
@@ -15,6 +35,7 @@ function getFormatValue(fk, inStr) {
     }
 }
 
+//获取at格式值并返回Number 或 null
 function getAtId(inStr) {
     var end = getFormatValue("at", inStr)
     if (end !== null) return Number(end)
@@ -51,6 +72,19 @@ function getTime() {
     return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
 }
 
+
+//检测API开关状态
+function get_api_state() {
+    var get_api = utils.get("api_state")
+    if (get_api == null) {
+        var api_now_state = utils.requestGet("http://kloping.top/get?pwd=dg-2898304046&key=api_state")
+        utils.set("api_state", api_now_state)
+        var get_api1 = utils.get("api_state")
+        return get_api1
+    } else {
+        return get_api
+    }
+}
 
 //检测admin标签
 function get_admin() {
