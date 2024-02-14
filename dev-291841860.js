@@ -5,7 +5,6 @@ var urlReg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-
 if (context.getType() === "group" || context.getType() === "friend") {
     var tid = context.getSubject().getId();
     if (msg.startsWith("/")) {
-        debugLog("command start")
         if (context.getSender().getId() == 3474006766) {
             var okv = msg.split(" ");
             switch (okv[0]) {
@@ -183,4 +182,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/2/13-1"
+version.dev = "24/2/14-1"
