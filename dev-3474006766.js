@@ -28,7 +28,7 @@ if (context.getType() === "group") {
         var fb = context.forwardBuilder()
         fb.add(context.getBot().getId(), "AI", context.newPlainText("管理: [念] [开] [关] [加词] [查词]"))
         fb.add(context.getBot().getId(), "AI",
-            context.newPlainText("表情包:[高质量] [举] [单身狗证] [羡慕] [狗] [妻子] [干嘛] [画家] [朋友说(文字)] [要亲亲] [鲁迅说(文字)] [想] [赞] [老实点] [踢人] [捅] [加载] [屏幕] [爬] [牵] [冰淇淋] [素描] [求婚] [感动哭了] [想看] [悲报(文字)] [喜报(文字)] [需要] [甘雨爱心] [听音乐]"))
+            context.newPlainText("表情包:[加框] [高质量] [举] [单身狗证] [羡慕] [狗] [妻子] [干嘛] [画家] [朋友说(文字)] [要亲亲] [鲁迅说(文字)] [想] [赞] [老实点] [踢人] [捅] [加载] [屏幕] [爬] [牵] [冰淇淋] [素描] [求婚] [感动哭了] [想看] [悲报(文字)] [喜报(文字)] [需要] [甘雨爱心] [听音乐]"))
         fb.add(context.getBot().getId(), "AI",
             context.newPlainText("动:[拳击] [可达鸭] [击剑] [亲亲] [摸] [摇啊摇] [吃] [鸡腿舞] [招财猫] [一起笑] [打年糕] [贴贴] [看这个] [咬] [顶球] [拍瓜] [抓] [膜拜] [捣] [吃掉] [掀墙纸] [可莉吃]"))
         context.send(fb.build())
@@ -58,7 +58,9 @@ if (context.getType() === "group") {
         var n1 = getAllNumberOrSelfId(msg);
         u0 = "https://api.andeer.top/API/img_say.php?qq=" + n1 + "&text=" + encodeURI(msg.substring(3).trim().replace("<at:" + n1 + ">", ""))
     } //以上特殊 多
-    else if (msg.startsWith("高质量")) {
+    else if (msg.startsWith("加框")) {
+        u0 = "https://api.wxsszs.cn/api/tksc.php?qq=" + getAllNumberOrSelfId(msg);
+    }else if (msg.startsWith("高质量")) {
         u0 = "https://api.andeer.top/API/gzl.php?qq=" + getAllNumberOrSelfId(msg);
     }else if (msg.startsWith("举")) {
         u0 = "https://api.andeer.top/API/ju.php?qq=" + getAllNumberOrSelfId(msg);
