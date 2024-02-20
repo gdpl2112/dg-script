@@ -28,9 +28,27 @@ if (context.getType() === "group") {
         var fb = context.forwardBuilder()
         fb.add(context.getBot().getId(), "AI", context.newPlainText("管理: [念] [开] [关] [加词] [查词]"))
         fb.add(context.getBot().getId(), "AI",
-            context.newPlainText("表情包:[好看] [撕] [激动] [恐龙] [加框] [高质量] [举] [单身狗证] [羡慕] [狗] [妻子] [干嘛] [画家] [朋友说(文字)] [要亲亲] [鲁迅说(文字)] [想] [赞] [老实点] [踢人] [捅] [加载] [屏幕] [爬] [牵] [冰淇淋] [素描] [求婚] [感动哭了] [想看] [悲报(文字)] [喜报(文字)] [需要] [甘雨爱心] [听音乐]"))
+            context.newPlainText("表情包:" +
+                "\n[添乱] [你怎么] [看扁] [想]" +
+                "\n[好看] [撕] [激动] [恐龙]" +
+                "\n[加框] [高质量] [举] [单身狗证]" +
+                "\n[羡慕] [狗] [妻子] [干嘛]" +
+                "\n[画家] [朋友说(文字)] [要亲亲]" +
+                "\n[鲁迅说(文字)] [赞] [永远爱你]" +
+                "\n[老实点] [踢人] [捅] [加载]" +
+                "\n[屏幕] [爬] [牵] [冰淇淋]" +
+                "\n[素描] [求婚] [感动哭了]" +
+                "\n[想看] [悲报(文字)] [喜报(文字)]" +
+                "\n[需要] [甘雨爱心] [听音乐]"))
         fb.add(context.getBot().getId(), "AI",
-            context.newPlainText("动:[垃圾] [等等我] [纳西妲咬] [砸] [墓碑] [画] [磕电脑] [拳击] [可达鸭] [击剑] [亲亲] [摸] [摇啊摇] [吃] [鸡腿舞] [招财猫] [一起笑] [打年糕] [贴贴] [看这个] [咬] [顶球] [拍瓜] [抓] [膜拜] [捣] [吃掉] [掀墙纸] [可莉吃]"))
+            context.newPlainText("动:" +
+                "\n[垃圾] [等等我] [纳西妲咬] [砸]" +
+                "\n[墓碑] [画] [磕电脑] [拳击]" +
+                "\n[可达鸭] [击剑] [亲亲] [摸]" +
+                "\n[摇啊摇] [吃] [鸡腿舞] [招财猫]" +
+                "\n[一起笑] [打年糕] [贴贴] [看这个]" +
+                "\n[咬] [顶球] [拍瓜] [抓] [膜拜]" +
+                "\n[捣] [吃掉] [掀墙纸] [可莉吃]"))
         context.send(fb.build())
     } else if (msg.startsWith("捅")) {
         u0 = "http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + getAllNumberOrSelfId(msg);
@@ -58,7 +76,15 @@ if (context.getType() === "group") {
         var n1 = getAllNumberOrSelfId(msg);
         u0 = "https://api.andeer.top/API/img_say.php?qq=" + n1 + "&text=" + encodeURI(msg.substring(3).trim().replace("<at:" + n1 + ">", ""))
     } //以上特殊 多
-    else if (msg.startsWith("垃圾")) {
+    else if (msg.startsWith("永远爱你")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=74&qq=" + getAllNumberOrSelfId(msg);
+    }else if (msg.startsWith("看扁")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=72&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("添乱")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=2&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("你怎么")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=2&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("垃圾")) {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=43&qq=" + getAllNumberOrSelfId(msg);
     }else if (msg.startsWith("等等我")) {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=25&qq=" + getAllNumberOrSelfId(msg);
@@ -72,6 +98,8 @@ if (context.getType() === "group") {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=112&qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("撕")) {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=111&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("加载")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=71&qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("画")) {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=19&qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("磕电脑")) {
@@ -112,8 +140,6 @@ if (context.getType() === "group") {
         u0 = "https://api.andeer.top/API/img_tr.php?qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("摸")) {
         u0 = "https://api.andeer.top/API/gif_mo.php?qq=" + getAllNumberOrSelfId(msg);
-    } else if (msg.startsWith("加载")) {
-        u0 = "https://api.andeer.top/API/img_loading.php?qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("屏幕")) {
         u0 = "https://api.andeer.top/API/img_screen.php?qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("可莉吃")) {
