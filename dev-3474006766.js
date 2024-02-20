@@ -28,9 +28,9 @@ if (context.getType() === "group") {
         var fb = context.forwardBuilder()
         fb.add(context.getBot().getId(), "AI", context.newPlainText("管理: [念] [开] [关] [加词] [查词]"))
         fb.add(context.getBot().getId(), "AI",
-            context.newPlainText("表情包:[加框] [高质量] [举] [单身狗证] [羡慕] [狗] [妻子] [干嘛] [画家] [朋友说(文字)] [要亲亲] [鲁迅说(文字)] [想] [赞] [老实点] [踢人] [捅] [加载] [屏幕] [爬] [牵] [冰淇淋] [素描] [求婚] [感动哭了] [想看] [悲报(文字)] [喜报(文字)] [需要] [甘雨爱心] [听音乐]"))
+            context.newPlainText("表情包:[好看] [撕] [激动] [恐龙] [加框] [高质量] [举] [单身狗证] [羡慕] [狗] [妻子] [干嘛] [画家] [朋友说(文字)] [要亲亲] [鲁迅说(文字)] [想] [赞] [老实点] [踢人] [捅] [加载] [屏幕] [爬] [牵] [冰淇淋] [素描] [求婚] [感动哭了] [想看] [悲报(文字)] [喜报(文字)] [需要] [甘雨爱心] [听音乐]"))
         fb.add(context.getBot().getId(), "AI",
-            context.newPlainText("动:[拳击] [可达鸭] [击剑] [亲亲] [摸] [摇啊摇] [吃] [鸡腿舞] [招财猫] [一起笑] [打年糕] [贴贴] [看这个] [咬] [顶球] [拍瓜] [抓] [膜拜] [捣] [吃掉] [掀墙纸] [可莉吃]"))
+            context.newPlainText("动:[垃圾] [等等我] [纳西妲咬] [砸] [墓碑] [画] [磕电脑] [拳击] [可达鸭] [击剑] [亲亲] [摸] [摇啊摇] [吃] [鸡腿舞] [招财猫] [一起笑] [打年糕] [贴贴] [看这个] [咬] [顶球] [拍瓜] [抓] [膜拜] [捣] [吃掉] [掀墙纸] [可莉吃]"))
         context.send(fb.build())
     } else if (msg.startsWith("捅")) {
         u0 = "http://kloping.top/api/image/tong?q1=" + context.getSender().getId() + "&q2=" + getAllNumberOrSelfId(msg);
@@ -58,7 +58,29 @@ if (context.getType() === "group") {
         var n1 = getAllNumberOrSelfId(msg);
         u0 = "https://api.andeer.top/API/img_say.php?qq=" + n1 + "&text=" + encodeURI(msg.substring(3).trim().replace("<at:" + n1 + ">", ""))
     } //以上特殊 多
-    else if (msg.startsWith("加框")) {
+    else if (msg.startsWith("垃圾")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=43&qq=" + getAllNumberOrSelfId(msg);
+    }else if (msg.startsWith("等等我")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=25&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("纳西妲咬")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=18&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("砸")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=49&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("好看")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=106&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("墓碑")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=112&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("撕")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=111&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("画")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=19&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("磕电脑")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=23&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("激动")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=15&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("恐龙")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=31&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("加框")) {
         u0 = "https://api.wxsszs.cn/api/tksc.php?qq=" + getAllNumberOrSelfId(msg);
     }else if (msg.startsWith("高质量")) {
         u0 = "https://api.andeer.top/API/gzl.php?qq=" + getAllNumberOrSelfId(msg);
