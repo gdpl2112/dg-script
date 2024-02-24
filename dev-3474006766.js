@@ -21,6 +21,14 @@ function getAllNumberOrSelfId(str) {
     if (ns == -1) return context.getSender().getId(); else return ns
 }
 
+if (context.getType() == "friend") {
+    if (context.getSender().getId() == context.getBot().getId()) {
+        if (msg.startsWith("/repeat")) {
+            context.send(msg.substring(8))
+        }
+    }
+}
+
 //https://q2.qlogo.cn/headimg_dl?dst_uin=3474006766&spec=640
 if (context.getType() === "group") {
     var u0 = null
@@ -29,6 +37,7 @@ if (context.getType() === "group") {
         fb.add(context.getBot().getId(), "AI", context.newPlainText("管理: [念] [开] [关] [加词] [查词]"))
         fb.add(context.getBot().getId(), "AI",
             context.newPlainText("表情包:" +
+                "\n[舔] [嘲笑]" +
                 "\n[添乱] [你怎么] [看扁] [想]" +
                 "\n[好看] [撕] [激动] [恐龙]" +
                 "\n[加框] [高质量] [举] [单身狗证]" +
@@ -76,14 +85,18 @@ if (context.getType() === "group") {
         var n1 = getAllNumberOrSelfId(msg);
         u0 = "https://api.andeer.top/API/img_say.php?qq=" + n1 + "&text=" + encodeURI(msg.substring(3).trim().replace("<at:" + n1 + ">", ""))
     } //以上特殊 多
-    else if (msg.startsWith("永远爱你")) {
+    else if (msg.startsWith("舔")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=104&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("嘲笑")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=134&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("永远爱你")) {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=74&qq=" + getAllNumberOrSelfId(msg);
     }else if (msg.startsWith("看扁")) {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=72&qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("添乱")) {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=2&qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("你怎么")) {
-        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=2&qq=" + getAllNumberOrSelfId(msg);
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=4&qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("垃圾")) {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=43&qq=" + getAllNumberOrSelfId(msg);
     }else if (msg.startsWith("等等我")) {
