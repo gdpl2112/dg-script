@@ -566,6 +566,17 @@ if (context.getType() == "group" || context.getType() == "friend") {
             context.send("https://m.baidu.com/s?word=" + end);
         }
 
+        //bing
+        if (msg.startsWith("bing")) {
+            var end = encodeURI(msg.substring(4));
+            context.send("https://cn.bing.com/search?q=" + end);
+        }
+
+        //github https://www.sockstack.cn/github
+        if (msg.startsWith("https://github.com")) {
+            context.send(msg.replace("github.com","hub.nuaa.cf"));
+        }
+
         //网易云热评
         if (msg.startsWith("网易云热评")) {
             var review = JSON.parse(utils.requestGet("https://api.andeer.top/API/wangyi.php" + msg.substring(5)));
