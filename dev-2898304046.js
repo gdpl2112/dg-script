@@ -11,7 +11,6 @@
 
 //pwd=dg-2898304046-admin key=adminId 储存本地"admin"+senderId
 
-
 if (msg == "date") {
     context.send(getTime())
 }
@@ -71,7 +70,6 @@ function getTime() {
     var seconds = time.getSeconds()
     return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
 }
-
 
 //检测API开关状态
 function get_api_state() {
@@ -214,7 +212,6 @@ if (context.getType() == "group" || context.getType() == "friend") {
     }
 }
 
-
 function sendToText(out) {
     var max = 600
     out = out.toString()
@@ -231,7 +228,6 @@ function sendToText(out) {
         context.send(context.newPlainText(out))
     }
 }
-
 
 //list遍历
 function listFor(list, f0) {
@@ -1113,17 +1109,14 @@ if (context.getType() == "group") {
     }
 }
 
-
-
-
-
-
-
-
 if (context.getType() == "MemberJoinRequestEvent") {
     var joinMessage = event.getMessage()
     var joinId = event.getFromId()
     var joinNick = event.fromNick()
     var invitorId = event.getInvitorId()
     event.sendMessage(context.newPlainText("有一个新的成员要入群啦！\n他的名字叫:" + joinNick + "(" + joinId + ")\n邀请者为:" + getInvitorId))
+}
+
+function test0() {
+    bot.getGroup(470084160).sendMessage(context.newPlainText("定时函数测试0"))
 }
