@@ -159,9 +159,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
         for (var i = 0; i < arr.length; i++) {
             var e = arr[i];
             try {
-                fbuilder.add(context.getBot().getId(), "AI", context.uploadImage(host + e))
+                fbuilder.add(context.getBot().getId(), "AI", context.uploadImage(e.getString("thumbSrc")))
             } catch (ex) {
-                fbuilder.add(context.getBot().getId(), "AI", context.newPlainText("[图片加载失败;" + host + e + "]"))
+                fbuilder.add(context.getBot().getId(), "AI", context.newPlainText("[图片加载失败]"))
             }
         }
         context.send(fbuilder.build())
@@ -193,4 +193,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/3/8"
+version.dev = "24/3/8-1"
