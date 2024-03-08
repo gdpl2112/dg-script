@@ -145,13 +145,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("https://api.linhun.vip/api/fanyi?name=" + msg.substring(2) + "&apiKey=7e3d8ad47bea4d2fa424d688d2a4c864"))
     } else if (msg.startsWith("点歌")) {
-        // var doc0 = utils.newObject("org.jsoup.helper.HttpConnection")
-        //     .url("https://api.linhun.vip/api/qqyy?name=" + msg.substring(2) + "&y=1&n=1&apiKey=5ff26395f76d3e12b694e1875e37a40a")
-        //     .userAgent("AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
-        //     .ignoreContentType(true).ignoreHttpErrors(true)
-        //     .get();
-        // var jo = JSON.parse(doc0.body().text())
-        // context.send("<music:QQMusic," + jo.name + "," + jo.author + ",http://kloping.top/," + jo.img + "," + jo.mp3 + ">")
+        var doc0 = utils.newObject("org.jsoup.helper.HttpConnection")
+            .url("https://api.linhun.vip/api/qqyy?name=" + msg.substring(2) + "&y=1&n=1&apiKey=5ff26395f76d3e12b694e1875e37a40a")
+            .userAgent("AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
+            .ignoreContentType(true).ignoreHttpErrors(true)
+            .get();
+        var jo = JSON.parse(doc0.body().text())
+        context.send("<music:QQMusic," + jo.name + "," + jo.author + ",http://kloping.top/," + jo.img + "," + jo.mp3 + ">")
     } else if (msg.startsWith("表情包搜索")) {
         var name = msg.substring(5)
         var arr = JSON.parse(utils.requestGet("https://api.tangdouz.com/a/biaoq.php?return=json&nr=" + name))
