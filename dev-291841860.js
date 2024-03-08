@@ -152,6 +152,19 @@ if (context.getType() === "group" || context.getType() === "friend") {
         //     .get();
         // var jo = JSON.parse(doc0.body().text())
         // context.send("<music:QQMusic," + jo.name + "," + jo.author + ",http://kloping.top/," + jo.img + "," + jo.mp3 + ">")
+    } else if (msg.startsWith("表情包搜索")) {
+        var name = msg.substring(5)
+        var arr = JSON.parse(utils.requestGet("https://api.tangdouz.com/a/biaoq.php?return=json&nr=" + name))
+        var fbuilder = context.forwardBuilder();
+        for (var i = 0; i < arr.length; i++) {
+            var e = arr[i];
+            try {
+                fbuilder.add(context.getBot().getId(), "AI", context.uploadImage(host + e))
+            } catch (ex) {
+                fbuilder.add(context.getBot().getId(), "AI", context.newPlainText("[图片加载失败;" + host + e + "]"))
+            }
+        }
+        context.send(fbuilder.build())
     }
 }
 
@@ -180,4 +193,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/2/20"
+version.dev = "24/3/8"
