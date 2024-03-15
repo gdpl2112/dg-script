@@ -165,6 +165,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
             }
         }
         context.send(fbuilder.build())
+    } else if (msg == "查铲铲" || msg == "查金铲铲" || msg == "查金铲") {
+        var s0 = utils.get("select0")
+        if (s0 == null) {
+            s0 = utils.requestGet("https://mirror.ghproxy.com/https://raw.githubusercontent.com/gdpl2112/dg-script/master/291841860/select0.js")
+            utils.set("select0", s0)
+        }
+        eval(s0)
     }
 }
 
@@ -193,4 +200,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/3/8-2"
+version.dev = "24/3/15-0"
