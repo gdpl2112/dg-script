@@ -152,6 +152,14 @@ if (context.getType() === "group" || context.getType() === "friend") {
             .get();
         var jo = JSON.parse(doc0.body().text())
         context.send("<music:QQMusic," + jo.name + "," + jo.author + ",http://kloping.top/," + jo.img + "," + jo.mp3 + ">")
+    } else if (msg.startsWith("酷狗点歌")) {
+        var word = msg.substring(2);
+        var d0 = utils.requestGet("http://www.dreamling.top/API/kugou/android/music/api.php?pagenum=1&format=json&flag=format&keyword=" + word)
+        var d1 = utils.requestGet("http://www.dreamling.top/API/kugou/android/music/api.php?n=1&pagenum=1&format=json&flag=format&keyword=" + word)
+        var jo0 = JSON.parse(d0)
+        var jo1 = JSON.parse(d1)
+        var url0 = jo0.data.url[0]
+        context.send("<music:KugouMusic," + jo1.data.name[0].Name + "," + jo1.data.name[0].SingerName + "," + url0 + "," + jo1.data.name[0].Image + "," + url0 + ">")
     } else if (msg.startsWith("表情包搜索")) {
         var name = msg.substring(5)
         var arr = JSON.parse(utils.requestGet("https://api.tangdouz.com/a/biaoq.php?return=json&nr=" + name))
@@ -200,4 +208,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/3/15-0"
+version.dev = "24/3/23-0"
