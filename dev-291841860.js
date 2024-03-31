@@ -135,7 +135,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 .append("\n=================\n").append("SOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid).build())
         }
     } else if (msg.startsWith("ai:")) {
-        sendToText(utils.requestPost("https://api.linhun.vip/api/chatgpt", "{\"text\": \"" + msg.substring(3) + "\",\"apiKey\": \"a7fd92fe951c3a41d641acfdabd9f0f2\"}"), context)
+        context.send(utils.requestPost("https://api.linhun.vip/api/chatgpt", "{\"text\": \"" + msg.substring(3) + "\",\"apiKey\": \"a7fd92fe951c3a41d641acfdabd9f0f2\"}"))
     } else if (msg.startsWith("gsai:")) {
         var jo = JSON.parse(utils.requestGet("https://api.lolimi.cn/API/AI/ys3.5.php?msg=" + msg.substring(3) + "&speaker=纳西妲"))
         context.send("<audio:" + jo.music + ">")
@@ -200,4 +200,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/3/31-0"
+version.dev = "24/3/31-1"
