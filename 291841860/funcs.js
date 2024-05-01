@@ -1,7 +1,6 @@
 function parseVideoOrGallery(result, context, utils) {
     if (result.code === 200) {
-        var data = result.data
-        if (data.type.indexOf("图") >= 0) {
+        if (result.viedo == null) {
             var builder = context.builder();
             builder.append(context.uploadImage(data.cover))
                 .append("\n作者: ").append(data.author).append("\n")
@@ -18,14 +17,11 @@ function parseVideoOrGallery(result, context, utils) {
             context.send(builder.build())
         } else {
             var builder = context.builder();
-            builder.append(context.uploadImage(data.cover))
-                .append("作者: ").append(data.author).append("\n")
-                .append("💟: ").append(data.like.toString()).append("\n")
-                .append(data.title);
+            builder.append(context.uploadImage(result.cover))
+                .append(result.title);
             context.send(builder.build())
             context.send(context.forwardBuilder()
-                .add(context.getBot().getId(), "AI:", context.newPlainText("视频直链: " + data.url))
-                .add(context.getBot().getId(), "AI:", context.newPlainText("音频直链: " + data.music.url))
+                .add(context.getBot().getId(), "AI:", context.newPlainText("视频直链: " + result.viedo))
                 .build())
         }
     } else context.send("解析失败!\ncode:" + result.code)

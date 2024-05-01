@@ -115,7 +115,7 @@ if (context.getType() === "group" || context.getType() === "friend") {
         if (urls !== null) {
             var url = urls[0];
             context.send("正在解析\n" + url)
-            var result = JSON.parse(utils.requestGet("https://api.mu-jie.cc/douyin?url=" + url))
+            var result = JSON.parse(utils.requestGet("https://api.linhun.vip/api/xbys?apiKey=1da8c6a17d1eb611cfcbd058be3dc9ac&url=" + url))
             parseVideoOrGallery(result, context, utils)
         } else context.send("未发现链接")
     } else if (msg.indexOf("https://www.bilibili.com/video/") >= 0) {
@@ -203,4 +203,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/5-1"
+version.dev = "24/5-1.1"
