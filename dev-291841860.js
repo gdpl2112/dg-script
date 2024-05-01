@@ -144,6 +144,9 @@ if (context.getType() === "group" || context.getType() === "friend") {
         sendToText(utils.requestGet(getAiUrl() + "?req=" + encodeURI(msg.substring(3)) + "&id=3474006766"), context)
     } else if (msg.startsWith("翻译")) {
         context.send(utils.requestGet("https://api.linhun.vip/api/fanyi?name=" + msg.substring(2) + "&apiKey=7e3d8ad47bea4d2fa424d688d2a4c864"))
+    } else if (msg.startsWith("画")) {
+        var args = encodeURI(msg.substring(1))
+        context.send(context.uploadImage("https://ai.cloudroo.top/draw/?t=" + args))
     } else if (msg.startsWith("点歌")) {
         var doc0 = utils.newObject("org.jsoup.helper.HttpConnection")
             .url("https://api.linhun.vip/api/qqyy?name=" + msg.substring(2) + "&y=1&n=1&apiKey=5ff26395f76d3e12b694e1875e37a40a")
@@ -200,4 +203,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/4-12"
+version.dev = "24/5-1"
