@@ -87,6 +87,8 @@ if (context.getType() === "group") {
     } //以上特殊 多
     else if (msg.startsWith("舔")) {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=104&qq=" + getAllNumberOrSelfId(msg);
+    } else if (msg.startsWith("急急急")) {
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=58&qq=" + getAllNumberOrSelfId(msg)
     } else if (msg.startsWith("嘲笑")) {
         u0 = "https://api.lolimi.cn/API/preview/api.php?&type=134&qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("永远爱你")) {
@@ -132,7 +134,7 @@ if (context.getType() === "group") {
     } else if (msg.startsWith("羡慕")) {
         u0 = "https://api.andeer.top/API/xianmu.php?qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("抱")) {
-        u0 = "https://api.andeer.top/API/bao.php?qq=" + getAllNumberOrSelfId(msg);
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=52&qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("狗")) {
         u0 = "https://api.andeer.top/API/dog.php?qq=" + getAllNumberOrSelfId(msg);
     } else if (msg.startsWith("拳击")) {
@@ -201,6 +203,12 @@ if (context.getType() === "group") {
         u0 = "https://api.lolimi.cn/API/face_bite/?QQ=" + getAllNumberOrSelfId(msg)
     } else if (msg.startsWith("甘雨爱心")) {
         u0 = "https://api.andeer.top/API/img_love.php?qq=" + getAllNumberOrSelfId(msg)
+    } else if (msg.startsWith("/表情")) {
+        var ns = msg.split(" ")
+        var aa = msg;
+        if (ns.length > 2) aa = ns[2]
+        else aa = ns[0]
+        u0 = "https://api.lolimi.cn/API/preview/api.php?&type=" + ns[1] + "&qq=" + getAllNumberOrSelfId(aa);
     }
     if (u0 != null) context.send(context.uploadImage(u0))
 }
