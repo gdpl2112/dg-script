@@ -1,7 +1,10 @@
 if (context.getType() === "group") {
     var og = utils.get("og")
     if (og != null && og == context.getSubject().getId()) {
-        context.send(utils.requestGet("https://api.lolimi.cn/API/AI/gpt4o.php?msg=" + msg))
+        if (!msg.startsWith("#")) {
+            context.send(utils.requestGet("https://api.lolimi.cn/API/AI/gpt4o.php?msg=" + msg))
+            throw new Error("exit")
+        }
     }
 }
 
@@ -134,4 +137,3 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/6-15.1"
