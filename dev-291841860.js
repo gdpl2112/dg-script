@@ -67,7 +67,8 @@ if (context.getType() === "group" || context.getType() === "friend") {
                 .append("\n=================\n").append("SOURCE: ").append("https://www.bilibili.com/video/" + result.data.bvid).build())
         }
     } else if (msg.startsWith("翻译")) {
-        context.send(utils.requestGet("https://api.pearktrue.cn/api/translate/?type=AUTO&text="));
+        var jo = JSON.parse(utils.requestGet("https://api.pearktrue.cn/api/translate/?type=AUTO&text=" + msg.substring(2)))
+        context.send(jo.data);
     } else if (msg.startsWith("画")) {
         var args = encodeURI(msg.substring(1))
         context.send(context.uploadImage("https://ai.cloudroo.top/draw/?t=" + args))
@@ -119,4 +120,4 @@ if (context.getType() === "NudgeEvent") {
         if (getRandomInt(1, 5) == 1) event.getFrom().nudge().sendTo(event.getSubject());
     }
 }
-version.dev = "24/5-1.1"
+version.dev = "24/6-15"
