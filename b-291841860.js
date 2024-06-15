@@ -1,3 +1,10 @@
+if (context.getType() === "group") {
+    var og = utils.get("og")
+    if (og != null && og == context.getSubject().getId()) {
+        context.send(utils.requestGet("https://api.lolimi.cn/API/AI/gpt4o.php?msg=" + msg))
+    }
+}
+
 importJ("com.alibaba.fastjson.JSON");
 
 var urlReg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
@@ -8,6 +15,13 @@ if (context.getType() === "group" || context.getType() === "friend") {
         if (context.getSender().getId() == 3474006766) {
             var okv = msg.split(" ");
             switch (okv[0]) {
+                case "/open":
+                    utils.set("og", context.getSubject().getId())
+                    context.send("ok")
+                    break;
+                case "/over":
+                    context.send("out:" + utils.del("og"))
+                    break;
                 case "/clear":
                     var n = utils.clear();
                     context.send("clear success and clear numbers: " + n)
