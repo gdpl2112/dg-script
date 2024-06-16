@@ -8,6 +8,12 @@ if (context.getType() === "group") {
     }
 }
 
+var first = utils.get("first")
+if (first == null) {
+    load("https://mirror.ghproxy.com/https://raw.githubusercontent.com/gdpl2112/dg-script/master/291841860/funcs.js")
+    utils.set("first", true)
+}
+
 importJ("com.alibaba.fastjson.JSON");
 
 var urlReg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
