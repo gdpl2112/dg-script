@@ -92,7 +92,7 @@ function parseKuaishou(url, context, utils) {
         data.put(key, value.toString());
     }
 
-    var cookies = new java.lang.StringBuilder()
+    var cookies = utils.newObject("java.lang.StringBuilder")
 
     var iterator = doc0.connection().response().cookies().entrySet().iterator();
     while (iterator.hasNext()) {
