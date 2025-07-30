@@ -42,7 +42,11 @@ if (context.getType() == "friend") {
 //https://q2.qlogo.cn/headimg_dl?dst_uin=3474006766&spec=640
 if (context.getType() === "group") {
     var u0 = null
-    if (msg == "菜单") {
+    if (msg.startsWith("翻译")) {
+        var ss = encodeURI(msg.substring(2))
+        var jo = JSON.parse(utils.requestGet("https://v.api.aa1.cn/api/api-fanyi-yd/index.php?type=3&msg=" + ss))
+        context.send("翻译结果:" + jo.text);
+    } else if (msg == "菜单") {
         var fb = context.forwardBuilder()
         fb.add(context.getBot().getId(), "AI", context.newPlainText("管理: [妤复述] [妤开] [妤关]"))
         fb.add(context.getBot().getId(), "AI",
