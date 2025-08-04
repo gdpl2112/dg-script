@@ -1,6 +1,6 @@
 协助我写代码 基于 mirai QQ机器人代码协议库
 
-置入一下 示例js代码
+置入一下 示例js代码 Nashorn引擎
 
 var GroupMessageEvent = Java.type("net.mamoe.mirai.event.events.GroupMessageEvent")
 var FriendMessageEvent = Java.type("net.mamoe.mirai.event.events.FriendMessageEvent")
