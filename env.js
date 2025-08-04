@@ -1,5 +1,123 @@
+class ScriptUtils {
+    /**
+     * get 请求
+     *
+     * @param url
+     * @return
+     */
+    requestGet(url);
+
+    /**
+     * post 请求
+     *
+     * @param url
+     * @return
+     */
+    requestPost(url, data);
+
+
+    /**
+     * 查询image url 通过image id
+     *
+     * @param imageId
+     * @return
+     */
+    queryUrlFromId(imageId);
+
+    /**
+     * 正向解析mes为定制string
+     *
+     * @param chain
+     * @return
+     */
+    serialize(chain);
+
+    /**
+     * 反向解析msg为MessageChain
+     *
+     * @param msg
+     * @return MessageChain
+     */
+    deSerialize(msg);
+
+
+    /**
+     * 获取变量
+     *
+     * @param name
+     * @return Object
+     */
+    get(name);
+
+    /**
+     * 设置变量
+     *
+     * @param name
+     * @param value Object
+     * @return Object
+     */
+    set(name, value);
+
+    /**
+     * 清除当前账号的所有变量
+     *
+     * @return Integer
+     */
+    clear();
+
+    /**
+     * 删除指定变量
+     *
+     * @param name
+     * @return Object
+     */
+    del(name);
+
+    /**
+     * 列出当前bot所有变量
+     *
+     * @return List<Map.Entry<String, Object>>
+     */
+    list();
+
+    /**
+     * js 创建Java的对象
+     *
+     * @param name 类全名 如: java.util.HashMap
+     * @param args 参数可选
+     * @param <T>
+     * @return
+     */
+    newObject(name, args);
+
+    /**
+     * 基于自己bot执行一句sql
+     * (通用 只返回 Boolean)
+     *
+     * @param sql
+     * @return     boolean
+     */
+    executeSql(sql);
+
+    /**
+     * 执行一句查询sql 返回 list obj
+     *
+     * @param sql
+     * @return List<Object>
+     */
+    executeSelectList(sql);
+
+    /**
+     * 执行一句查询sql 返回 单个对象
+     *
+     * @param sql
+     * @return
+     */
+    executeSelectOne(sql);
+}
+
 // 基础 环境
-var utils = Java.type('io.github.gdpl2112.dg_bot.service.script.ScriptUtils');
+var utils = new ScriptUtils()
 
 var messageEvent = Java.type('net.mamoe.mirai.event.events.MessageEvent');
 onMsgEvent("测试", messageEvent, utils)
@@ -17,3 +135,5 @@ onSendLiked(event1, utils, bot)
 
 var event2 = Java.type('io.github.gdpl2112.dg_bot.events.GroupSignEvent');
 onGroupSign(event2, utils, bot)
+
+dayyan(bot, utils)
