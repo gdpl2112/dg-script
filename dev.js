@@ -1,7 +1,3 @@
-协助我写代码 基于 mirai QQ机器人代码协议库
-
-置入一下 示例js代码
-
 var GroupMessageEvent = Java.type("net.mamoe.mirai.event.events.GroupMessageEvent")
 var FriendMessageEvent = Java.type("net.mamoe.mirai.event.events.FriendMessageEvent")
 
@@ -33,4 +29,24 @@ function onBotEvent(event, utils) {
 
 }
 
-我现在我需要一个功能  xxx
+// 被点赞事件入口
+// event 包含字段 selfId,operatorId,times
+// utils 工具
+// bot 对象
+function onProfileLike(event, utils, bot) {
+
+}
+
+// 点赞发送事件入口
+// event 包含事件 selfId,operatorId,times ## Boolean ok; 是否成功 失败时原因 可能 不是好友 请求失败 或 点赞上限
+// 其余同上
+
+function onSendLiked(event, utils, bot) {
+
+}
+
+// 群签到事件入口
+// event 字段 gid,selfId #Boolean ok;
+function onGroupSign(event, utils, bot) {
+
+}
