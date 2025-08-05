@@ -8,8 +8,6 @@ function onBotEvent(event, utils) {
             var bot = event.getBot()
             if (event.getSubject() instanceof Java.type('net.mamoe.mirai.contact.Group')) {
                 bot.executeAction("group_poke", "{\"user_id\": " + event.getFrom().getId() + ",\"group_id\": " + event.getSubject().getId() + "}");
-            } else {
-                bot.executeAction("friend_poke", "{\"user_id\": " + event.getFrom().getId() + "}");
             }
         }
     }

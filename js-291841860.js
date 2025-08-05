@@ -23,6 +23,15 @@ function onMsgEvent(msg, event, utils) {
     }
 }
 
+function onBotEvent(event, utils) {
+    if (event.class.getSimpleName() === "SignEvent") {
+        var uid = event.getUser().getId();
+        if (uid === 189696825 || uid === 3474006766) {
+            event.getBot().executeAction("send_group_sign", "{\"group_id\": \"278681553\"}")
+        }
+    }
+}
+
 function onProfileLike(event, utils, bot) {
     bot.getFriend(event.operatorId).sendMessage("感谢你的点赞!")
 }
