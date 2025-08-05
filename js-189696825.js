@@ -7,7 +7,7 @@ function onBotEvent(event) {
         if (tid === bid) {
             var bot = event.getBot()
             if (event.getSubject() instanceof Java.type('net.mamoe.mirai.contact.Group')) {
-                bot.executeAction("group_poke", "{\"user_id\": " + event.getFrom().getId() + ",\"group_id\": " + event.getSubject().getId() + "}");
+                bot.executeAction("group_poke", "{\"user_id\": " + fid + ",\"group_id\": " + event.getSubject().getId() + "}");
             }
         }
     }

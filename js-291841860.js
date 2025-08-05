@@ -24,12 +24,7 @@ function onMsgEvent(msg, event) {
 }
 
 function onBotEvent(event) {
-    if (event.class.getSimpleName() === "SignEvent") {
-        var uid = event.getUser().getId();
-        if (uid === 189696825 || uid === 3474006766) {
-            event.getBot().executeAction("send_group_sign", "{\"group_id\": \"278681553\"}")
-        }
-    }
+
 }
 
 function onProfileLike(event) {
@@ -47,12 +42,22 @@ function onGroupSign(event) {
 }
 
 function dayyan() {
+    dayyanNow(278681553)
+}
+
+function dayyanNow(gid) {
     var out0 = utils.requestGet("https://kloping.top/api/get/dayYan")
     var out1 = JSON.parse(out0)
-    var group = bot.getGroup(278681553)
+    var group = bot.getGroup(gid)
     group.sendMessage("<<每日一言>>\n" +
         "-------\n" +
         "\" " + out1.line + " \"\n" +
         "-------\n" +
-        "from. <" + out1.from + ">\n日期" + out1.date)
+        "from. <" + out1.from + ">\n日期: " + out1.date)
+}
+
+function tsign0() {
+    var gid = 278681553
+    bot.executeAction("send_group_sign", "{\"group_id\": \"" + gid + "\"}")
+    bot.getGroup(gid).sendMessage("今日已打卡!")
 }
