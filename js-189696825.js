@@ -1,4 +1,4 @@
-function onBotEvent(event, utils) {
+function onBotEvent(event) {
     if (event.class.getSimpleName() === "NudgeEvent") {
         var bid = event.getBot().getId()
         var tid = event.getTarget().getId()

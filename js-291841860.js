@@ -1,4 +1,4 @@
-function onMsgEvent(msg, event, utils) {
+function onMsgEvent(msg, event) {
     if (msg.startsWith("天气")) {
         var name = msg.substring(2)
         name = name.trim()
@@ -23,7 +23,7 @@ function onMsgEvent(msg, event, utils) {
     }
 }
 
-function onBotEvent(event, utils) {
+function onBotEvent(event) {
     if (event.class.getSimpleName() === "SignEvent") {
         var uid = event.getUser().getId();
         if (uid === 189696825 || uid === 3474006766) {
@@ -32,21 +32,21 @@ function onBotEvent(event, utils) {
     }
 }
 
-function onProfileLike(event, utils, bot) {
+function onProfileLike(event) {
     bot.getFriend(event.operatorId).sendMessage("感谢你的点赞!")
 }
 
-function onSendLiked(event, utils, bot) {
+function onSendLiked(event) {
     if (event.ok) {
         bot.getFriend(event.operatorId).sendMessage("成功给你回赞啦!")
     }
 }
 
-function onGroupSign(event, utils, bot) {
+function onGroupSign(event) {
     bot.getGroup(event.gid).sendMessage("今日已打卡!")
 }
 
-function dayyan(bot, utils) {
+function dayyan() {
     var out0 = utils.requestGet("https://kloping.top/api/get/dayYan")
     var out1 = JSON.parse(out0)
     var group = bot.getGroup(278681553)

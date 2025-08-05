@@ -116,6 +116,24 @@ class ScriptUtils {
     executeSelectOne(sql);
 }
 
+class Logger {
+    /**
+     * 打印日志
+     *
+     * @param msg
+     */
+    log(msg);
+
+    /**
+     * 打印日志
+     *
+     * @param msg
+     */
+    log(msg, args);
+}
+
+var log = new Logger()
+var logger = log
 // 基础 环境
 var utils = new ScriptUtils()
 
