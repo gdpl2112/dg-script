@@ -40,6 +40,9 @@ function onMsgEvent(msg, event) {
             index++;
         }
         event.getSubject().sendMessage(end.trim())
+    }else if (msg.equals("懒羊羊唱歌")){
+        var out0 = utils.requestGet("https://www.hhlqilongzhu.cn/api/MP4_lanyangyang.php?type=text")
+        event.getSubject().sendMessage("请点击播放:\n"+out0)
     }
 }
 
