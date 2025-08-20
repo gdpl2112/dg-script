@@ -20,11 +20,27 @@ function onMsgEvent(msg, event) {
             var out1 = JSON.parse(out0)
             event.getSubject().sendMessage(name + "天气:\n\t" + out1.intro)
         }
+    } else if (msg.startsWith("歌词")) {
+        var name = msg.substring(2)
+        name = name.trim()
+        if (name === "") {
+            event.getSubject().sendMessage("请携带歌名")
+        } else {
+            var out0 = utils.requestGet("https://www.hhlqilongzhu.cn/api/dg_geci.php?msg=" + name + "&n=1&type=1")
+            var lrc = out0.toString();
+            event.getSubject().sendMessage(lrc.trim())
+        }
+    } else if (msg.startsWith("还有几天")) {
+        var out0 = utils.requestGet("https://api.52vmy.cn/api/wl/day/world")
+        var out1 = JSON.parse(out0)
+        var end = "<世界倒数日>\n";
+        var index = 1;
+        for (var i = 0; i < out1.info.length; i++) {
+            end += index + ". " + out1.info[i].desc + "\n"
+            index++;
+        }
+        event.getSubject().sendMessage(end.trim())
     }
-}
-
-function onBotEvent(event) {
-
 }
 
 function onProfileLike(event) {
@@ -54,6 +70,14 @@ function dayyanNow(gid) {
         "\" " + out1.line + " \"\n" +
         "-------\n" +
         "from. <" + out1.from + ">\n日期: " + out1.date)
+}
+
+function fourKfc() {
+    var gid = 278681553
+    var out0 = utils.requestGet("https://tools.mgtv100.com/external/v1/pear/kfc")
+    var out1 = JSON.parse(out0)
+    var group = bot.getGroup(gid)
+    group.sendMessage(out1.data)
 }
 
 function tsign0() {
