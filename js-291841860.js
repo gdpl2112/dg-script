@@ -40,21 +40,21 @@ function onMsgEvent(msg, event) {
             index++;
         }
         event.getSubject().sendMessage(end.trim())
-    }else if (msg.equals("懒羊羊唱歌")){
+    } else if (msg.equals("懒羊羊唱歌")) {
         var out0 = utils.requestGet("https://www.hhlqilongzhu.cn/api/MP4_lanyangyang.php?type=text")
-        event.getSubject().sendMessage("请点击播放:\n"+out0)
+        event.getSubject().sendMessage("请点击播放:\n" + out0)
     }
 }
 
-function onProfileLike(event) {
-    bot.getFriend(event.operatorId).sendMessage("感谢你的点赞!")
-}
-
-function onSendLiked(event) {
-    if (event.ok) {
-        bot.getFriend(event.operatorId).sendMessage("成功给你回赞啦!")
-    }
-}
+// function onProfileLike(event) {
+//     bot.getFriend(event.operatorId).sendMessage("感谢你的点赞!")
+// }
+//
+// function onSendLiked(event) {
+//     if (event.ok) {
+//         bot.getFriend(event.operatorId).sendMessage("成功给你回赞啦!")
+//     }
+// }
 
 function onGroupSign(event) {
     bot.getGroup(event.gid).sendMessage("今日已打卡!")
