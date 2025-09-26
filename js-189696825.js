@@ -12,3 +12,9 @@ function onBotEvent(event) {
         }
     }
 }
+
+function onSendLiked(event) {
+    if (event.ok) {
+        bot.getFriend(event.operatorId).sendMessage("[自动回复] '小祁'已经成功给你点赞啦!")
+    }
+}
