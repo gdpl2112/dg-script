@@ -18,7 +18,7 @@ function onMsgEvent(msg, event) {
         } else {
             var out0 = utils.requestGet("https://kloping.top/api/get/shortWeather?address=" + name)
             var out1 = JSON.parse(out0)
-            event.getSubject().sendMessage(name + "天气:\n\t" + out1.intro)
+            event.getSubject().sendMessage(out1.name + "\n级别: "+out1.level+"\n短时天气:\n\t" + out1.intro)
         }
     } else if (msg.startsWith("歌词")) {
         var name = msg.substring(2)
@@ -43,7 +43,7 @@ function onMsgEvent(msg, event) {
     } else if (msg.equals("懒羊羊唱歌")) {
         var out0 = utils.requestGet("https://www.hhlqilongzhu.cn/api/MP4_lanyangyang.php?type=text")
         event.getSubject().sendMessage("请点击播放:\n" + out0)
-    }
+    } else if (msg.equals("测试")) { tsign0(); }
 }
 
 // function onProfileLike(event) {
