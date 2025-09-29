@@ -5,7 +5,7 @@ function onMsgEvent(msg, event) {
         if (name === "") {
             event.getSubject().sendMessage("请输入城市名称!")
         } else {
-            var out0 = utils.requestGet("https://www.hhlqilongzhu.cn/api/juhe_tianqi.php?msg=" + name + "&n=1&type=zgtq")
+            var out0 = utils.requestGet("https://www.hhlqilongzhu.cn/api/juhe_tianqi.php?n=1&type=zgtq&msg=" + name + "")
             var out1 = JSON.parse(out0)
             var m0 = utils.deSerialize("<at:" + event.getSender().getId() + ">\n" + out1.name + "\n" + out1.data + "\n" + out1.shzs)
             event.getSubject().sendMessage(m0)
@@ -45,16 +45,6 @@ function onMsgEvent(msg, event) {
         event.getSubject().sendMessage("请点击播放:\n" + out0)
     } else if (msg.equals("测试")) { tsign0(); }
 }
-
-// function onProfileLike(event) {
-//     bot.getFriend(event.operatorId).sendMessage("感谢你的点赞!")
-// }
-//
-// function onSendLiked(event) {
-//     if (event.ok) {
-//         bot.getFriend(event.operatorId).sendMessage("成功给你回赞啦!")
-//     }
-// }
 
 function onGroupSign(event) {
     bot.getGroup(event.gid).sendMessage("今日已打卡!")
