@@ -42,6 +42,10 @@ function onMsgEvent(msg, event) {
                 for (var i = 0; i < msgs.length; i++) {
                     var msg0 = msgs[i]
                     if (msg0.user_id == tid) {
+                        if (msg0.message.length == 0) {
+                            log.log("消息为空说明已经撤回,跳过!")
+                            continue
+                        }
                         var res = bot.executeAction("delete_msg", "{\"message_id\": \"" + msg0.message_seq + "\"}")
                         var resd = JSON.parse(res)
                         if (resd.status === "ok") {
@@ -49,8 +53,9 @@ function onMsgEvent(msg, event) {
                             log.log("撤回成功:rc=" + rc)
                         }
                     }
-                    if (rc >= 20) break;
+                    if (rc >= 15) break;
                 }
+                log.log("jsrecall: 已撤回" + rc + "条" + tid + "的消息")
             }
         }
     }
