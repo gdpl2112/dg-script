@@ -57,6 +57,15 @@ function onMsgEvent(msg, event) {
     } else if (msg.equals("测试")) {
         tsign0();
     }
+
+    if (event.getSubject().getId() == 167146116) {
+        // 忽略大小写
+        if (msg.toLowerCase().startsWith("nfl账号")) {
+            utils.requestGet("http://117.72.126.37:29992/api/logall/report-accounts")
+        }else if (msg.toLowerCase().startsWith("nfl利润")) {
+            utils.requestGet("http://117.72.126.37:29992/api/logall/report-profit")
+        }
+    }
 }
 
 function onGroupSign(event) {
