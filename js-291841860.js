@@ -1,5 +1,17 @@
 function onMsgEvent(msg, event) {
-    if (msg.startsWith("天气")) {
+    if (msg.equals("顶球")) {
+        bot.executeAction("send_group_msg", "{\n" +
+            "  \"group_id\": \"" + event.getSubject().getId() + "\",\n" +
+            "  \"message\": [\n" +
+            "    {\n" +
+            "      \"type\": \"image\",\n" +
+            "      \"data\": {\n" +
+            "        \"file\": \"https://api.xingzhige.com/API/dingqiu/?qq=" + event.getSender().getId() + "\"\n" +
+            "      }\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}")
+    } else if (msg.startsWith("天气")) {
         var name = msg.substring(2)
         name = name.trim()
         if (name === "") {
